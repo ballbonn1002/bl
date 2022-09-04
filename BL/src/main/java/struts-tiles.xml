@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+   "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+   "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<!-- Tutorial : https://www.tutorialspoint.com/struts_2/struts_tiles.htm -->
+
+<tiles-definitions>
+	<!-- OLD BASE LAYOUT [NOT USE] -->
+	<definition name="baseLayout"
+		template="/pages-back/_layout/baseLayout.jsp">
+		<put-attribute name="title" value="Base Layout" />
+		<put-attribute name="menu"
+			value="/pages-back/_layout/menu.jsp" />
+		<put-attribute name="body"
+			value="/pages-back/_layout/body.jsp" />
+		<put-attribute name="footer"
+			value="/pages-back/_layout/footer.jsp" />
+	</definition>
+	
+	<!-- BASE MASTER LAYOUT -->
+	
+	<definition name="sashLayout"
+		template="/pages-back/_sash/masterLayout.jsp">
+		<put-attribute name="title" value="Sash Layout" />
+		<put-attribute name="body"
+			value="/pages-back/_sash/body.jsp" />
+		<put-attribute name="menu"
+			value="/pages-back/_sash/menu.jsp" />
+	</definition>
+	
+	<definition name="masterLayout"
+		template="/pages-back/_base/masterLayout.jsp">
+		<put-attribute name="title" value="Base Layout" />
+		<put-attribute name="body"
+			value="/pages-back/_layout/body.jsp" />
+		<put-attribute name="menu"
+			value="/pages-back/_base/menu.jsp" />
+	</definition>
+	
+
+	<!-- TEST -->
+	
+	
+	<definition name="page.blank" extends="sashLayout">
+		<put-attribute name="title" value="Page Blank" />
+		<put-attribute name="body"
+			value="/pages-back/common/page-blank.jsp" />
+	</definition>
+	
+	<definition name="page.test" extends="sashLayout">
+		<put-attribute name="title" value="Page Test " />
+		<put-attribute name="body"
+			value="/pages-back/common/page-test.jsp" />
+	</definition>
+	
+		
+	<!-- Dashboard -->
+	<definition name="dashboard" extends="sashLayout">
+		<put-attribute name="title" value="Dashboard" />
+		<put-attribute name="body"
+			value="/pages-back/dashboard/dashboard.jsp" />
+	</definition>
+
+	<!-- USER -->
+	<definition name="user.list" extends="masterLayout">
+		<put-attribute name="title" value="User Management" />
+		<put-attribute name="body"
+			value="/pages-back/user/user_list.jsp" />
+	</definition>
+	<definition name="user.edit" extends="masterLayout">
+		<put-attribute name="title" value="User Profile" />
+		<put-attribute name="body"
+			value="/pages-back/user/user_edit.jsp" />
+	</definition>
+	<definition name="user.add" extends="masterLayout">
+		<put-attribute name="title" value="User Add" />
+		<put-attribute name="body"
+			value="/pages-back/user/user_add.jsp" />
+	</definition>
+	<definition name="user_profile" extends="masterLayout">
+		<put-attribute name="title" value="User Profile" />
+		<put-attribute name="body"
+			value="/pages-back/user/user_profile.jsp" />
+	</definition>
+	<definition name="user.edit.profile" extends="masterLayout">
+		<put-attribute name="title" value="User Edit Profile" />
+		<put-attribute name="body"
+			value="/pages-back/user/user_edit_profile.jsp" />
+	</definition>
+	<definition name="SystemUser_list" extends="sashLayout">
+		<put-attribute name="title" value="System List User" />
+		<put-attribute name="body"
+			value="/pages-back/user/SystemUser_list.jsp" />
+	</definition>
+	<definition name="SystemUser_add" extends="sashLayout">
+		<put-attribute name="title" value="System Add User" />
+		<put-attribute name="body"
+			value="/pages-back/user/SystemUser_add.jsp" />
+	</definition>
+	<!-- ROLE -->
+	<definition name="role.list" extends="masterLayout">
+		<put-attribute name="title" value="Role Management" />
+		<put-attribute name="body"
+			value="/pages-back/role/role_list.jsp" />
+	</definition>
+	<definition name="role.edit" extends="masterLayout">
+		<put-attribute name="title" value="Role Edit" />
+		<put-attribute name="body"
+			value="/pages-back/role/role_edit.jsp" />
+	</definition>
+	<definition name="role.add" extends="masterLayout">
+		<put-attribute name="title" value="Role Add" />
+		<put-attribute name="body"
+			value="/pages-back/role/role_add.jsp" />
+	</definition>
+	<definition name="role_management" extends="sashLayout">
+		<put-attribute name="title" value="Role Management" />
+		<put-attribute name="body" value="/pages-back/role/role_management.jsp"/>
+	</definition>
+	<definition name="role_management_add" extends="sashLayout">
+		<put-attribute name="title" value="Role Management Add" />
+		<put-attribute name="body" value="/pages-back/role/role_management_add.jsp"/>
+	</definition>
+	
+	<definition name="page_menu" extends="sashLayout">
+		<put-attribute name="title" value="Menu page" />
+		<put-attribute name="body"
+			value="/pages-back/common/page_menu.jsp" />
+	</definition>
+	
+
+	
+</tiles-definitions>
