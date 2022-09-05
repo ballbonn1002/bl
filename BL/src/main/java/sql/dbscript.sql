@@ -45,3 +45,59 @@ CREATE TABLE `billing`.`department` ( `department_id` VARCHAR(32) CHARACTER SET 
 `user_update` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `time_create` TIMESTAMP NULL , 
 `time_update` TIMESTAMP NULL , PRIMARY KEY (`department_id`)) ENGINE = InnoDB;
 
+
+-- 05/9/2022 Tan create table 
+
+CREATE TABLE `billing`.`quotation` ( `quotation_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , 
+`quotation_sale_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `company_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , 
+`company_name` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `address_1` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`province_1` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `district_1` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`sub-district_1` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `zip_code_1` VARCHAR(5) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`address_2` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `province_2` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`district_2` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `sub-district_2` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`zip_code_2` VARCHAR(5) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `address_check` VARCHAR(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`tax_number` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `email` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`phone` VARCHAR(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `start_date` DATE NOT NULL , `end_date` DATE NOT NULL ,
+`user_approved` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `approved_date` DATE NULL , `reason` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`description` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `sub_total` DECIMAL(10,2) NOT NULL , `discount` DECIMAL(10,2) NULL ,
+`percent_discount` DECIMAL(4,2) NULL , `sum_price_discount` DECIMAL(10,2) NOT NULL , `tax_type` VARCHAR(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`percent_tax` DECIMAL(4,2) NULL , `tax` DECIMAL(10,2) NULL , `grand_total` DECIMAL(10,2) NOT NULL , `status` VARCHAR(2) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`user_create` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `user_update` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`time_create` TIMESTAMP NULL , `time_update` TIMESTAMP NULL , PRIMARY KEY (`quotation_id`)) ENGINE = InnoDB;
+
+CREATE TABLE `billing`.`order` ( `order_id` BIGINT NOT NULL AUTO_INCREMENT , `quotation_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`name` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `description` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`quantity` INT NOT NULL , `unit_price` DECIMAL(10,2) NOT NULL , `total` DECIMAL(10,2) NOT NULL , `user_create` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`user_update` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `time_create` TIMESTAMP NULL , `time_update` TIMESTAMP NULL ,
+PRIMARY KEY (`order_id`)) ENGINE = InnoDB;
+
+CREATE TABLE `billing`.`quotation_sale` ( `quotation_sale_id` BIGINT NOT NULL AUTO_INCREMENT , `quotation_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`user_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `name_en` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`name_th` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `phone` VARCHAR(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`email` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `description` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`user_create` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `user_update` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`time_create` TIMESTAMP NULL , `time_update` TIMESTAMP NULL , PRIMARY KEY (`quotation_sale_id`)) ENGINE = InnoDB;
+
+CREATE TABLE `billing`.`user` ( `user_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`department_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `position_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`role_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `employee_id` VARCHAR(8) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`image` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `title_name_en` VARCHAR(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`title_name_th` VARCHAR(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `name_en` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`name_th` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `nickname_en` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`nickname_th` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `phone` VARCHAR(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`email` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `address` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`province` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `district` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`sub_district` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `zip` VARCHAR(5) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`enable` VARCHAR(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `description` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`user_create` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `user_update` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`time_create` TIMESTAMP NULL , `time_update` TIMESTAMP NULL , PRIMARY KEY (`user_id`)) ENGINE = InnoDB;
+
+CREATE TABLE `billing`.`status` ( `id` BIGINT NOT NULL AUTO_INCREMENT , `quotation_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`name` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `description` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`user_create` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `user_update` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`time_create` TIMESTAMP NULL , `time_update` TIMESTAMP NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+
+
+
+
