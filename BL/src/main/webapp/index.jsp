@@ -151,7 +151,7 @@
 
 
 <script>
-	document.getElementById("Password-toggle").style.zIndex = "-1";
+	//document.getElementById("Password-toggle").style.zIndex = "-1";
 	
 	function formSubmit(){
 		document.getElementById("loginForm").submit();
