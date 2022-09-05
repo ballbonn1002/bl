@@ -99,12 +99,8 @@
                                                 <p class="mb-0"><a href="forgot-password.html" class="text-primary ms-1">Forgot Password?</a></p>
                                             </div>
                                             <div class="container-login100-form-btn">
-                                                 
-                                                <a href="javascript:formSubmit()" class="login100-form-btn btn-primary">
-                                                        Login
-                                                </a>
-                                                 
-                                                 
+                                                <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
+
                                             </div>
                                             <div class="text-center pt-3">
                                                 <p class="text-dark mb-0">Not a member?<a href="register.html" class="text-primary ms-1">Sign UP</a></p>
@@ -153,9 +149,9 @@
 <script>
 	//document.getElementById("Password-toggle").style.zIndex = "-1";
 	
-	function formSubmit(){
-		document.getElementById("loginForm").submit();
-	}
+	//function formSubmit(){
+	//	document.getElementById("loginForm").submit();
+	//}
 	
 </script>
 
