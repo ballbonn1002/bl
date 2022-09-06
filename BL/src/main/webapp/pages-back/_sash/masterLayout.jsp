@@ -747,7 +747,10 @@
 
     <!-- CUSTOM JS -->
     <script src="/assets/js/custom.js"></script>
-
+	
+	<!-- SWEET-ALERT JS -->
+    <script src="/assets/plugins/sweet-alert/sweetalert.min.js"></script>
+    <script src="/assets/js/sweet-alert.js"></script>
 
 </body>
 
