@@ -752,6 +752,10 @@
     <script src="/assets/plugins/edit-table/bst-edittable.js"></script>
     <script src="/assets/plugins/edit-table/edit-table.js"></script>
 
+	
+	<!-- SWEET-ALERT JS -->
+    <script src="/assets/plugins/sweet-alert/sweetalert.min.js"></script>
+    <script src="/assets/js/sweet-alert.js"></script>
 
 </body>
 
