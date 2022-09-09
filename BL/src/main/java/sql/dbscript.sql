@@ -98,6 +98,15 @@ CREATE TABLE `billing`.`status` ( `id` BIGINT NOT NULL AUTO_INCREMENT , `quotati
 `time_create` TIMESTAMP NULL , `time_update` TIMESTAMP NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
 
+-- 09/9/2022 Tan edit table 
 
+ALTER TABLE `status` CHANGE `id` `status_id` BIGINT(20) NOT NULL AUTO_INCREMENT, CHANGE `quotation_id` `status_code` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+CHANGE `name` `status_name` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+ALTER TABLE `status` ADD `group` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `status_name`;
+
+ALTER TABLE `quotation` ADD `contact_name` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `company_name`;
+
+ALTER TABLE `quotation` ADD `phone_2` VARCHAR(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `phone`;
 
 
