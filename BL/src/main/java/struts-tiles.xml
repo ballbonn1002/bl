@@ -55,7 +55,19 @@
 			value="/pages-back/common/page-test.jsp" />
 	</definition>
 	
-		
+	<!-- company -->
+	<definition name="company_list" extends="sashLayout">
+		<put-attribute name="title" value="Company List" />
+		<put-attribute name="body" value="/pages-back/company/company_list.jsp" />
+	</definition>
+	<definition name="company_add" extends="sashLayout">
+		<put-attribute name="title" value="Company Add" />
+		<put-attribute name="body" value="/pages-back/company/company_add.jsp" />
+	</definition>
+	<definition name="company_edit" extends="sashLayout">
+		<put-attribute name="title" value="Company Edit" />
+		<put-attribute name="body" value="/pages-back/company/company_edit.jsp" />
+	</definition>
 	<!-- Dashboard -->
 	<definition name="dashboard" extends="sashLayout">
 		<put-attribute name="title" value="Dashboard" />

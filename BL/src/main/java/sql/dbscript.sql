@@ -97,6 +97,9 @@ CREATE TABLE `billing`.`status` ( `id` BIGINT NOT NULL AUTO_INCREMENT , `quotati
 `user_create` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `user_update` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
 `time_create` TIMESTAMP NULL , `time_update` TIMESTAMP NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
+-- 09/8/2022 BEST Change name
+ALTER TABLE `company` CHANGE `industy` `industry` VARCHAR(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+
 
 -- 09/9/2022 Tan edit table 
 

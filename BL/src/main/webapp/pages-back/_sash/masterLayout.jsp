@@ -756,6 +756,15 @@
 	<!-- SWEET-ALERT JS -->
     <script src="/assets/plugins/sweet-alert/sweetalert.min.js"></script>
     <script src="/assets/js/sweet-alert.js"></script>
+    
+    <!-- file upload -->
+    <script src="/assets/plugins/fileuploads/js/fileupload.js"></script>
+    <script src="/assets/plugins/fileuploads/js/file-upload.js"></script>
+    <script src="/assets/plugins/fancyuploder/jquery.ui.widget.js"></script>
+    <script src="/assets/plugins/fancyuploder/jquery.fileupload.js"></script>
+    <script src="/assets/plugins/fancyuploder/jquery.iframe-transport.js"></script>
+    <script src="/assets/plugins/fancyuploder/jquery.fancy-fileupload.js"></script>
+    <script src="/assets/plugins/fancyuploder/fancy-uploader.js"></script>
 
 </body>
 
