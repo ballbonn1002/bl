@@ -273,6 +273,60 @@
 			<result name="error">/index.jsp</result>
 		</action>
 
+		
+		<!-- Quotation -->
+		<action name="quotation_list"
+			class="com.cubesofttech.action.Sys_roleAction" method="">
+			<result name="success" type="tiles">quotation_list</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="quotation_add"
+			class="com.cubesofttech.action.Sys_roleAction" method="">
+			<result name="success" type="tiles">quotation_add</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="test"
+			class="com.cubesofttech.action.Sys_roleAction" method="">
+			<result name="success" type="tiles">test</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
 
+	<!-- company -->
+		<action name="company_list"
+			class="com.cubesofttech.action.CompanyAction" method="Companylist">
+			<result name="success" type="tiles">company_list</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="company_delete"
+			class="com.cubesofttech.action.CompanyAction" method="CompanyDelete">
+			<result name="success" type="tiles">company_list</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="CheckboxCompanyList"
+			class="com.cubesofttech.action.CompanyAction" method="CheckboxCompanyList">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="company_add"
+			class="com.cubesofttech.action.CompanyAction" method="">
+			<result name="success" type="tiles">company_add</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="add"
+			class="com.cubesofttech.action.CompanyAction" method="form_add">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="company_edit"
+			class="com.cubesofttech.action.CompanyAction" method="">
+			<result name="success" type="tiles">company_edit</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="EditCompany"
+			class="com.cubesofttech.action.CompanyAction" method="EditCompany">
+			<result name="success" type="tiles">company_edit</result>
+			<result name="error">/index.jsp</result>
+		</action>
 	</package>
 </struts>

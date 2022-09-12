@@ -55,7 +55,19 @@
 			value="/pages-back/common/page-test.jsp" />
 	</definition>
 	
-		
+	<!-- company -->
+	<definition name="company_list" extends="sashLayout">
+		<put-attribute name="title" value="Company List" />
+		<put-attribute name="body" value="/pages-back/company/company_list.jsp" />
+	</definition>
+	<definition name="company_add" extends="sashLayout">
+		<put-attribute name="title" value="Company Add" />
+		<put-attribute name="body" value="/pages-back/company/company_add.jsp" />
+	</definition>
+	<definition name="company_edit" extends="sashLayout">
+		<put-attribute name="title" value="Company Edit" />
+		<put-attribute name="body" value="/pages-back/company/company_edit.jsp" />
+	</definition>
 	<!-- Dashboard -->
 	<definition name="dashboard" extends="sashLayout">
 		<put-attribute name="title" value="Dashboard" />
@@ -128,6 +140,22 @@
 		<put-attribute name="title" value="Menu page" />
 		<put-attribute name="body"
 			value="/pages-back/common/page_menu.jsp" />
+	</definition>
+	<!-- Quotation -->
+	<definition name="quotation_list" extends="sashLayout">
+		<put-attribute name="title" value="Quotation List" />
+		<put-attribute name="body"
+			value="/pages-back/quotation/quotation_list.jsp" />
+	</definition>
+	<definition name="quotation_add" extends="sashLayout">
+		<put-attribute name="title" value="Quotation Add" />
+		<put-attribute name="body"
+			value="/pages-back/quotation/quotation_add.jsp" />
+	</definition>
+	<definition name="test" extends="sashLayout">
+		<put-attribute name="title" value="Test" />
+		<put-attribute name="body"
+			value="/pages-back/quotation/test.jsp" />
 	</definition>
 	
 	<!--department-->
