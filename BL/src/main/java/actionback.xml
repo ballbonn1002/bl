@@ -229,6 +229,23 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		
+		<!-- Quotation -->
+		<action name="quotation_list"
+			class="com.cubesofttech.action.Sys_roleAction" method="">
+			<result name="success" type="tiles">quotation_list</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="quotation_add"
+			class="com.cubesofttech.action.Sys_roleAction" method="">
+			<result name="success" type="tiles">quotation_add</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="test"
+			class="com.cubesofttech.action.Sys_roleAction" method="">
+			<result name="success" type="tiles">test</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
 
 	</package>
 </struts>
