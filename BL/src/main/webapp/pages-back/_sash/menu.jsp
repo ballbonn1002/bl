@@ -15,6 +15,7 @@
     <li class="slide">
         <a class="side-menu__item has-link" data-bs-toggle="slide" href="dashboard"><i class="side-menu__icon fe fe-home"></i><span class="side-menu__label">Dashboard</span></a>
         <a class="side-menu__item has-link" data-bs-toggle="slide" href="page_test"><i class="side-menu__icon fe fe-home"></i><span class="side-menu__label">Page Test</span></a>
+        <a class="side-menu__item has-link" data-bs-toggle="slide" href="department_list"><i class="side-menu__icon fe fe-home"></i><span class="side-menu__label">department</span></a>
     </li>
     <li class="sub-category">
         <h3>Documents</h3>
