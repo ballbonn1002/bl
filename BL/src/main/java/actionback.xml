@@ -291,6 +291,28 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		
+		<!-- POSITION -->
+		<action name="position_list"
+			class="com.cubesofttech.action.PositionAction" method="list">
+			<result name="success" type="tiles">position_list</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="position_add"
+			class="com.cubesofttech.action.PositionAction" method="addPosition">
+			<result name="success" type="tiles">position_add</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="editPosition"
+			class="com.cubesofttech.action.PositionAction" method="editPosition">
+			<result name="success" type="tiles">position_edit</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="savePosition"
+			class="com.cubesofttech.action.PositionAction" method="savePosition">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+			<!-- <result name="input" type="chain">position_add</result> -->
+		</action>
 
 	<!-- company -->
 		<action name="company_list"
