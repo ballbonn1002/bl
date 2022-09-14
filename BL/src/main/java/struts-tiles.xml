@@ -181,7 +181,7 @@
 		<put-attribute name="body"
 			value="/pages-back/position/position_list.jsp" />
 	</definition>
-	<definition name="editPosition" extends="sashLayout">
+	<definition name="position_edit" extends="sashLayout">
 		<put-attribute name="title" value="Position Edit" />
 		<put-attribute name="body"
 			value="/pages-back/position/position_edit.jsp" />

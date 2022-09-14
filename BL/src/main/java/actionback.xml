@@ -313,7 +313,7 @@
 			<result name="success" type="tiles">position_add</result>
 			<result name="error">/index.jsp</result>
 		</action>
-		<action name="editPosition"
+		<action name="position_edit"
 			class="com.cubesofttech.action.PositionAction" method="editPosition">
 			<result name="success" type="tiles">position_edit</result>
 			<result name="error">/index.jsp</result>
@@ -322,7 +322,22 @@
 			class="com.cubesofttech.action.PositionAction" method="savePosition">
 			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
-			<!-- <result name="input" type="chain">position_add</result> -->
+		</action>
+		<action name="checkPositionID"
+			class="com.cubesofttech.action.PositionAction" method="checkPositionID">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="updatePosition"
+			class="com.cubesofttech.action.PositionAction" method="updatePosition">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+			<action name="position_delete"
+			class="com.cubesofttech.action.PositionAction"
+			method="deletePosition">
+			<result name="success" type="tiles">position_list</result>
+			<result name="error">/index.jsp</result>
 		</action>
 
 	<!-- company -->
