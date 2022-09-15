@@ -97,7 +97,7 @@ CREATE TABLE `billing`.`status` ( `id` BIGINT NOT NULL AUTO_INCREMENT , `quotati
 `user_create` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `user_update` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
 `time_create` TIMESTAMP NULL , `time_update` TIMESTAMP NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
--- 09/8/2022 BEST Change name
+-- 09/9/2022 BEST Change name
 ALTER TABLE `company` CHANGE `industy` `industry` VARCHAR(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 
 
@@ -112,4 +112,38 @@ ALTER TABLE `quotation` ADD `contact_name` VARCHAR(200) CHARACTER SET utf8 COLLA
 
 ALTER TABLE `quotation` ADD `phone_2` VARCHAR(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `phone`;
 
+-- 13/9/2022 BEST Add & edit table
+CREATE TABLE `billing`.`company_address` ( `company_address_id` BIGINT(32) NOT NULL AUTO_INCREMENT , 
+`company_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,`address_name` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`address` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `province` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`district` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `subdistrict` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`zip_code` VARCHAR(5) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `description` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`user_create` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `user_update` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`time_create` TIMESTAMP NULL , `time_update` TIMESTAMP NULL , PRIMARY KEY (`company_address_id`)) ENGINE = InnoDB;
 
+drop table company_contact;
+CREATE TABLE `billing`.`company_contact` ( `company_contact_id` BIGINT(32) NOT NULL AUTO_INCREMENT , 
+`company_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `contact_name` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`position` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `phone` VARCHAR(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`email` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `address_location` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`description` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `user_create` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`user_update` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `time_create` TIMESTAMP NULL ,
+`time_update` TIMESTAMP NULL , PRIMARY KEY (`company_contact_id`)) ENGINE = InnoDB;
+
+ALTER TABLE `company` ADD `website` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `status`;
+
+--15/9/2022 BEST Create table Employee
+CREATE TABLE `billing`.`employee` ( `Employee_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , 
+`department_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `position_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`role_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci  NULL , `image` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`gender` VARCHAR(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `title_name_en` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`name_en` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `nickname_en` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`title_name_th` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `name_th` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`nickname_th` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `phone` VARCHAR(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`email` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `address_name` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`address` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `province` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`district` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `subdistrict` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`zip` VARCHAR(5) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `enable` VARCHAR(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+`description` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `user_create` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+`user_update` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `time_create` TIMESTAMP NULL , `time_cupdate` TIMESTAMP NULL ,
+PRIMARY KEY (`Employee_id`)) ENGINE = InnoDB;
