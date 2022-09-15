@@ -132,7 +132,7 @@ CREATE TABLE `billing`.`company_contact` ( `company_contact_id` BIGINT(32) NOT N
 
 ALTER TABLE `company` ADD `website` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `status`;
 
---15/9/2022 BEST Create table Employee
+--15/9/2022 BEST Create table Employee & Add column image SysUser
 CREATE TABLE `billing`.`employee` ( `Employee_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , 
 `department_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `position_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
 `role_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci  NULL , `image` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
@@ -147,3 +147,5 @@ CREATE TABLE `billing`.`employee` ( `Employee_id` VARCHAR(32) CHARACTER SET utf8
 `description` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `user_create` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
 `user_update` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `time_create` TIMESTAMP NULL , `time_cupdate` TIMESTAMP NULL ,
 PRIMARY KEY (`Employee_id`)) ENGINE = InnoDB;
+
+ALTER TABLE `sys_user` ADD `image` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `user_id`;
