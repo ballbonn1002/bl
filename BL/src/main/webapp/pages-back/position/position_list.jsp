@@ -71,18 +71,18 @@ tr {
 									<td><div class="mt-0 mt-sm-1 d-block">${test.name}</div></td>
 									<td><div class="mt-0 mt-sm-1 d-block">${test.department_id}</div></td>
 
-									<td class="text-left"><div class="mt-0 mt-sm-1 d-block">${test.description}</div></td>
+									<td><div class="mt-0 mt-sm-1 d-block">${test.description}</div></td>
 									<td >
 										<div class="g-2">
 											<a href="position_edit?position_id=${test.position_id}"
 												class="btn text-primary btn-sm" data-bs-toggle="tooltip"
-												data-bs-original-title="Edit"> <span
-												class="fe fe-edit fs-14"></span>
+												data-bs-original-title="Edit"> <i
+												class="fe fe-edit fs-16"></i>
 											</a> 
 											<a class="btn text-danger btn-sm" data-bs-toggle="tooltip"
 												onclick="deletePosition('${test.position_id}')"
-												data-bs-original-title="Delete"> <span
-												class="fe fe-trash-2 fs-14"></span>
+												data-bs-original-title="Delete"> <i
+												class="fe fe-trash-2 fs-16"></i>
 											</a>
 
 

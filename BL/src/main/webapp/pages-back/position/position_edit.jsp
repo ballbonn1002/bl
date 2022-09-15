@@ -13,7 +13,7 @@
 
 
 <!-- PAGE-HEADER -->
-<div class="container-fluid">
+
 	<div class="page-header">
 		<h1 class="page-title">Position Edit</h1>
 		<div>
@@ -91,7 +91,7 @@
 				<button id="submit_position" type="submit" class="btn btn-success">Save</button>
 			</div>
 	</form>
-</div>
+
 <script>
 
 
@@ -140,7 +140,7 @@
 
 			input.addEventListener('blur', function(event) {
 
-				console.log(input);
+				//console.log(input);
 
 				if (input.id != 'position_id') {
 					// reset
@@ -149,7 +149,15 @@
 
 					if (input.checkValidity() === false) {
 						input.classList.add('is-invalid')
-					} else {
+					} 
+					else if(input.id = 'name_position') {
+			        	var name = $('#name_position').val()
+			        	if(name.trim() == "")
+			        	input.classList.add('is-invalid')
+			        }
+					
+					
+					else {
 						input.classList.remove()
 					}
 				}

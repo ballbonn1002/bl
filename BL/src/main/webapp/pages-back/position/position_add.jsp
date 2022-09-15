@@ -12,7 +12,7 @@
 
 
 <!-- PAGE-HEADER -->
-<div class="container-fluid">
+
 	<div class="page-header">
 	    <h1 class="page-title">Create Position</h1>
 	    <div>
@@ -35,7 +35,7 @@
             	<div class="col-md-12">
                 	<div class="form-group">
                     	<label class="form-label ">Position ID <span class="text-red">*</span></label>
-                        <input type="text" class="form-control form_position_control" id="position_id" name="positionId" maxlength="4" pattern="[A-Za-z0-9.]{1,}" required>
+                        <input type="text" class="form-control form_position_control" id="position_id" name="positionId" maxlength="4" pattern="[A-Za-z0-9.]{1,}" placeholder="Enter ID" required>
                            		<!-- <div id="canuse"
 							style="color: #28A745; text-color: #28A745; display: none; width: 100%;">
 						</div>
@@ -72,7 +72,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="form-label">Name <span class="text-red">*</span></label>
-                                                    <input type="text" name="name" class="form-control form_position_control" id="name_position" required>
+                                                    <input type="text" name="name" class="form-control form_position_control" id="name_position" placeholder="Enter Name" required>
                                                     	<div class="valid-feedback"></div>
 						<div class="invalid-feedback">required this field</div>
                                                 </div>
@@ -80,7 +80,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="form-label">Description</label>
-                                                    <input type="text" name="description" class="form-control" >
+                                                    <input type="text" name="description" class="form-control" placeholder="Enter Description" >
 
                                                 </div>
                                             </div>
@@ -101,7 +101,7 @@
 		</div>
 	</form>
                                 
-</div>
+
 
 
 
@@ -256,13 +256,19 @@ var duplicate_id = false
 						// reset
 				        input.classList.remove('is-invalid')
 				        input.classList.remove('is-valid')
-				        
+				       
 				        if (input.checkValidity() === false) {
 				        		input.classList.add('is-invalid')
 				        }
+				        else if(input.id = 'name_position') {
+				        	var name = $('#name_position').val()
+				        	if(name.trim() == "")
+				        	input.classList.add('is-invalid')
+				        }
 				        else{
 				        	input.classList.remove()
-				        }					
+				        }	
+						
 					}
 					else {
 						 input.classList.remove('is-invalid')
