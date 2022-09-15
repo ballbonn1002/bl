@@ -115,12 +115,12 @@ to {
 												<td ><div class="mt-0 mt-sm-1 d-block">${depart.name}</div></td>
 												<td ><div class="mt-0 mt-sm-1 d-block">${depart.description}</div></td>
 												<td ><div class="mt-0 mt-sm-1 d-block">${depart.prefix_id}</div></td>
-												<td><a id="Edit_btn_" class="btn" title="Edit"
+												<td><a id="Edit_btn_" class="btn btn-sm" title="Edit"
 													href="department_edit?ID=${depart.department_id}"> <i
-														class="fe fe-edit text-purple" style="font-size: 18px"></i></a>
-													<a class="btn" title="Delete" id="delete"
+														class="fe fe-edit text-purple" style="font-size: 16px"></i></a>
+													<a class="btn btn-sm" title="Delete" id="delete"
 													onclick="del('${depart.department_id}')"> <i
-														class="fe fe-trash-2 text-red" style="font-size: 18px"></i>
+														class="fe fe-trash-2 text-red" style="font-size: 16px"></i>
 												</a>
 											</tr>
 										</c:forEach>
@@ -137,20 +137,6 @@ to {
 	</div>
 </div>
 <script type="text/javascript">
-/* $(document).ready(function(){
-    $('a#delete').click(function(){
-        
-        $.ajax({
-            url: 'Department_delete',
-            method: "POST",
-            data: {"ID" : "${depart.department_id}"},
-            success: function(data) {
-            	 document.location = "department_list"; 
-            	/*document.location = "Department_delete?ID=${test.department_id}";
-            }
-        });
-    });
-}) */
 function del(id){
 Swal.fire({
               title: 'Are you sure?',
@@ -165,11 +151,6 @@ Swal.fire({
             }).then((result) => {
               /// Read more about isConfirmed, isDenied below
                   if (result.isConfirmed) {
-                	  Swal.fire(
-                		      'Deleted!',
-                		      'Your file has been deleted.',
-                		      'success'
-                		    )
                 		$.ajax({
             			url: 'Department_delete',
             			method: "POST",
@@ -177,15 +158,11 @@ Swal.fire({
             			success: function(data) {
             	 		document.location = "department_list"; 
                   }
-                  /* else if (result.isDenied) {
-                	  
-                  } */
+                  
             })
 }
             })
 }
-
-
 $(document).ready(function(){
 	$('#department_list').DataTable({
         language: {
@@ -196,14 +173,3 @@ $(document).ready(function(){
 });
 </script>
 
-
-<!-- <script>
-$(document).ready(function(){
-	$('#department_list').DataTable({
-        language: {
-            searchPlaceholder: 'Search',
-            search: " ",
-        }
-    });
-});
-</script> -->

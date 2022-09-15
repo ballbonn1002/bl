@@ -46,20 +46,20 @@
 							<label class="form-label">Department ID <span
 								class="text-red">*</span></label> <input type="text"
 								class="form-control form_department_control" name="ID"
-								id="depart_id" placeholder="Enter ID" pattern="[a-zA-Z0-9. ]+"
+								id="depart_id" placeholder="Enter ID" pattern="[a-zA-Z0-9.]+" autocomplete="no"
 								required>
-							<div class="valid-feedback" id="canuse">You can use this ID</div>
-							<div class="invalid-feedback" id="cannotuse">You can not
-								use this ID !</div>
-							<div class="invalid-feedback" id="nofill">Please Enter your
-								ID</div>
+							<div class="valid-feedback"id="canuse" >
+									You can use this id
+								</div>
+								
+								<div class="invalid-feedback">กรอกได้เฉพาะ ภาษาอังฤกษ ตัวเลข . (จุด) ห้ามซ้ำกับ Id เดิม และห้ามปล่อยฟิลนี้ว่าง</div>
 						</div>
 						<div class="form-group">
 							<label class="form-label">Department Name <span
 								class="text-red">*</span></label> <input type="text"
 								class="form-control form_department_control" name="name"
 								id="name" placeholder="Enter Name" required>
-							<div class="invalid-feedback">Please Enter your Name</div>
+							<div class="invalid-feedback">required this field</div>
 						</div>
 						<div class="form-group">
 							<label class="form-label">Description </label> <input type="text"
@@ -87,24 +87,130 @@
 	</div>
 </div>
 
-<script type="text/javascript">
-	(function() {
-		'use strict';
-		window.addEventListener('load', function() {
-			// Get the forms we want to add validation styles to
-			var forms = document.getElementsByClassName('needs-validation');
-			// Loop over them and prevent submission
-			var validation = Array.prototype.filter.call(forms, function(form) {
-				form.addEventListener('submit', function(event) {
-					if (form.checkValidity() === false) {
-						event.preventDefault();
-						event.stopPropagation();
+<script>
+var duplicate_id = false
+
+function datechenge() {
+	var fulldate = "${fulldate}".trim();
+	var Userdate = $("#mydate").val();
+	if(fulldate != Userdate){
+		$("#detail").show();
+		$("#labeldetail").show();
+	}else{
+		$("#detail").hide();
+		$("#labeldetail").hide();
+	}		
+}
+function checkDupId(){
+	//$('#depart_id').on('keyup blur', function() {
+		var flag = true;
+		var id = $('#depart_id').val();
+		
+		if(id != ""){
+				$.ajax({
+					url: "CheckDuplicateDepart",
+					method: "POST" ,
+					type: "JSON" ,
+					data: {
+						"ID" : id
+					},
+					success:function(data){
+						console.log(data)
+						var input = document.getElementById('depart_id')
+						input.classList.remove('is-invalid')
+				        input.classList.remove('is-valid')
+		        	
+						if (data.flag == 0 && input.checkValidity() == true) {
+							duplicate_id = true
+							$("#canuse").show();
+							$("#depart_id").addClass('is-valid');
+						} else {
+							duplicate_id = false
+							$("#canuse").hide();
+							$("#depart_id").addClass('is-invalid');
+							
+						}
 					}
-					form.classList.add('was-validated');
-				}, false);
-			});
-		}, false);
-	})();
+				})
+			
+			}else{
+				duplicate_id = false
+				var input = document.getElementById('depart_id')
+				input.classList.add('is-invalid')
+				$("#canuse").hide();
+				
+
+			}
+
+}
+
+function validate() {
+		  'use strict';
+		  window.addEventListener('load', function() {
+		    var forms = document.getElementsByClassName('needs-validation');
+		    var inputs = document.getElementsByClassName('form_department_control')
+
+		    Array.prototype.filter.call(forms, function(form) {
+		    
+		    
+		      form.addEventListener('submit', function(event) { 
+		    	
+		    	showWasValidate()
+		    	//form.classList.add('was-validated');
+		        if (form.checkValidity() === false || duplicate_id == false) {
+		          event.preventDefault();
+		          event.stopPropagation();
+		        }		        
+		        
+		      }, false);
+		      
+		    });
+		    
+		    
+		    Array.prototype.filter.call(inputs, function(input) {
+		    	
+			      input.addEventListener('blur', function(event) {
+			    	checkDupId()//check duplicate id
+
+					if (input.id != 'depart_id'){
+						// reset
+				        input.classList.remove('is-invalid')
+				        input.classList.remove('is-valid')
+				        
+				        if (input.checkValidity() === false) {
+				        		input.classList.add('is-invalid')
+				        }
+				        else{
+				            input.classList.remove()
+				        }					
+					}
+			      }, false);
+			    });
+		    
+		 }, false);
+};
+
+function showWasValidate(){
+	
+	var inputs = document.getElementsByClassName('form_department_control')
+    Array.prototype.filter.call(inputs, function(input) {
+    	
+		if (input.id != 'depart_id'){
+			// reset
+			checkDupId()
+		     input.classList.remove('is-invalid')
+		     input.classList.remove('is-valid')
+		        
+		        if (input.checkValidity() === false) {
+		        		input.classList.add('is-invalid')
+		        }
+		        else{
+		            input.classList.remove()
+		        }					
+		}
+
+	});
+}
 
 	function submitAddDepart() {
 		var values = $("#addDepartForm").serializeArray()
@@ -122,68 +228,9 @@
 			}
 		});
 	}
-
-	$(document)
-			.ready(
-					function() {
-						$('#depart_id')
-								.on(
-										'keyup',
-										function() {
-											var flag = true;
-											var duplicate_id = false
-											var NoSubmit = false
-											var id = $('#depart_id').val();
-											if (id != "") {
-												$
-														.ajax({
-															url : "CheckDuplicateDepart",
-															method : "POST",
-															type : "JSON",
-															data : {
-																"ID" : id
-															},
-															success : function(
-																	data) {
-																console
-																		.log(data);
-																if (data.flag == 1) {
-																	duplicate_id = true
-																	/* 						$("#canuse").show();
-																	 $("#cannotuse").hide();
-																	 $("#nofill").hide(); */
-																	$("#canuse")
-																			.hide();
-																	$(
-																			"#cannotuse")
-																			.show();
-																	$("#nofill")
-																			.hide();
-																	document
-																			.getElementById("NoSubmit").disabled = true;
-																} else {
-																	duplicate_id = false
-																	/* 						$("#canuse").hide();
-																	 $("#cannotuse").show();
-																	 $("#nofill").hide(); */
-																	$("#canuse")
-																			.show();
-																	$(
-																			"#cannotuse")
-																			.hide();
-																	$("#nofill")
-																			.hide();
-																	document
-																			.getElementById("NoSubmit").disabled = false;
-																}
-															}
-														})
-											} else {
-												duplicate_id = false
-												$("#canuse").hide();
-												$("#cannotuse").hide();
-												$("#nofill").show();
-											}
-										})
-					});
+	
+	$(document).ready(function() {
+		validate()
+		
+	});
 </script>

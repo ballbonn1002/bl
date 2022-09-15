@@ -83,23 +83,51 @@
 </div>
 
 <script type="text/javascript">
-	(function() {
-		'use strict';
-		window.addEventListener('load', function() {
-			// Get the forms we want to add validation styles to
-			var forms = document.getElementsByClassName('needs-validation');
-			// Loop over them and prevent submission
-			var validation = Array.prototype.filter.call(forms, function(form) {
-				form.addEventListener('submit', function(event) {
-					if (form.checkValidity() === false) {
-						event.preventDefault();
-						event.stopPropagation();
-					}
-					form.classList.add('was-validated');
-				}, false);
-			});
-		}, false);
-	})();
+function validate() {
+	  'use strict';
+	  window.addEventListener('load', function() {
+	    var forms = document.getElementsByClassName('needs-validation');
+	    var inputs = document.getElementsByClassName('form_department_control')
+
+	    Array.prototype.filter.call(forms, function(form) {
+	    
+	    
+	      form.addEventListener('submit', function(event) { 
+	    	
+	    	showWasValidate()
+	    	//form.classList.add('was-validated');
+	        if (form.checkValidity() === false || duplicate_id == false) {
+	          event.preventDefault();
+	          event.stopPropagation();
+	        }		        
+	        
+	      }, false);
+	      
+	    });
+	    
+	    
+	    Array.prototype.filter.call(inputs, function(input) {
+	    	
+		      input.addEventListener('blur', function(event) {
+		    	checkDupId()//check duplicate id
+
+				if (input.id != 'depart_id'){
+					// reset
+			        input.classList.remove('is-invalid')
+			        input.classList.remove('is-valid')
+			        
+			        if (input.checkValidity() === false) {
+			        		input.classList.add('is-invalid')
+			        }
+			        else{
+			            input.classList.remove()
+			        }					
+				}
+		      }, false);
+		    });
+	    
+	 }, false);
+};
 
 	function submitUpdateDepartmentForm() {
 		var values = $("#updateDepartForm").serializeArray()
@@ -117,4 +145,7 @@
 			}
 		});
 	}
+	$(document).ready(function() {
+		validate()
+	});
 </script>
