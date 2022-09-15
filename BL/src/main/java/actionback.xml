@@ -92,6 +92,17 @@
 			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<action name="updateDepartment"
+			class="com.cubesofttech.action.DepartmentAction" method="editDepartment">
+			<result name="success" type="tiles">department_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="Department_delete"
+			class="com.cubesofttech.action.DepartmentAction"
+			method="deleteDepartment">
+			<result name="success" type="tiles">department_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+			<result name="error">/index.jsp</result>
+		</action>
 
 		<!-- System User -->
 		<action name="SystemUser_list"
@@ -291,6 +302,43 @@
 			<result name="error">/index.jsp</result>
 		</action>
 		
+		<!-- POSITION -->
+		<action name="position_list"
+			class="com.cubesofttech.action.PositionAction" method="list">
+			<result name="success" type="tiles">position_list</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="position_add"
+			class="com.cubesofttech.action.PositionAction" method="addPosition">
+			<result name="success" type="tiles">position_add</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="position_edit"
+			class="com.cubesofttech.action.PositionAction" method="editPosition">
+			<result name="success" type="tiles">position_edit</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="savePosition"
+			class="com.cubesofttech.action.PositionAction" method="savePosition">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="checkPositionID"
+			class="com.cubesofttech.action.PositionAction" method="checkPositionID">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="updatePosition"
+			class="com.cubesofttech.action.PositionAction" method="updatePosition">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+			<action name="position_delete"
+			class="com.cubesofttech.action.PositionAction"
+			method="deletePosition">
+			<result name="success" type="tiles">position_list</result>
+			<result name="error">/index.jsp</result>
+		</action>
 
 	<!-- company -->
 		<action name="company_list"
