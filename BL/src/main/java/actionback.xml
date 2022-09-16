@@ -406,5 +406,10 @@
 			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<action name="Sales_delete"
+			class="com.cubesofttech.action.CompanyAction" method="Sales_delete">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
 	</package>
 </struts>

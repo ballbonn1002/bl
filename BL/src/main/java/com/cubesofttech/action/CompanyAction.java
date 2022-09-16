@@ -332,7 +332,6 @@ public class CompanyAction extends ActionSupport {
 			 String value = request.getParameter("value");
 			 log.debug(value);
 			 
-			 Company_sales sales = new Company_sales();
 			 JSONParser parser = new JSONParser();
 			 JSONArray a = (JSONArray) parser.parse(value);
 			 ArrayList<String> emp_idListarr = new ArrayList<String>();
@@ -351,7 +350,9 @@ public class CompanyAction extends ActionSupport {
 					emailListarr.add((String) user.get("email"));
 				}
 				log.debug(emp_idListarr);
+				List<String> idList = new ArrayList<String>();
 				for(int i=0; i < emp_idListarr.size(); i++) {
+					Company_sales sales = new Company_sales();
 					sales.setEmployee_id(emp_idListarr.get(i));
 					sales.setCompany_id(com_idListarr.get(i));
 					sales.setName_en(name_enListarr.get(i));
@@ -363,15 +364,32 @@ public class CompanyAction extends ActionSupport {
 					sales.setTime_create(DateUtil.getCurrentTime());
 					sales.setTime_update(DateUtil.getCurrentTime());
 					company_salesDAO.save(sales);
+					log.debug(sales.getCompany_sales_id());
+					idList.add(sales.getCompany_sales_id());
 				}
-				Gson gson = new GsonBuilder().create();
-				String jsonObjStr = gson.toJson(sales);
-				PrintWriter out = response.getWriter();
-				out.print(jsonObjStr);
-				out.flush();
-				out.close();
-				log.debug(sales);
+				log.debug(idList);
+				Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			     String json = gson.toJson(idList);
+			     request.setAttribute("json", json); 
 				
+			 return SUCCESS;
+		 }catch(Exception e) {
+			 e.printStackTrace();
+			 return ERROR;
+		 }
+	 }
+	 
+	 public String Sales_delete() {
+		 try {
+			 String id = request.getParameter("id");
+			 log.debug(id);
+			 Company_sales sales = company_salesDAO.findById(id);
+			 company_salesDAO.delete(sales);
+			 
+			 Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		     String json = gson.toJson(sales);
+		     request.setAttribute("json", json); 
+			 
 			 return SUCCESS;
 		 }catch(Exception e) {
 			 e.printStackTrace();
