@@ -765,6 +765,28 @@
     <script src="/assets/plugins/fancyuploder/jquery.iframe-transport.js"></script>
     <script src="/assets/plugins/fancyuploder/jquery.fancy-fileupload.js"></script>
     <script src="/assets/plugins/fancyuploder/fancy-uploader.js"></script>
+    
+     <!-- INTERNAL Bootstrap-Datepicker js-->
+    <script src="/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+    
+    <!-- BOOTSTRAP-DATERANGEPICKER JS -->
+    <script src="/assets/plugins/bootstrap-daterangepicker/moment.min.js"></script>
+    <script src="/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+    
+    <!-- TIMEPICKER JS -->
+    <script src="/assets/plugins/time-picker/jquery.timepicker.js"></script>
+    <script src="/assets/plugins/time-picker/toggles.min.js"></script>
+    
+    <!-- DATEPICKER JS -->
+    <script src="/assets/plugins/date-picker/date-picker.js"></script>
+    <script src="/assets/plugins/date-picker/jquery-ui.js"></script>
+    <script src="/assets/plugins/input-mask/jquery.maskedinput.js"></script>
+    
+    <!-- FORMELEMENTS JS -->
+    <script src="../assets/js/formelementadvnced.js"></script>
+    <script src="../assets/js/form-elements.js"></script>
+    
 
 </body>
 
