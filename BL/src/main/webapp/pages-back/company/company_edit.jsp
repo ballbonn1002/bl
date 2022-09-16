@@ -198,7 +198,7 @@ tr{
 <!-- Card Sales -->
 <div class="card">
 	<div class="card-header">
-		<div class="card-title">Sales Person</div>
+		<div class="card-title">Salesperson</div>
 	</div>
 	<div class="card-body">
 		<div>
@@ -221,7 +221,7 @@ tr{
             </ul>
    </div>
 	<div  style="text-align: left; margin-top: 1rem; margin-bottom: 1.5rem;">
-		<button type="button" class="btn btn-primary" style="min-width: 5%;" data-bs-toggle="modal" data-bs-target="#SalesModal" id="clear_contact">Create Contact</button>
+		<button type="button" class="btn btn-primary" style="min-width: 5%;" data-bs-toggle="modal" data-bs-target="#SalesModal">Select Salesperson</button>
 	</div>
 	</div>
 </div>
@@ -324,7 +324,7 @@ tr{
         <div class="modal-dialog modal-dialog-centered modal-xl " role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Select Sales</h5>
+                    <h5 class="modal-title">Select Salesperson</h5>
                     <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">×</span>
 						</button>
@@ -597,6 +597,11 @@ function delete_sales(id,currentEl){
 <script>
 $(document).ready(function(){
 $('#myTable').DataTable({
+ 	"bPaginate": false,
+  	"bLengthChange": true,
+  	"bFilter": true,
+  	"bInfo": true,
+  	"bAutoWidth": true,
     language: {
         searchPlaceholder: 'Search...',
         sSearch: '',
