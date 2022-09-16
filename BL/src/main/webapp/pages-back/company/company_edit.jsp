@@ -202,16 +202,16 @@ tr{
 	</div>
 	<div class="card-body">
 		<div>
-           <ul class="list-group" id="gen_contact">
+           <ul class="list-group" id="gen_sales">
 			<c:forEach var="sales" items="${salesList}">
                <li class="list-group-item">
                <div class="row">
-             	<div class="col-sm-4">${con.contact_name}&nbsp;<span>-</span>&nbsp;${con.position}</div>
-               		<div class="col-sm-2"><i class="bi bi-telephone"></i>&nbsp;&nbsp;${con.phone}</div>
-               		<div class="col-sm-5"><i class="ti-email"></i>&nbsp;&nbsp;${con.email}</div>
+             	<div class="col-sm-3">${sales.employee_id}&nbsp;<span>-</span>&nbsp;${sales.name_en}</div>
+               		<div class="col-sm-3"><i class="bi bi-telephone"></i>&nbsp;&nbsp;${sales.phone}</div>
+               		<div class="col-sm-5"><i class="ti-email"></i>&nbsp;&nbsp;${sales.email}</div>
           	     	<div class="col-sm-1" style="text-align:right;">
                		 <div class="g-2">
-               			<a class="btn text-danger btn-sm" onclick="delete_contact('${con.company_contact_id}',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">
+               			<a class="btn text-danger btn-sm" onclick="delete_sales('${sales.company_contact_id}',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">
                      	<span class="fe fe-trash-2 fs-14"></span></a>
                      </div>
                		</div>      
@@ -563,6 +563,38 @@ function delete_address(id,currentEl){
 };
 </script>
 <script>
+function delete_sales(id,currentEl){
+	console.log(currentEl);
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You will be deleting this id!",
+        icon: 'error',
+        showDenyButton: true,
+        denyButtonText: 'Cancel',
+        confirmButtonText: 'Confirm',
+        reverseButtons: true,
+    }).then((result) => {
+            if (result.isConfirmed) { 
+            	$.ajax({
+            		url: 'Sales_delete',
+            		type: 'JSON',
+            		method: 'POST',
+            		data: {
+            				"id" : id
+            		},
+            		success:function(data){
+            			console.log(data);
+            			currentEl.parentNode.parentNode.parentNode.remove();
+            		}
+            	})
+            }
+            else if (result.isDenied) {
+                return false;
+            } 
+  }); 
+};
+</script>
+<script>
 $(document).ready(function(){
 $('#myTable').DataTable({
     language: {
@@ -596,7 +628,8 @@ $('#myTable tr').each(function() {
         getSaleList.push(values);
     });
 });
-    console.log(getSaleList);
+    console.log(getSaleList.length);
+    console.log(getSaleList[0].employee_id);
     $.ajax({
     	url : 'add_sales',
     	typr: 'JSON',
@@ -605,8 +638,31 @@ $('#myTable tr').each(function() {
     				"value" : JSON.stringify(getSaleList)
     	},
     	success:function(data){
-    		console.log(data);
+    		console.log(data[0]);
+			swal({
+				title: "SUCCESS",
+            	text: "Your information has been succesfully save",
+            	type: "success",
+		}, function(inputValue) {
+            if (inputValue != "") {
+		let text = '';
+		for(var i=0; i<getSaleList.length;i++){
+            	text += '<li class="list-group-item test del">'+
+						'<div class="row">'+
+						'<div class="col-sm-3">'+getSaleList[i].employee_id+'&nbsp;<span>-</span>&nbsp;'+getSaleList[i].name_en+'</div>'+
+           				'<div class="col-sm-3"><i class="bi bi-telephone"></i>&nbsp;&nbsp;'+getSaleList[i].phone+'</div>'+
+           				'<div class="col-sm-5"><i class="ti-email"></i>&nbsp;&nbsp;'+getSaleList[i].email+'</div>'+
+						'<div class="col-sm-1" style="text-align:right;">'+
+						'<a class="btn text-danger btn-sm" onclick="delete_sales('+data[i]+',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">'+
+     					'<span class="fe fe-trash-2 fs-14"></span></a>'+
+					'</div>'+
+					'</div>'+
+					'</li>';
+				}
+			$("#gen_sales").append(text);
+            }
+			})
     	}
-    }) 
+    })
 }
 </script>
