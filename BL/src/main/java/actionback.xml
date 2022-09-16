@@ -296,6 +296,11 @@
 			<result name="success" type="tiles">quotation_add</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<action name="saveQuotation"
+			class="com.cubesofttech.action.QuotationAction" method="saveQuotation">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
 		<action name="test"
 			class="com.cubesofttech.action.Sys_roleAction" method="">
 			<result name="success" type="tiles">test</result>
