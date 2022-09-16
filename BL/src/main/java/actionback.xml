@@ -386,6 +386,11 @@
 			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<action name="add_sales"
+			class="com.cubesofttech.action.CompanyAction" method="add_sales">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
 		<action name="SelectAddressLocation"
 			class="com.cubesofttech.action.CompanyAction" method="SelectAddressLocation">
 			<result name="success">/pages-back/common/json.jsp</result>
@@ -393,7 +398,12 @@
 		</action>
 		<action name="Contact_delete"
 			class="com.cubesofttech.action.CompanyAction" method="Contact_delete">
-			<result name="success" type="tiles">company_edit</result>
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="Address_delete"
+			class="com.cubesofttech.action.CompanyAction" method="Address_delete">
+			<result name="success">/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
 	</package>

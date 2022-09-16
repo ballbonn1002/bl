@@ -75,7 +75,7 @@ input[type="checkbox"] {
 			</div>
 			<div class="card-body">
 						<div class="table-responsive">
-							<table  class="table table-sm table-hover border-top table-bordered mb-0 id = "myTable">
+							<table  class="table table-sm table-hover border-top table-bordered mb-0 " id = "myTable">
 								<thead>
 									<tr>
 										<th style="text-align: left; width: 10%">#</th>

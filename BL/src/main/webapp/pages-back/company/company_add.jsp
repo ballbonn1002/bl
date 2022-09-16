@@ -30,7 +30,7 @@
 
     	<div class="col-sm-6 " style="margin-top:30px">
 			<div class="form-group">
-					<label for="recipient-name" class="control-label">Company Code<span style="color:red;"> *</span></label> 
+					<label class="form-label">Company Code<span style="color:red;"> *</span></label> 
 					<div class="input-group mb-3">
 							<input type="text" id="code" class="form-control" name="code" required>  
                     </div>  
@@ -38,33 +38,33 @@
          </div>
          <div class="col-sm-6 " style="margin-top:30px">
 			<div class="form-group">
-					<label for="recipient-name" class="control-label">TaxID<span style="color:red;"> *</span></label> 
+					<label class="form-label">Tax ID<span style="color:red;"> *</span></label> 
 					<div class="input-group mb-3">
-							<input type="text" class="form-control" name="tax"  id="tax" required>  
+							<input type="text" class="form-control"  id="tax" required>  
                     </div>  
               </div>
          </div>
          <div class="col-sm-6 ">
 			<div class="form-group">
-					<label for="recipient-name" class="control-label">CompanyName EN<span style="color:red;"> *</span></label> 
+					<label class="form-label">Company Name EN<span style="color:red;"> *</span></label> 
 					<div class="input-group mb-3">
-							<input type="text" class="form-control" name="name_en" id="name_en" required>  
+							<input type="text" class="form-control" id="name_en" required>  
                     </div>  
               </div>
          </div>
          <div class="col-sm-6 ">
 			<div class="form-group">
-					<label for="recipient-name" class="control-label">CompanyName TH<span style="color:red;"> *</span></label> 
+					<label class="form-label">Company Name TH<span style="color:red;"> *</span></label> 
 					<div class="input-group mb-3">
-							<input type="text" class="form-control" name="name_th" id="name_th" required>  
+							<input type="text" class="form-control" id="name_th" required>  
                     </div>  
               </div>
          </div>
          <div class="col-sm-6 ">
 			<div class="form-group">
-					<label for="recipient-name" class="control-label">Industry<span style="color:red;"> *</span></label> 
-					<select class="form-control form-select select2" data-placeholder="-- Choose --" name="industry" id="industry" required>
-						<option label = "Choose"></option>
+					<label class="form-label">Industry<span style="color:red;"> *</span></label> 
+					<select class="form-control form-select select2" data-placeholder="Select" id="industry" required>
+						<option label = "Select"></option>
 						<option value="0">Agro & Food Industry</option>
 						<option value="1">Consumer Products</option>
 						<option value="2">Financials</option>
@@ -78,9 +78,9 @@
          </div>
          <div class="col-sm-6 ">
 			<div class="form-group">
-					<label for="recipient-name" class="control-label">Status<span style="color:red;"> *</span></label> 
-					<select class="form-control select2 form-select" data-placeholder="-- Choose --" name="status" id="status" required>
-						<option label = "Choose"></option>
+					<label class="form-label">Status<span style="color:red;"> *</span></label> 
+					<select class="form-control select2 form-select" data-placeholder="Select" id="status" required>
+						<option label = "Select"></option>
 						<option value="0">Customers</option>
 						<option value="1">Partners</option>
 						<option value="2">Financial</option>
@@ -90,9 +90,17 @@
 					</select> 
               </div>
          </div>
+         <div class="col-sm-12 ">
+			<div class="form-group">
+					<label class="form-label">Website</label> 
+					<div class="input-group mb-3">
+							<input type="text" class="form-control"  id="website">  
+                    </div>  
+              </div>
+         </div>
          <div class="col-sm-2">
          	<label class="custom-control custom-checkbox">
-               <input name="is_active" type="checkbox" class="custom-control-input" id="is_active"><span>&nbsp;Is_Active</span>
+               <input name="is_active" type="checkbox" class="custom-control-input" id="is_active"><span class="form-label">&nbsp;Is_Active</span>
                <span class="custom-control-label"></span>
             </label>
          </div>
@@ -100,8 +108,8 @@
 	</div>
 </div>
 <div  style="text-align: right; margin-top: 1rem; margin-bottom: 1.5rem;">
-	<a href="company_list" type="button" class="btn btn-secondary" style="min-width: 5%;">Cancel</a>
-	<button type="submit" id="submit" class="btn btn-primary" style="min-width: 5%;">Save</button>
+	<a href="company_list" type="button" class="btn btn-default" style="min-width: 5%;">Cancel</a>
+	<button type="submit" id="submit" class="btn btn-success" style="min-width: 5%;">Save</button>
 </div>
 
 <script>
@@ -114,6 +122,7 @@ $(document).ready(function(){
 	var industry = $("#industry").val();
 	var status = $("#status").val();
 	var is_active = $("#is_active").val();
+	var website = $("#website").val();
 	
 	$.ajax({
 		url: "add" ,
@@ -125,7 +134,8 @@ $(document).ready(function(){
 				"name_th" : name_th , 
 				"industry" : industry , 
 				"status" : status ,
-				"is_active" : is_active
+				"is_active" : is_active , 
+				"website" : website
 		},
 		success:function(data){
 			console.log(data);

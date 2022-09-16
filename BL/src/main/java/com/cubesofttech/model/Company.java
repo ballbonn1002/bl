@@ -38,6 +38,9 @@ public class Company implements Serializable{
 	@Column(name="is_active")
 	public String is_active;
 	
+	@Column(name="website")
+	public String website;
+	
 	@Column(name="description")
 	public String description;
 	
@@ -108,7 +111,15 @@ public class Company implements Serializable{
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
+	public String getWebsite() {
+		return website;
+	}
 
+	public void setWebsite(String website) {
+		this.website = website;
+	}
+	
 	public String getIs_active() {
 		return is_active;
 	}
