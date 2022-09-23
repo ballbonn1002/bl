@@ -150,7 +150,14 @@ PRIMARY KEY (`Employee_id`)) ENGINE = InnoDB;
 
 ALTER TABLE `sys_user` ADD `image` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `user_id`;
 
--- 16/6/2022 BEST Change name
+-- 16/9/2022 BEST Change name
 ALTER TABLE `employee` CHANGE `Employee_id` `employee_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 ALTER TABLE `employee` CHANGE `zip` `zip_code` VARCHAR(5) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
 ALTER TABLE `company_sales` CHANGE `user_id` `employee_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+
+-- 20/9/2022 BEST Change name
+ALTER TABLE quotation_sale DROP name_th;
+ALTER TABLE quotation_sale CHANGE user_id employee_id VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+ALTER TABLE quotation_sale ADD title_name_en VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER employee_id;
+ALTER TABLE company_sales DROP name_th;
+ALTER TABLE `company_sales` ADD `title_name_en` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `employee_id`;
