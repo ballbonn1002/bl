@@ -161,3 +161,8 @@ ALTER TABLE quotation_sale CHANGE user_id employee_id VARCHAR(32) CHARACTER SET 
 ALTER TABLE quotation_sale ADD title_name_en VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER employee_id;
 ALTER TABLE company_sales DROP name_th;
 ALTER TABLE `company_sales` ADD `title_name_en` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `employee_id`;
+
+--23/09/2022 Tan
+ALTER TABLE order CHANGE quantity quantity INT(10) NOT NULL;
+RENAME TABLE billing.order TO billing.quotation_order;
+ALTER TABLE company_contact ADD title_name_en VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER company_id;
