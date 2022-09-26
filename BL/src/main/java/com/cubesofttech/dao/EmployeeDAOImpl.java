@@ -84,5 +84,23 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 		}
 		return employeeList;
 	}
+
+	@Override
+	public List<Employee> findNotInCompany_Sales(String id) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Employee> employeeList = null;
+		try {
+			String sql = "SELECT employee.* , company.company_id FROM employee \r\n"
+					+ "			JOIN company WHERE employee_id NOT IN \r\n"
+					+ "			(SELECT employee_id FROM company_sales WHERE company_id = '"+id+"')\r\n"
+					+ "			GROUP BY employee.employee_id;" ;  
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			employeeList = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return employeeList;
+	}
 	
 }

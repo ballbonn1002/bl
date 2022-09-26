@@ -52,6 +52,15 @@ public class Company_contact implements Serializable{
 	@Column(name="time_update")
 	public java.sql.Timestamp time_update;
 
+	
+	public String getTitle_name_en() {
+		return title_name_en;
+	}
+
+	public void setTitle_name_en(String title_name_en) {
+		this.title_name_en = title_name_en;
+	}
+
 	public String getCompany_contact_id() {
 		return company_contact_id;
 	}

@@ -44,6 +44,7 @@ tr{
         </ol>
     </div>
 </div>
+<form action="update_information" method="POST" enctype="multipart/form-data">
 <div class="card">
 	<div class="card-header">
 		<div class="card-title">Company Information</div>
@@ -52,14 +53,17 @@ tr{
 		<div class="row">
 			<div class="col-lg-4 col-sm-12 mb-4 mb-lg-0" ></div>
 			<div class="col-lg-4 col-sm-12 mb-4 mb-lg-0" >
-           		<input style="text-align:center;" type="file" class="dropify"  data-bs-height="180" />
+           		<input style="text-align:center;"  name="fileUpload" id="fileUpload" type="file" class="dropify"  data-default-file="${company[0].path}" accept="image/x-png,image/gif,image/jpeg" data-bs-height="180" value="${company[0].path}"/>
+           		<input style="display:none;" id="filesize" name="filesize" type="text" value="">
+           		<input style="display:none;" type="text" class="form-control" name="company_ID" value="${company[0].company_id}">
     		</div>
 
     	<div class="col-sm-6 " style="margin-top:30px">
 			<div class="form-group">
 					<label class="form-label">Company Code<span style="color:red;"> *</span></label> 
 					<div class="input-group mb-3">
-							<input type="text" class="form-control" name="code" value="${company.company_code}" required>  
+							<input type="text" class="form-control" name="code" value="${company[0].company_code}" required>
+							  
                     </div>  
               </div>
          </div>
@@ -67,7 +71,7 @@ tr{
 			<div class="form-group">
 					<label class="form-label">Tax ID<span style="color:red;"> *</span></label> 
 					<div class="input-group mb-3">
-							<input type="text" class="form-control" name="tax" value="${company.tax_number}" required>  
+							<input type="text" class="form-control" name="tax" value="${company[0].tax_number}" required>  
                     </div>  
               </div>
          </div>
@@ -75,7 +79,7 @@ tr{
 			<div class="form-group">
 					<label class="form-label">Company Name EN<span style="color:red;"> *</span></label> 
 					<div class="input-group mb-3">
-							<input type="text" class="form-control" name="name_en" value="${company.company_en }" required>  
+							<input type="text" class="form-control" name="name_en" value="${company[0].company_en }" required>  
                     </div>  
               </div>
          </div>
@@ -83,7 +87,7 @@ tr{
 			<div class="form-group">
 					<label class="form-label">Company Name TH<span style="color:red;"> *</span></label> 
 					<div class="input-group mb-3">
-							<input type="text" class="form-control" name="name_th" value="${company.company_th }" required>  
+							<input type="text" class="form-control" name="name_th" value="${company[0].company_th }" required>  
                     </div>  
               </div>
          </div>
@@ -92,14 +96,14 @@ tr{
 					<label class="form-label">Industry<span style="color:red;"> *</span></label> 
 					<select class="form-control form-select select2" data-placeholder="Select" name="industry" required>
 						<option label = "Select"></option>
-						<option value="0" <c:if test="${company.industry == 0}">selected</c:if>>Agro & Food Industry</option>
-						<option value="1" <c:if test="${company.industry == 1}">selected</c:if>>Consumer Products</option>
-						<option value="2" <c:if test="${company.industry == 2}">selected</c:if>>Financials</option>
-						<option value="3" <c:if test="${company.industry == 3}">selected</c:if>>Industrials</option>
-						<option value="4" <c:if test="${company.industry == 4}">selected</c:if>>Property & Construction</option>
-						<option value="5" <c:if test="${company.industry == 5}">selected</c:if>>Resources</option>
-						<option value="6" <c:if test="${company.industry == 6}">selected</c:if>>Services</option>
-						<option value="7" <c:if test="${company.industry == 7}">selected</c:if>>Technology</option>
+						<option value="0" <c:if test="${company[0].industry == 0}">selected</c:if>>Agro & Food Industry</option>
+						<option value="1" <c:if test="${company[0].industry == 1}">selected</c:if>>Consumer Products</option>
+						<option value="2" <c:if test="${company[0].industry == 2}">selected</c:if>>Financials</option>
+						<option value="3" <c:if test="${company[0].industry == 3}">selected</c:if>>Industrials</option>
+						<option value="4" <c:if test="${company[0].industry == 4}">selected</c:if>>Property & Construction</option>
+						<option value="5" <c:if test="${company[0].industry == 5}">selected</c:if>>Resources</option>
+						<option value="6" <c:if test="${company[0].industry == 6}">selected</c:if>>Services</option>
+						<option value="7" <c:if test="${company[0].industry == 7}">selected</c:if>>Technology</option>
 					</select> 
               </div>
          </div>
@@ -108,12 +112,12 @@ tr{
 					<label class="form-label">Status<span style="color:red;"> *</span></label> 
 					<select class="form-control select2 form-select" data-placeholder="Select" name="status" required>
 						<option label = "Select"></option>
-						<option value="0" <c:if test="${company.status == 0}">selected</c:if>>Customers</option>
-						<option value="1" <c:if test="${company.status == 1}">selected</c:if>>Partners</option>
-						<option value="2" <c:if test="${company.status == 2}">selected</c:if>>Financial</option>
-						<option value="3" <c:if test="${company.status == 3}">selected</c:if>>Legal</option>
-						<option value="4" <c:if test="${company.status == 4}">selected</c:if>>Leadership and Peer Mentors</option>
-						<option value="5" <c:if test="${company.status == 5}">selected</c:if>>Employees</option>
+						<option value="0" <c:if test="${company[0].status == 0}">selected</c:if>>Customers</option>
+						<option value="1" <c:if test="${company[0].status == 1}">selected</c:if>>Partners</option>
+						<option value="2" <c:if test="${company[0].status == 2}">selected</c:if>>Financial</option>
+						<option value="3" <c:if test="${company[0].status == 3}">selected</c:if>>Legal</option>
+						<option value="4" <c:if test="${company[0].status == 4}">selected</c:if>>Leadership and Peer Mentors</option>
+						<option value="5" <c:if test="${company[0].status == 5}">selected</c:if>>Employees</option>
 					</select> 
               </div>
          </div>
@@ -121,13 +125,13 @@ tr{
 			<div class="form-group">
 					<label class="form-label">Website</label> 
 					<div class="input-group mb-3">
-							<input type="text" class="form-control"  id="website" value="${company.website}">  
+							<input type="text" class="form-control" name="website" id="website" value="${company[0].website}">  
                     </div>  
               </div>
          </div>
          <div class="col-sm-2">
          	<label class="custom-control custom-checkbox">
-               <input name="is_active" type="checkbox" class="custom-control-input" <c:if test ="${company.is_active == 1}">checked</c:if>><span class="form-label">&nbsp;Is_Active</span>
+               <input name="is_active" type="checkbox" class="custom-control-input" <c:if test ="${company[0].is_active == 1}">checked</c:if>><span class="form-label">&nbsp;Is_Active</span>
                <span class="custom-control-label"></span>
             </label>
          </div>
@@ -146,11 +150,13 @@ tr{
 			<c:forEach var="address" items="${addressList}">
                <li class="list-group-item">
                <div class="row">
-               		<div class="col-sm-3">${address.address_name}</div>
-               		<div class="col-sm-8">${address.address}</div>
+               		<div class="col-sm-3" style="margin-top:5px;">${address.address_name}</div>
+               		<div class="col-sm-8" style="margin-top:5px;">${address.address}</div>
                		<div class="col-sm-1" style="text-align:right;">
+               		<div class="g-2">
                			<button class="btn text-danger btn-sm" onclick="delete_address('${address.company_address_id}',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">
-                     	<span class="fe fe-trash-2 fs-14"></span></button>
+                     	<span class="fe fe-trash-2 fs-18"></span></button>
+                     </div>
                		</div>
                </div>
                </li>
@@ -174,14 +180,20 @@ tr{
 			<c:forEach var="con" items="${contactList}">
                <li class="list-group-item">
                <div class="row">
-               		<div class="col-sm-2">${con.contact_name}&nbsp;<span>-</span>&nbsp;${con.position}</div>
-               		<div class="col-sm-2"><i class="bi bi-telephone"></i>&nbsp;&nbsp;${con.phone}</div>
-               		<div class="col-sm-4"><i class="ti-email"></i>&nbsp;&nbsp;${con.email}</div>
-               		<div class="col-sm-3"><i class="ti-location-pin"></i>&nbsp;&nbsp;${con.address_location}</div>
-          	     	<div class="col-sm-1" style="text-align:right;">
+					<div class="col-sm-4 d-flex">
+					<span class="avatar brround cover-image " data-bs-image-src="../assets/images/users/12.jpg" style="margin-top:5px;"></span>&nbsp;&nbsp;&nbsp;
+					<span>
+							<span>${con.title_name_en} ${con.contact_name}</span><br>
+							<span class="text-muted">${con.position}</span>
+               		</span>
+               		</div>
+               		<div class="col-sm-2" style="margin-top:10px;"><i class="ti-location-pin"></i>&nbsp;&nbsp;${con.address_location}</div>
+               		<div class="col-sm-2" style="margin-top:10px;"><i class="bi bi-telephone"></i>&nbsp;&nbsp;${con.phone}</div>
+               		<div class="col-sm-3" style="margin-top:10px;"><i class="ti-email"></i>&nbsp;&nbsp;${con.email}</div>
+          	     	<div class="col-sm-1" style="text-align:right; margin-top:5px;">
                		 <div class="g-2">
                			<a class="btn text-danger btn-sm" onclick="delete_contact('${con.company_contact_id}',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">
-                     	<span class="fe fe-trash-2 fs-14"></span></a>
+                     	<span class="fe fe-trash-2 fs-18"></span></a>
                      </div>
                		</div>  
                </div>
@@ -202,17 +214,17 @@ tr{
 	</div>
 	<div class="card-body">
 		<div>
-           <ul class="list-group" id="gen_sales">
+           <ul class="list-group li_list" id="gen_sales">
 			<c:forEach var="sales" items="${salesList}">
-               <li class="list-group-item">
+               <li class="list-group-item ">
                <div class="row">
-             	<div class="col-sm-3">${sales.employee_id}&nbsp;<span>-</span>&nbsp;${sales.name_en}</div>
-               		<div class="col-sm-3"><i class="bi bi-telephone"></i>&nbsp;&nbsp;${sales.phone}</div>
-               		<div class="col-sm-5"><i class="ti-email"></i>&nbsp;&nbsp;${sales.email}</div>
+             	<div class="col-sm-6" style="margin-top:5px;">${sales.employee_id}&nbsp;<span>·</span>&nbsp;${sales.name_en}</div>
+               		<div class="col-sm-2" style="margin-top:5px;"><i class="bi bi-telephone"></i>&nbsp;&nbsp;${sales.phone}</div>
+               		<div class="col-sm-3" style="margin-top:5px;"><i class="ti-email"></i>&nbsp;&nbsp;${sales.email}</div>
           	     	<div class="col-sm-1" style="text-align:right;">
                		 <div class="g-2">
-               			<a class="btn text-danger btn-sm" onclick="delete_sales('${sales.company_contact_id}',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">
-                     	<span class="fe fe-trash-2 fs-14"></span></a>
+               			<a class="btn text-danger btn-sm" onclick="delete_sales('${sales.company_sales_id}',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">
+                     	<span class="fe fe-trash-2 fs-18"></span></a>
                      </div>
                		</div>      
                </div>
@@ -221,16 +233,16 @@ tr{
             </ul>
    </div>
 	<div  style="text-align: left; margin-top: 1rem; margin-bottom: 1.5rem;">
-		<button type="button" class="btn btn-primary" style="min-width: 5%;" data-bs-toggle="modal" data-bs-target="#SalesModal">Select Salesperson</button>
+		<button type="button" id="select_person" class="btn btn-primary" style="min-width: 5%;" data-bs-toggle="modal" data-bs-target="#SalesModal">Select Salesperson</button>
 	</div>
 	</div>
 </div>
 
 <div  style="text-align: right; margin-top: 1rem; margin-bottom: 1.5rem;">
-	<a href="company_list" type="button" class="btn btn-default" style="min-width: 5%;">Cancel</a>
-	<button  type="submit" class="btn btn-success" style="min-width: 5%;">Save</button>
+	<a href="company_list" type="button" class="btn btn-default" style="min-width: 5%;">Cancel</a>&nbsp;&nbsp;
+	<button type="submit" class="btn btn-success" style="min-width: 5%;">Save</button>
 </div>
-
+</form>
 <!-- Address Modal -->
     <div class="modal fade" id="AddressModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -243,7 +255,7 @@ tr{
                 </div>
                 <div class="modal-body">
 						<div class="form-group" style="display:none">
-							<input type="text" class="form-control" id="com_id_address" value="${company.company_id}">   
+							<input type="text" class="form-control" id="com_id_address" value="${company[0].company_id}">   
              			</div>
                     <div class="col-sm-12">
 						<div class="form-group">
@@ -278,14 +290,25 @@ tr{
                 </div>
                 <div class="modal-body">
                 		<div class="form-group" style="display:none">
-							<input type="text" class="form-control" id="com_id_contact" value="${company.company_id}">   
+							<input type="text" class="form-control" id="com_id_contact" value="${company[0].company_id}">   
              			</div>
-                    <div class="col-sm-12">
-						<div class="form-group">
+                        <div class="col-sm-12">
+			<!--		 	<div class="form-group">
 							<label class="form-label">Contact Name<span style="color:red;"> *</span></label> 
 							<input type="text" class="form-control" id="contact_name" required>   
-             			</div>
-         			</div>
+             			</div> -->
+             			<label class="form-label">Contact Name<span style="color:red;"> *</span></label> 
+                             <div class="form-group">
+                                            <div class="input-group">
+                                                <select class="form-control col-sm-3" type="button" id="contact_title_name">
+                                                    <option value="Mr.">Mr.</option>
+                                                    <option value="Ms.">Ms.</option>
+                                                    <option value="Mrs.">Mrs.</option>
+                                                </select>
+                                                <input type="text" class="form-control" id="contact_name" required >
+                                            </div>
+                                        </div>
+         			</div> 
          			<div class="col-sm-12">
 						<div class="form-group">
 							<label class="form-label">Position<span style="color:red;"> *</span></label> 
@@ -320,7 +343,7 @@ tr{
     </div>
     
 <!-- Modal sales -->
-	<div class="modal fade" id="SalesModal" tabindex="-1" role="dialog">
+ 	<div class="modal fade" id="SalesModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-xl " role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -342,7 +365,7 @@ tr{
 	                    		</tr>
 	                    	</thead>
 	                    	<tbody id="getSale">
-	                    	<c:forEach var="emp" items="${employeeList}">
+	                   	<c:forEach var="emp" items="${employeeList}">
 	                    		<tr>
 	                    			<td>
 	                    				<label class="custom-control custom-checkbox" style="margin-left: 40%;">
@@ -351,12 +374,12 @@ tr{
                                         </label>
 	                    			</td>
 	                    			<td class="emp_id">${emp.employee_id}</td>
-	                    			<td><div class="sale_name_en">${emp.name_en}</div><div class="sale_name_th" style="display:none">${emp.name_th}</div></td>
+	                    			<td><span class="sale_title">${emp.title_name_en}</span> <span class="sale_name_en">${emp.name_en}</span></td>
 	                    			<td class="sale_phone">${emp.phone}</td>
-	                    			<td><div class="sale_email">${emp.email}</div><div class="sale_company_id" style="display:none">${company.company_id}</div></td>
+	                    			<td><div class="sale_email">${emp.email}</div><div class="sale_company_id" style="display:none">${company[0].company_id}</div></td>
 	                    		</tr>
-	                    		</c:forEach>
-	                    	</tbody>
+	                    		</c:forEach>    
+	                    	</tbody> 
                     	</table>
                     </div>
                 </div>
@@ -366,7 +389,20 @@ tr{
                 </div>
             </div>
         </div>
-    </div>
+    </div>  
+<script>
+$('#fileUpload').bind('change', function() {
+	 var fs;
+	 var size = this.files[0].size;
+	 fs = $("#filesize").val(size);
+	 console.log(fs);
+});
+</script>
+<script>
+$(".dropify-clear").trigger("click" , function(){
+	console.log("CLEAR");
+});
+</script>
 <script>
 	$(document).ready(function(){
 		$("#sub_address").on('click',function(){
@@ -393,12 +429,14 @@ tr{
 		            if (inputValue != "") {
 		            	let text = '<li class="list-group-item test">'+
 						'<div class="row">'+
-						'<div class="col-sm-3">'+data.address_name+'</div>'+
-						'<div class="col-sm-8">'+data.address+'</div>'+
+						'<div class="col-sm-3" style="margin-top:5px;">'+data.address_name+'</div>'+
+						'<div class="col-sm-8" style="margin-top:5px;">'+data.address+'</div>'+
 						'<div class="col-sm-1" style="text-align:right;">'+
+						'<div class="g-2">'+
        					'<button class="btn text-danger btn-sm" onclick="delete_address('+data.company_address_id+',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">'+
-             			'<span class="fe fe-trash-2 fs-14"></span></button>'+
+             			'<span class="fe fe-trash-2 fs-18"></span></button>'+
        					'</div>'+
+             			'</div>'+
        					'</div>'+
        					'</li>';
 					$("#gen_address").append(text);
@@ -418,12 +456,13 @@ tr{
 			var con_email = $("#con_email").val();
 			var add_location = $("#add_location").val();
 			var id = $("#com_id_contact").val();
+			var title_name = $("#contact_title_name").val();
 			console.log(contact_name);
 			console.log(position);
 			console.log(con_phone);
 			console.log(con_email);
 			console.log(add_location);
-			
+			console.log(title_name);
 			$.ajax({
 				url: "add_contact" ,
 				type: "JSON",
@@ -434,7 +473,8 @@ tr{
 						"con_phone" : con_phone,
 						"con_email" : con_email,
 						"add_location" : add_location,
-						"id" : id
+						"id" : id,
+						"title_name" : title_name,
 				},
 				success:function(data){
 				console.log(data)
@@ -446,13 +486,21 @@ tr{
 		            if (inputValue != "") {
 		            	let text = '<li class="list-group-item test del">'+
 						'<div class="row">'+
-						'<div class="col-sm-2">'+data.contact_name+'&nbsp;<span>-</span>&nbsp;'+data.position+'</div>'+
-	               		'<div class="col-sm-2"><i class="bi bi-telephone"></i>&nbsp;&nbsp;'+data.phone+'</div>'+
-	               		'<div class="col-sm-4"><i class="ti-email"></i>&nbsp;&nbsp;'+data.email+'</div>'+
-	               		'<div class="col-sm-3"><i class="ti-location-pin"></i>&nbsp;&nbsp;'+data.address_location+'</div>'+
-						'<div class="col-sm-1" style="text-align:right;">'+
+						'<div class="col-sm-3 d-flex">'+
+						'<span class="avatar brround cover-image " data-bs-image-src="../assets/images/users/12.jpg" style="margin-top:5px;"></span>&nbsp;&nbsp;&nbsp;'+
+						'<span>'+
+						'<span>'+data.title_name_en+' '+data.contact_name+'</span><br>'+
+						'<span class="text-muted">'+data.position+'</span>'+
+               			'</span>'+
+               			'</div>'+
+               			'<div class="col-sm-2" style="margin-top:10px;"><i class="ti-location-pin"></i>&nbsp;&nbsp;'+data.address_location+'</div>'+
+	               		'<div class="col-sm-2" style="margin-top:10px;"><i class="bi bi-telephone"></i>&nbsp;&nbsp;'+data.phone+'</div>'+
+	               		'<div class="col-sm-4" style="margin-top:10px;"><i class="ti-email"></i>&nbsp;&nbsp;'+data.email+'</div>'+
+						'<div class="col-sm-1" style="text-align:right; margin-top:5px;">'+
+						'<div class="g-2">'+
 	   					'<a class="btn text-danger btn-sm" onclick="delete_contact('+data.company_contact_id+',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">'+
-	         			'<span class="fe fe-trash-2 fs-14"></span></a>'+
+	         			'<span class="fe fe-trash-2 fs-18"></span></a>'+
+	         			'</div>'+
 	   					'</div>'+
 	   					'</div>'+
 	   					'</li>';
@@ -460,7 +508,7 @@ tr{
 		            }
 					})
 				}
-			})
+			}) 
 		})
 	});
 </script>
@@ -520,7 +568,7 @@ function delete_contact(id,currentEl){
                 		},
                 		success:function(data){
                 			console.log(data);
-                			currentEl.parentNode.parentNode.parentNode.remove();
+                			currentEl.parentNode.parentNode.parentNode.parentNode.remove();
                 		}
                 	})
                 }
@@ -552,7 +600,7 @@ function delete_address(id,currentEl){
             		},
             		success:function(data){
             			console.log(data);
-            			currentEl.parentNode.parentNode.parentNode.remove();
+            			currentEl.parentNode.parentNode.parentNode.parentNode.remove();
             		}
             	})
             }
@@ -584,7 +632,22 @@ function delete_sales(id,currentEl){
             		},
             		success:function(data){
             			console.log(data);
-            			currentEl.parentNode.parentNode.parentNode.remove();
+            			currentEl.parentNode.parentNode.parentNode.parentNode.remove();
+            			
+            	//------------------------------- HERE-------------------------------------------		
+            			var ul = document.querySelector("#gen_sales");
+            			var liNodes = [];
+            			for (var i = 0; i < ul.childNodes.length; i++) {
+            				if (ul.childNodes[i].nodeName == "LI") {
+            					liNodes.push(ul.childNodes[i]);
+            				}
+            			}
+            				if(liNodes.length >= 3){
+            					document.getElementById('select_person').disabled = true;
+            				}else{
+            					document.getElementById('select_person').disabled = false;
+            				}
+            	
             		}
             	})
             }
@@ -611,15 +674,50 @@ $('#myTable').DataTable({
 </script>
 <script>
 $(document).ready(function(){
+	$('#select_person').on('click',function(){
+	var ul = document.querySelector("#gen_sales");
+	var liNodes = [];
+	for (var i = 0; i < ul.childNodes.length; i++) {
+		if (ul.childNodes[i].nodeName == "LI") {
+			liNodes.push(ul.childNodes[i]);
+		}
+	}
+	//console.log(liNodes.length);
 	var checks = document.querySelectorAll(".chk");
 	var max = 3;
 	for (var i = 0; i < checks.length; i++)
 	  checks[i].onclick = selectiveCheck;
 	function selectiveCheck (event) {
 	  var checkedChecks = document.querySelectorAll(".chk:checked");
-	  if (checkedChecks.length >= max + 1)
+	 // console.log(checkedChecks.length);
+	  console.log(liNodes.length + checkedChecks.length);
+	  if (liNodes.length + checkedChecks.length >= max + 1){
 	    return false;
+	  }
+	  if(liNodes.length + checkedChecks.length >= 3){
+			document.getElementById('select_person').disabled = true;
+		}else{
+			document.getElementById('select_person').disabled = false;
+		} 
 	}
+	})
+})
+</script>
+<script>	
+$(document).ready(function(){
+var ul = document.querySelector("#gen_sales");
+var liNodes = [];
+for (var i = 0; i < ul.childNodes.length; i++) {
+	if (ul.childNodes[i].nodeName == "LI") {
+		liNodes.push(ul.childNodes[i]);
+	}
+}
+	if(liNodes.length >= 3){
+		document.getElementById('select_person').disabled = true;
+	}else{
+		document.getElementById('select_person').disabled = false;
+	}
+console.log(liNodes.length);
 })
 </script>
 <script>
@@ -627,14 +725,12 @@ function selectSale(){
 	var getSaleList = []
 $('#myTable tr').each(function() {
     $(this).find(".chk:checked").each(function() {
-        let values = { 'employee_id' :  $(this).closest("tr").find('td.emp_id').text(),'name_en' :  $(this).closest("tr").find('div.sale_name_en').text(),
-        				'name_th' :  $(this).closest("tr").find('div.sale_name_th').text(), 'phone' :  $(this).closest("tr").find('td.sale_phone').text(),
+        let values = { 'employee_id' :  $(this).closest("tr").find('td.emp_id').text(),'name_en' :  $(this).closest("tr").find('span.sale_name_en').text(),
+        				'title_name_en' :  $(this).closest("tr").find('span.sale_title').text(), 'phone' :  $(this).closest("tr").find('td.sale_phone').text(),
         				'email' :  $(this).closest("tr").find('div.sale_email').text() , 'company_id' : $(this).closest("tr").find('div.sale_company_id').text()}
         getSaleList.push(values);
     });
 });
-    console.log(getSaleList.length);
-    console.log(getSaleList[0].employee_id);
     $.ajax({
     	url : 'add_sales',
     	typr: 'JSON',
@@ -654,20 +750,24 @@ $('#myTable tr').each(function() {
 		for(var i=0; i<getSaleList.length;i++){
             	text += '<li class="list-group-item test del">'+
 						'<div class="row">'+
-						'<div class="col-sm-3">'+getSaleList[i].employee_id+'&nbsp;<span>-</span>&nbsp;'+getSaleList[i].name_en+'</div>'+
-           				'<div class="col-sm-3"><i class="bi bi-telephone"></i>&nbsp;&nbsp;'+getSaleList[i].phone+'</div>'+
-           				'<div class="col-sm-5"><i class="ti-email"></i>&nbsp;&nbsp;'+getSaleList[i].email+'</div>'+
+						'<div class="col-sm-3" style="margin-top:5px;">'+getSaleList[i].employee_id+'&nbsp;<span>·</span>&nbsp;'+getSaleList[i].name_en+'</div>'+
+           				'<div class="col-sm-3" style="margin-top:5px;"><i class="bi bi-telephone"></i>&nbsp;&nbsp;'+getSaleList[i].phone+'</div>'+
+           				'<div class="col-sm-5" style="margin-top:5px;"><i class="ti-email"></i>&nbsp;&nbsp;'+getSaleList[i].email+'</div>'+
 						'<div class="col-sm-1" style="text-align:right;">'+
+						'<div class="g-2">'+
 						'<a class="btn text-danger btn-sm" onclick="delete_sales('+data[i]+',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">'+
-     					'<span class="fe fe-trash-2 fs-14"></span></a>'+
+     					'<span class="fe fe-trash-2 fs-18"></span></a>'+
+     					'</div> '+
 					'</div>'+
 					'</div>'+
 					'</li>';
 				}
 			$("#gen_sales").append(text);
+			
             }
 			})
     	}
     })
 }
 </script>
+
