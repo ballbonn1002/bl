@@ -49,32 +49,40 @@ tr{
 				<tbody>
 				<c:forEach var="com" items="${companyList}">
 					<tr>
+					
 						<td style="text-align: center;"> </td>
-						<td>${com.company_en}</td>
-						<td>${com.company_code}</td>
-						<td><c:choose>
-							<c:when test="${com.status == 0}">Customers</c:when>
-							<c:when test="${com.status == 1}">Partners</c:when>
-							<c:when test="${com.status == 2}">Financial</c:when>
-							<c:when test="${com.status == 3}">Legal</c:when>
-							<c:when test="${com.status == 4}">Leadership and Peer Mentors</c:when>
-							<c:when test="${com.status == 5}">Employees</c:when>
-						</c:choose></td>
-						<td><label class="custom-control custom-checkbox" style="margin-left: 45%;">
-                           <input id="${com.company_id}" type="checkbox" class="custom-control-input"  onchange = "Change('${com.company_id}')"
-    						<c:if test ="${com.is_active == 1}">checked</c:if>>
-    						<span class="custom-control-label"></span>
-						</label></td>
 						<td>
-                         <div style="text-align: center;">
-                         <div class="g-2">
-                            <a href="EditCompany?id=${com.company_id}" class="btn text-primary btn-sm" data-bs-toggle="tooltip" data-bs-original-title="Edit">
-                            	<span class="fe fe-edit fs-14"></span></a>
-                            <a class="btn text-danger btn-sm" data-bs-toggle="tooltip" onclick="del('${com.company_id}')" data-bs-original-title="Delete">
-                           	 	<span class="fe fe-trash-2 fs-14"></span></a>
-                         </div>
+						<div class="d-flex">
+							<span class="avatar avatar bradius cover-image" style="max-width:100%;" data-bs-image-src="${com.path}"></span>&nbsp;&nbsp;<span class="ms-3 mt-0 mt-sm-2 d-block">${com.company_en}</span>
+						</div>
+						</td>
+						<td><div class="d-flex">
+							<div class="ms-3 mt-0 mt-sm-2 d-block">${com.company_code}</div>
+						</div></td>
+						<td><div class="d-flex"><c:choose>
+							<c:when test="${com.status == 0}"><div class="ms-3 mt-0 mt-sm-2 d-block">Customers</div></c:when>
+							<c:when test="${com.status == 1}"><div class="ms-3 mt-0 mt-sm-2 d-block">Partners</div></c:when>
+							<c:when test="${com.status == 2}"><div class="ms-3 mt-0 mt-sm-2 d-block">Financial</div></c:when>
+							<c:when test="${com.status == 3}"><div class="ms-3 mt-0 mt-sm-2 d-block">Legal</div></c:when>
+							<c:when test="${com.status == 4}"><div class="ms-3 mt-0 mt-sm-2 d-block">Leadership and Peer Mentors</div></c:when>
+							<c:when test="${com.status == 5}"><div class="ms-3 mt-0 mt-sm-2 d-block">Employees</div></c:when>
+						</c:choose></div></td>
+						<td><div class="d-flex"><label class="custom-control custom-checkbox" style="margin-left: 45%;">
+                           <input id="${com.company_id}" type="checkbox" class="custom-control-input ms-3 mt-0 mt-sm-2 d-block"  onchange = "Change('${com.company_id}')"
+    						<c:if test ="${com.is_active == 1}">checked</c:if>>
+    						<span class="custom-control-label ms-3 mt-0 mt-sm-2 d-block"></span>
+						</label></div></td>
+						<td>
+                         	<div style="text-align: center;">
+                         		<div class="g-2">
+                           			 <a href="EditCompany?id=${com.company_id}" class="btn text-primary btn-sm" data-bs-toggle="tooltip" data-bs-original-title="Edit">
+                            			<span class="fe fe-edit fs-18"></span></a>
+                            		<a class="btn text-danger btn-sm" data-bs-toggle="tooltip" onclick="del('${com.company_id}')" data-bs-original-title="Delete">
+                           	 			<span class="fe fe-trash-2 fs-18"></span></a>
+                         		</div>
                          </div>
                          </td>
+                        
 					</tr>
 				</c:forEach>   
 				</tbody>
@@ -119,6 +127,10 @@ var t = $('.myTable').DataTable({
                 searchable: false,
                 orderable: true,
                 targets: 0,
+            },
+            {
+            	targets: 5,
+            	orderable: false
             },
         ],
         order: [[1, 'asc']],

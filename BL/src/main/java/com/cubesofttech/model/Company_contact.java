@@ -19,6 +19,9 @@ public class Company_contact implements Serializable{
 	@Column(name="company_id")
 	public String company_id;
 	
+	@Column(name="title_name_en")
+	public String title_name_en;
+	
 	@Column(name="contact_name")
 	public String contact_name;
 	
@@ -48,6 +51,15 @@ public class Company_contact implements Serializable{
 	
 	@Column(name="time_update")
 	public java.sql.Timestamp time_update;
+
+	
+	public String getTitle_name_en() {
+		return title_name_en;
+	}
+
+	public void setTitle_name_en(String title_name_en) {
+		this.title_name_en = title_name_en;
+	}
 
 	public String getCompany_contact_id() {
 		return company_contact_id;

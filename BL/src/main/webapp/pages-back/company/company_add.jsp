@@ -17,6 +17,7 @@
         </ol>
     </div>
 </div>
+<form action="add" method="POST" enctype="multipart/form-data">
 <div class="card">
 	<div class="card-header">
 		<div class="card-title">Company Information</div>
@@ -25,7 +26,8 @@
 		<div class="row">
 			<div class="col-lg-4 col-sm-12 mb-4 mb-lg-0" ></div>
 			<div class="col-lg-4 col-sm-12 mb-4 mb-lg-0" >
-           		<input style="text-align:center;" type="file" class="dropify"  data-bs-height="180" />
+           		<input style="text-align:center;"  name="fileUpload" id="fileUpload" type="file" class="dropify" accept="image/x-png,image/gif,image/jpeg" data-bs-height="180"/>
+           		<input style="display:none;" id="filesize" name="filesize" type="text" value="">
     		</div>
 
     	<div class="col-sm-6 " style="margin-top:30px">
@@ -40,7 +42,7 @@
 			<div class="form-group">
 					<label class="form-label">Tax ID<span style="color:red;"> *</span></label> 
 					<div class="input-group mb-3">
-							<input type="text" class="form-control"  id="tax" required>  
+							<input type="text" class="form-control" name="tax" id="tax" required>  
                     </div>  
               </div>
          </div>
@@ -48,7 +50,7 @@
 			<div class="form-group">
 					<label class="form-label">Company Name EN<span style="color:red;"> *</span></label> 
 					<div class="input-group mb-3">
-							<input type="text" class="form-control" id="name_en" required>  
+							<input type="text" class="form-control" name="name_en" id="name_en" required>  
                     </div>  
               </div>
          </div>
@@ -56,14 +58,14 @@
 			<div class="form-group">
 					<label class="form-label">Company Name TH<span style="color:red;"> *</span></label> 
 					<div class="input-group mb-3">
-							<input type="text" class="form-control" id="name_th" required>  
+							<input type="text" class="form-control" name="name_th" id="name_th" required>  
                     </div>  
               </div>
          </div>
          <div class="col-sm-6 ">
 			<div class="form-group">
 					<label class="form-label">Industry<span style="color:red;"> *</span></label> 
-					<select class="form-control form-select select2" data-placeholder="Select" id="industry" required>
+					<select class="form-control form-select select2" data-placeholder="Select" name="industry" id="industry" required>
 						<option label = "Select"></option>
 						<option value="0">Agro & Food Industry</option>
 						<option value="1">Consumer Products</option>
@@ -79,7 +81,7 @@
          <div class="col-sm-6 ">
 			<div class="form-group">
 					<label class="form-label">Status<span style="color:red;"> *</span></label> 
-					<select class="form-control select2 form-select" data-placeholder="Select" id="status" required>
+					<select class="form-control select2 form-select" data-placeholder="Select" name="status" id="status" required>
 						<option label = "Select"></option>
 						<option value="0">Customers</option>
 						<option value="1">Partners</option>
@@ -94,13 +96,13 @@
 			<div class="form-group">
 					<label class="form-label">Website</label> 
 					<div class="input-group mb-3">
-							<input type="text" class="form-control"  id="website">  
+							<input type="text" class="form-control" id="website">  
                     </div>  
               </div>
          </div>
          <div class="col-sm-2">
          	<label class="custom-control custom-checkbox">
-               <input name="is_active" type="checkbox" class="custom-control-input" id="is_active"><span class="form-label">&nbsp;Is_Active</span>
+               <input name="is_active" type="checkbox" class="custom-control-input" name="is_active" id="is_active"><span class="form-label">&nbsp;Is_Active</span>
                <span class="custom-control-label"></span>
             </label>
          </div>
@@ -109,11 +111,28 @@
 </div>
 <div  style="text-align: right; margin-top: 1rem; margin-bottom: 1.5rem;">
 	<a href="company_list" type="button" class="btn btn-default" style="min-width: 5%;">Cancel</a>
-	<button type="submit" id="submit" class="btn btn-success" style="min-width: 5%;">Save</button>
+	<button type="submit" id="submit" class="btn btn-success" onclick="redirect()" style="min-width: 5%;">Save</button>
 </div>
-
+</form>
 <script>
+function redirect(){
+    window.location.href = "company_edit.jsp";
+    return false;
+}
+</script>
+<script>
+$('#fileUpload').bind('change', function() {
+	 var fs;
+	 var size = this.files[0].size;
+	 fs = $("#filesize").val(size);
+	 console.log(fs);
+})
+</script>
+<script>
+/*
 $(document).ready(function(){
+	var size;
+
 	$("#submit").on('click', function(){
 	var code = $("#code").val();
 	var tax = $("#tax").val();
@@ -123,7 +142,15 @@ $(document).ready(function(){
 	var status = $("#status").val();
 	var is_active = $("#is_active").val();
 	var website = $("#website").val();
+	var fileUpload = $("#fileUpload").val();
 	
+	const input = document.querySelector('#fileUpload');
+	const formData = new FormData();
+	formData.append('tax_file', $('input[type=file]')[0].files[0]);
+	console.log(formData);
+	
+	console.log(code);
+	console.log(fileUpload);
 	$.ajax({
 		url: "add" ,
 		type: "JSON",
@@ -135,13 +162,15 @@ $(document).ready(function(){
 				"industry" : industry , 
 				"status" : status ,
 				"is_active" : is_active , 
-				"website" : website
+				"website" : website , 
+				"fileUpload" : fileUpload,
+				"size" : size
 		},
 		success:function(data){
 			console.log(data);
 			window.location.href = "EditCompany?id=" + data.company_id;
 		}
+	})  
 	})
-	})
-})
+})  */
 </script>

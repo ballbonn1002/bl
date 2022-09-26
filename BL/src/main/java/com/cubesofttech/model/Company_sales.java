@@ -26,8 +26,8 @@ public class Company_sales implements Serializable{
 	@Column(name="name_en")
 	public String name_en;
 	
-	@Column(name="name_th")
-	public String name_th;
+	@Column(name="title_name_en")
+	public String title_name_en;
 	
 	@Column(name="email")
 	public String email;
@@ -82,12 +82,12 @@ public class Company_sales implements Serializable{
 		this.name_en = name_en;
 	}
 
-	public String getName_th() {
-		return name_th;
+	public String getTitle_name_en() {
+		return title_name_en;
 	}
 
-	public void setName_th(String name_th) {
-		this.name_th = name_th;
+	public void setTitle_name_en(String title_name_en) {
+		this.title_name_en = title_name_en;
 	}
 
 	public String getEmail() {
@@ -145,7 +145,5 @@ public class Company_sales implements Serializable{
 	public void setTime_update(java.sql.Timestamp time_update) {
 		this.time_update = time_update;
 	}
-	
-	
-	
 }
+	

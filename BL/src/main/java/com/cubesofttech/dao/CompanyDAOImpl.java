@@ -44,7 +44,7 @@ public class CompanyDAOImpl implements CompanyDAO{
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Company> companyList = null;
 		try {
-			String sql = " SELECT * FROM company order by company_id ;";
+			String sql = " SELECT company.* , file.path FROM company JOIN file on company.file_id = file.file_id order by company.company_id ;";
 					
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
@@ -65,6 +65,21 @@ public class CompanyDAOImpl implements CompanyDAO{
 	    }finally{
 	    }        
 	    return company;
+	}
+	@Override
+	public List<Company> findByCompany_ID(String id) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Company> companyList = null;
+		try {
+			String sql = "SELECT company.* , file.path FROM company JOIN file ON file.file_id = company.file_id WHERE company.company_id = '"+id+"';";
+					
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			companyList = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return companyList;
 	}
 
 }
