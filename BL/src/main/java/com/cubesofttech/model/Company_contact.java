@@ -19,6 +19,9 @@ public class Company_contact implements Serializable{
 	@Column(name="company_id")
 	public String company_id;
 	
+	@Column(name="title_name_en")
+	public String title_name_en;
+	
 	@Column(name="contact_name")
 	public String contact_name;
 	
@@ -144,6 +147,17 @@ public class Company_contact implements Serializable{
 	public void setTime_update(java.sql.Timestamp time_update) {
 		this.time_update = time_update;
 	}
+	public String getTitle_name_en() {
+		return title_name_en;
+	}
+
+	public void setTitle_name_en(String title_name_en) {
+		this.title_name_en = title_name_en;
+	}
+
+	public String toString() {
+        return super.toString() + "id=[" + company_contact_id + "]\n" + "company_id=[" + company_id + "]\n" + "contact_name=[" + contact_name + "]\n" + "position=[" + position + "]\n" + "phone=[" + phone + "]\n"+ "email=[" + email + "]\n" + "address_location=[" + address_location + "]\n"+ "description=[" + description + "]\n";
+    }
 	
 	
 }
