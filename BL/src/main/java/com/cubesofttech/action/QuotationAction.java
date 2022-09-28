@@ -1,6 +1,11 @@
 package com.cubesofttech.action;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,58 +15,396 @@ import org.apache.struts2.ServletActionContext;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.cubesofttech.dao.CompanyDAO;
+import com.cubesofttech.dao.Company_addressDAO;
+import com.cubesofttech.dao.Company_contactDAO;
+import com.cubesofttech.dao.EmployeeDAO;
+import com.cubesofttech.dao.OrderDAO;
+import com.cubesofttech.dao.QuotationDAO;
+import com.cubesofttech.dao.QuotationSaleDAO;
+import com.cubesofttech.dao.Quotation_addressDAO;
+import com.cubesofttech.model.Company;
+import com.cubesofttech.model.Company_address;
+import com.cubesofttech.model.Company_contact;
+import com.cubesofttech.model.Employee;
+import com.cubesofttech.model.Order;
+import com.cubesofttech.model.Quotation;
+import com.cubesofttech.model.QuotationSale;
+import com.cubesofttech.model.Quotation_address;
+import com.cubesofttech.model.Sysuser;
+import com.cubesofttech.util.DateUtil;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class QuotationAction extends ActionSupport{
-	private static final Logger log = Logger.getLogger(Sys_roleAction.class);
+	private static final Logger log = Logger.getLogger(QuotationAction.class);
 	private static final long serialVersionUID = 1L;
+	
+	@Autowired
+	public QuotationDAO quotationDAO;
+	
+	@Autowired
+	public QuotationSaleDAO quotationSaleDAO;
+	
+	@Autowired
+	public OrderDAO orderDAO;
+	
+	@Autowired
+	public CompanyDAO companyDAO;
+	
+	@Autowired
+	public Company_contactDAO company_contactDAO;
+	
+	@Autowired
+	public Company_addressDAO company_addressDAO;
+	
+	@Autowired
+	public EmployeeDAO employeeDAO;
+	
+	@Autowired
+	public Quotation_addressDAO quotation_addressDAO;
 	
 	HttpServletRequest request = ServletActionContext.getRequest();
 	HttpServletResponse response = ServletActionContext.getResponse();
 	
+	public String listQuotation() {
+		try {
+			List<Quotation> quotationList = quotationDAO.listQuotation();
+			log.debug(quotationList);
+			request.setAttribute("quotationList", quotationList);
+			return SUCCESS;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
+	
+	public String delelteQuotation() {
+		try {
+			String id = request.getParameter("quotation_id");
+			log.debug(id);
+			
+			Quotation quotation = quotationDAO.findById(id);
+			//log.debug(quotation);
+			quotationDAO.delete(quotation);
+			
+			quotationSaleDAO.deleteByQuotationId(id);
+			orderDAO.deleteByQuotationId(id);
+			
+			List<Quotation> quotationList = quotationDAO.listQuotation();
+			//log.debug(quotationList);
+			request.setAttribute("quotationList", quotationList);
+			
+			 Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			 String json = gson.toJson("Delete Success!!");
+			 request.setAttribute("json", json);
+			 
+			 return SUCCESS;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
+	
 	public String saveQuotation() {
 		try {
+			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser"); // Username login log.debug(ur);
+			String loginUser = ur.getSys_user_id(); // Username login
+			
+			String status = "1";
+			
 			String id = request.getParameter("id");
+			
 			String start = request.getParameter("start");
+			//log.debug(start);
+			SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+			java.util.Date date = sdf1.parse(start);
+			java.sql.Date sqlStartDate = new java.sql.Date(date.getTime()); 
+			log.debug(sqlStartDate);
+			 
 			String end = request.getParameter("end");
+			SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
+			java.util.Date date2 = sdf2.parse(end);
+			java.sql.Date sqlEndDate = new java.sql.Date(date2.getTime()); 
+			log.debug(sqlEndDate);
+			
+			String company_id = request.getParameter("company_id");
 			String tax = request.getParameter("tax");
 			String contact = request.getParameter("contact");
 			String email = request.getParameter("email");
 			String phone1 = request.getParameter("phone1");
 			String phone2 = request.getParameter("phone2");
 			String customer = request.getParameter("customer");
+			String salesperson = request.getParameter("salesperson");
 			String orderList = request.getParameter("orderList");
-			String saleList = request.getParameter("saleList");
+			//String saleList = request.getParameter("saleList");
 			String addressList = request.getParameter("addressList");
 			String description = request.getParameter("description");
-			String sub_total = request.getParameter("sub_total");
-			String dc_percent = request.getParameter("dc_percent");
-			String discount = request.getParameter("discount");
-			String sum_discount = request.getParameter("sum_discount");
 			String tax_type = request.getParameter("tax_type");
+			
+			String sub = request.getParameter("sub_total");
+			BigDecimal sub_total = new BigDecimal(sub);
+			
+			BigDecimal discount_percent;
+			String dc_percent = request.getParameter("dc_percent");
+			if(dc_percent.equals("")) {
+				discount_percent = new BigDecimal(0.00);
+			}else {
+				discount_percent = new BigDecimal(dc_percent);
+			}
+			
+			
+			String dc = request.getParameter("discount");
+			BigDecimal discount;
+			if(dc.equals("")) {
+				discount = new BigDecimal(0.00);
+			}else{
+				discount = new BigDecimal(dc);
+			}
+			
+			String more_dc = request.getParameter("sum_discount");
+			BigDecimal more_discount;
+			if(more_dc.equals("")) {
+				more_discount = new BigDecimal(0.00);
+			}else {
+				more_discount = new BigDecimal(more_dc);
+			}
+			
+			
+			
 			String vat = request.getParameter("vat");
+			BigDecimal percent_tax;
+			if(vat.equals("")) {
+				percent_tax = new BigDecimal(0.00);
+			}else {
+				percent_tax = new BigDecimal(vat);
+			}
+			
 			String total_vat = request.getParameter("total_vat");
-			String grand_total = request.getParameter("grand_total");
+			BigDecimal total_tax;
+			if(total_vat.equals("")) {
+				total_tax = new BigDecimal(0.00);
+			}else {
+				total_tax = new BigDecimal(total_vat);
+			}
+			
+			String grand = request.getParameter("grand_total");
+			BigDecimal grand_total = new BigDecimal(grand);
+			
 			log.debug(id);
-			log.debug(orderList);
-			log.debug(orderList.getClass());
+			log.debug(company_id);
+			log.debug(tax);
+			log.debug(contact);  //ไอดีของ contact นั้น
+			log.debug(email);
+			log.debug(phone1);
+			log.debug(phone2);
+			log.debug(customer);
+			log.debug(salesperson);
+			log.debug(description);
+			log.debug(sub_total);
+			log.debug(dc_percent);
+			log.debug(discount);
+			log.debug(more_dc);
+			log.debug(tax_type);
+			log.debug(vat);
+			log.debug(total_vat);
+			log.debug(grand);
+			//log.debug(addressList);
+			
+			
+			
+			JSONParser parserAddress = new JSONParser();
+			JSONArray listOfAddress = (JSONArray) parserAddress.parse(addressList);
+			log.debug(listOfAddress);
+			for(int i = 0; i < listOfAddress.size();i++) {
+				Quotation_address address = new Quotation_address();
+				Map<String, Object> map_address  = (Map<String, Object>) listOfAddress.get(i);
+				Integer pMaxId = quotation_addressDAO.getMaxId() + 1;
+				
+				address.setQuotation_address_id(pMaxId);
+				address.setQuotation_id(id);
+				address.setAddress_name(map_address.get("address_name").toString());
+				address.setAddress(map_address.get("address_detail").toString());
+				address.setDelivery_check(map_address.get("delivery_address").toString());
+				address.setUser_create(loginUser);
+				address.setUser_update(loginUser);
+				address.setTime_create(DateUtil.getCurrentTime());
+				address.setTime_update(DateUtil.getCurrentTime());
+				
+				quotation_addressDAO.save(address);
+			}
+			
+			
+			
+			Company_contact contactInfo = company_contactDAO.findById(contact);
+			String contact_name = contactInfo.getContact_name();
+			
+			
+			List<Employee> employee = employeeDAO.findByEmployee_id(salesperson);
+			log.debug(employee.get(0));
+			Map<String, Object> map_employee  = (Map<String, Object>) employee.get(0);
+			String sale = map_employee.get("name_en").toString();
+			log.debug(sale);
+			
+			Quotation quotation = new Quotation();
+			quotation.setQuotation_id(id);
+			quotation.setCompany_id(company_id);
+			quotation.setCompany_name(customer);
+			quotation.setContact_name(contact_name);
+			quotation.setTax_number(tax);
+			quotation.setEmail(email);
+			quotation.setPhone(phone1);
+			if(!phone2.equals("")) {
+				quotation.setPhone_2(phone2);
+			}
+			quotation.setStart_date(sqlStartDate);
+			quotation.setEnd_date(sqlEndDate);
+			quotation.setSaleperson(sale);
+			if(!description.equals("")) {
+				quotation.setDescription(description);
+			}
+			quotation.setSub_total(sub_total);
+			if(!dc.equals("")) {
+				quotation.setDiscount(discount);
+			}
+			if(!dc_percent.equals("")) {
+				quotation.setPercent_discount(discount_percent);
+			}
+			if(!more_dc.equals("")) {
+				quotation.setAdditional_discounts(more_discount);
+			}
+			quotation.setTax_type(tax_type);
+			if(!vat.equals("")) {
+				quotation.setPercent_tax(percent_tax);
+			}
+			if(!total_vat.equals("")) {
+				quotation.setTax(total_tax);
+			}
+			quotation.setGrand_total(grand_total);
+			quotation.setQuotation_status(status);
+			quotation.setUser_create(loginUser);
+			quotation.setUser_update(loginUser);
+			quotation.setTime_create(DateUtil.getCurrentTime());
+			quotation.setTime_update(DateUtil.getCurrentTime());
+			quotationDAO.save(quotation);
 			
 			JSONParser parser = new JSONParser();
 			JSONArray listOfOrder = (JSONArray) parser.parse(orderList);
 			log.debug(listOfOrder);
-			log.debug(listOfOrder.get(0));
-			
-			/*JSONParser parser = new JSONParser();
-			JSONArray a = (JSONArray) parser.parse(orderList);
-			ArrayList<String> orderListarr = new ArrayList<String>();
-			
-			for (Object o : a) {
-				JSONObject user = (JSONObject) o;
-				orderListarr.add((String) user.get("sys_user_id"));
+			for(int i = 0; i < listOfOrder.size();i++) {
+				Order quotationOrder = new Order();
+				Map<String, Object> map_order  = (Map<String, Object>) listOfOrder.get(i);
+				Integer pMaxId = orderDAO.getMaxId() + 1;
+				log.debug(pMaxId);
+				
+				quotationOrder.setOrder_id(pMaxId);
+				quotationOrder.setQuotation_id(id);
+				
+				quotationOrder.setName(map_order.get("product_name").toString());
+				log.debug(map_order.get("product_name").toString());
+				
+				quotationOrder.setDescription(map_order.get("description").toString());
+				log.debug(map_order.get("description").toString());
+				
+				String quantity = map_order.get("quantity").toString();
+				Integer many = new Integer(quantity);
+				log.debug(quantity);
+				log.debug(many.getClass());
+				quotationOrder.setQuantity(many);
+				
+				BigDecimal price = new BigDecimal(map_order.get("unit_price").toString());
+				log.debug(price);
+				log.debug(price.getClass());
+				quotationOrder.setUnit_price(price);
+				
+				BigDecimal total = new BigDecimal(map_order.get("total").toString());
+				log.debug(total);
+				log.debug(total.getClass());
+				quotationOrder.setTotal(total);
+				
+				
+				quotationOrder.setUser_create(loginUser);
+				quotationOrder.setUser_update(loginUser);
+				quotationOrder.setTime_create(DateUtil.getCurrentTime());
+				quotationOrder.setTime_update(DateUtil.getCurrentTime());
+				log.debug(quotationOrder.toString());
+				orderDAO.save(quotationOrder);
 			}
-			log.debug(userListarr);*/
 			
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			 String json = gson.toJson("success");
+			 request.setAttribute("json", json);
+			
+			return SUCCESS;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
+	public String listForQuotation_add() {
+		try {
+			List<Company> companyList = companyDAO.findAllCompany();
+			log.debug(companyList);
+			request.setAttribute("companyList", companyList);
+			
+			List<Employee> employeeList = employeeDAO.findAll();
+			log.debug(employeeList);
+			request.setAttribute("employeeList", employeeList);
+			
+			
+			return SUCCESS;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
+	public String listContactCompany() {
+		try {
+			String id = request.getParameter("id");
+			log.debug(id);
+			List<Company_contact> contactList = company_contactDAO.findByCompany_id(id);
+			log.debug(contactList);
+			
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			 String json = gson.toJson(contactList);
+			 request.setAttribute("json", json);
+			return SUCCESS;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
+	
+	public String findDataContact() {
+		try {
+			String id = request.getParameter("contact_id");
+			log.debug(id);
+			Company_contact contactInfo = company_contactDAO.findById(id);
+			log.debug(contactInfo.toString());
+			
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			 String json = gson.toJson(contactInfo);
+			 request.setAttribute("json", json);
+			return SUCCESS;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
+	
+	public String listofAddressCompany() {
+		try {
+			String id = request.getParameter("company_id");
+			log.debug(id);
+			List<Company_address> addressList = company_addressDAO.findByCompayny_id(id);
+			log.debug(addressList);
+			
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			 String json = gson.toJson(addressList);
+			 request.setAttribute("json", json);
 			return SUCCESS;
 		}catch(Exception e) {
 			e.printStackTrace();

@@ -10,6 +10,7 @@ import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.cubesofttech.model.Company;
+import com.cubesofttech.model.Sys_role;
 
 @Repository
 public class CompanyDAOImpl implements CompanyDAO{
@@ -73,6 +74,20 @@ public class CompanyDAOImpl implements CompanyDAO{
 		try {
 			String sql = "SELECT company.* , file.path FROM company JOIN file ON file.file_id = company.file_id WHERE company.company_id = '"+id+"';";
 					
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			companyList = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return companyList;
+	}
+	@Override
+	public List<Company> findAllCompany() throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Company> companyList = null;
+		try {
+			String sql = "SELECT * FROM company";
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			companyList = query.list();

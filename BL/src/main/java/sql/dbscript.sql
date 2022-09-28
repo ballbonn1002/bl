@@ -166,3 +166,4 @@ ALTER TABLE `company_sales` ADD `title_name_en` VARCHAR(32) CHARACTER SET utf8 C
 ALTER TABLE order CHANGE quantity quantity INT(10) NOT NULL;
 RENAME TABLE billing.order TO billing.quotation_order;
 ALTER TABLE company_contact ADD title_name_en VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER company_id;
+ALTER TABLE `quotation` ADD `title_name_en` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `company_name`;
