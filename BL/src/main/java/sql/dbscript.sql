@@ -167,3 +167,7 @@ ALTER TABLE order CHANGE quantity quantity INT(10) NOT NULL;
 RENAME TABLE billing.order TO billing.quotation_order;
 ALTER TABLE company_contact ADD title_name_en VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER company_id;
 ALTER TABLE `quotation` ADD `title_name_en` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `company_name`;
+
+--29/09/2022 Guy
+ALTER TABLE `sys_user` CHANGE `name_th` `name` VARCHAR(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
+ALTER TABLE `sys_user` ADD `title`  VARCHAR(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `image`;
