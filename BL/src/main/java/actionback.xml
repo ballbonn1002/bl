@@ -330,17 +330,38 @@
 		
 		<!-- Quotation -->
 		<action name="quotation_list"
-			class="com.cubesofttech.action.Sys_roleAction" method="">
+			class="com.cubesofttech.action.QuotationAction" method="listQuotation">
 			<result name="success" type="tiles">quotation_list</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		<action name="quotation_add"
-			class="com.cubesofttech.action.Sys_roleAction" method="">
+			class="com.cubesofttech.action.QuotationAction" method="listForQuotation_add">
 			<result name="success" type="tiles">quotation_add</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		
 		<action name="saveQuotation"
 			class="com.cubesofttech.action.QuotationAction" method="saveQuotation">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="quotation_delete"
+			class="com.cubesofttech.action.QuotationAction" method="delelteQuotation">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="listContact"
+			class="com.cubesofttech.action.QuotationAction" method="listContactCompany">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="findDataContact"
+			class="com.cubesofttech.action.QuotationAction" method="findDataContact">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="listofAddressCompany"
+			class="com.cubesofttech.action.QuotationAction" method="listofAddressCompany">
 			<result name="success" >/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
@@ -411,7 +432,7 @@
 		</action>
 		<action name="add"
 			class="com.cubesofttech.action.CompanyAction" method="form_add">
-			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="success" type="redirectAction">EditCompany?company_ID=${company_ID}</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		<action name="company_edit"
@@ -457,6 +478,11 @@
 		<action name="Sales_delete"
 			class="com.cubesofttech.action.CompanyAction" method="Sales_delete">
 			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="update_information"
+			class="com.cubesofttech.action.CompanyAction" method="update_information">
+			<result name="success" type="redirectAction">EditCompany?company_ID=${company_ID}</result>
 			<result name="error">/index.jsp</result>
 		</action>
 	</package>

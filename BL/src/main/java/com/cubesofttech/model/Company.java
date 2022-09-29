@@ -17,6 +17,9 @@ public class Company implements Serializable{
 	@Column(name="company_id")
 	public String company_id;
 	
+	@Column(name="file_id")
+	public Integer file_id;
+	
 	@Column(name="company_code")
 	public String company_code;
 	
@@ -62,6 +65,14 @@ public class Company implements Serializable{
 
 	public void setCompany_id(String company_id) {
 		this.company_id = company_id;
+	}
+	
+	public Integer getFile_id() {
+		return file_id;
+	}
+
+	public void setFile_id(Integer file_id) {
+		this.file_id = file_id;
 	}
 
 	public String getCompany_code() {

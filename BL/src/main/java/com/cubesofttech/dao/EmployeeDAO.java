@@ -18,5 +18,7 @@ public void save(Employee employee) throws Exception;
     public List<Employee> findAll() throws Exception;
     public List<Employee> findAllEmployee() throws Exception;
     
-    public Employee findById(String Employee_id) throws Exception;
+    public List<Employee> findNotInCompany_Sales(String id) throws Exception;
+    
+    public Employee findById(String employee_id) throws Exception;
 }
