@@ -46,19 +46,18 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 	@Override
 	public List<Map<String, Object>> findByEmployee_id(String id) throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
-		List<Employee> employeeList = null;
-		List id1 = null;
+		List<Map<String, Object>>  employeeList = null;
 		try {
-			String sql = " SELECT * FROM position WHERE Employee_id = :id ";
+			String sql = " SELECT * FROM employee WHERE employee_id = '"+id+"' ";
 					
 			SQLQuery query = session.createSQLQuery(sql);
-			query.setParameter("id", id);
+
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			employeeList = query.list();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return id1;
+		return employeeList;
 	}
 
 	@Override

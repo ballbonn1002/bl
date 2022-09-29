@@ -192,4 +192,21 @@
 			value="/pages-back/position/position_add.jsp" />
 	</definition>
 	
+	<!-- 	EMPLOYEE -->
+		<definition name="employee_list" extends="sashLayout">
+		<put-attribute name="title" value="Employee list" />
+		<put-attribute name="body"
+			value="/pages-back/employee/employee_list.jsp" />
+	</definition>
+	<definition name="employee_add" extends="sashLayout">
+		<put-attribute name="title" value="Employee add" />
+		<put-attribute name="body"
+			value="/pages-back/employee/employee_add.jsp" />
+	</definition>
+	<definition name="employee_edit" extends="sashLayout">
+		<put-attribute name="title" value="Employee edit" />
+		<put-attribute name="body"
+			value="/pages-back/employee/employee_edit.jsp" />
+	</definition>
+	
 </tiles-definitions>
