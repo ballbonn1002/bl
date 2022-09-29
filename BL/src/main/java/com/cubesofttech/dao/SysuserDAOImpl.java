@@ -166,7 +166,7 @@ public class SysuserDAOImpl implements SysuserDAO{
 		List<Map<String, Object>> UserActive = null;
 	
 		try {
-			String sql = "SELECT sys_user_id,name_th,user_id,sys_role_id FROM sys_user WHERE is_active = '1' AND sys_user_id LIKE '%"+user+"%'";
+			String sql = "SELECT sys_user_id,name,user_id,sys_role_id FROM sys_user WHERE is_active = '1' AND sys_user_id LIKE '%"+user+"%'";
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			UserActive = query.list();
