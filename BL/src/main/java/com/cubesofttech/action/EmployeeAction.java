@@ -87,6 +87,7 @@ public class EmployeeAction extends ActionSupport {
     	    String positionID = request.getParameter("user.positionID");
     	    String email = request.getParameter("Email");
     	    String phone = request.getParameter("Phone");
+    	    String phonee = phone.replace("-", "");
     	    String address = request.getParameter("Address");
     	    
     	    String isactive = request.getParameter("user_isactive");
@@ -109,7 +110,7 @@ public class EmployeeAction extends ActionSupport {
     	    	employee.setDepartment_id(departmentID);
     	    	employee.setPosition_id(positionID);
     	    	employee.setEmail(email);
-    	    	employee.setPhone(phone);
+    	    	employee.setPhone(phonee);
     	    	employee.setAddress(address);
     	    	employee.setEnable(isactive);
     	    	
@@ -210,6 +211,7 @@ public class EmployeeAction extends ActionSupport {
     	    String positionID = request.getParameter("user.positionID");
     	    String email = request.getParameter("Email");
     	    String phone = request.getParameter("Phone");
+    	    String phonee = phone.replace("-", "");
     	    String address = request.getParameter("Address");
     	    
     	    String isactive = request.getParameter("user_isactive");
@@ -227,7 +229,7 @@ public class EmployeeAction extends ActionSupport {
     	    employee.setDepartment_id(departmentID);
     	    employee.setPosition_id(positionID);
     	    employee.setEmail(email);
-    	    employee.setPhone(phone);
+    	    employee.setPhone(phonee);
     	    employee.setAddress(address);
     	    employee.setEnable(isactive);
     	    employeeDAO.update(employee);
