@@ -103,6 +103,49 @@
 			<result name="success" type="tiles">department_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
 			<result name="error">/index.jsp</result>
 		</action>
+		
+		<!-- employee -->
+		<action name="employee_list"
+			class="com.cubesofttech.action.EmployeeAction" method="list">
+			<result name="success" type="tiles">employee_list</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="employee_add"
+			class="com.cubesofttech.action.EmployeeAction" method="addEmployee">
+			<result name="success" type="tiles">employee_add</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="save_employ"
+			class="com.cubesofttech.action.EmployeeAction" method="save_employ">
+			<result name="success" type="tiles">employee_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+			<result name="error">/index.jsp</result>
+			<result name="input" type="tiles">employee_add</result>
+		</action>
+		<action name="employee_edit"
+			class="com.cubesofttech.action.EmployeeAction" method="edit_employ">
+			<result name="success" type="tiles">employee_edit</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="Employee_delete"
+			class="com.cubesofttech.action.EmployeeAction" method="deleteEmployee">
+			<result name="success" type="tiles">employee_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="CheckDuplicateEmploy"
+			class="com.cubesofttech.action.EmployeeAction" method="CheckDuplicateEmploy">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="updateEmployee"
+			class="com.cubesofttech.action.EmployeeAction" method="updateEmployee">
+			<result name="success" type="tiles">employee_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="ChangecheckboxEmployee"
+			class="com.cubesofttech.action.EmployeeAction" method="ChangeCheckBoxemploy">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
 
 		<!-- System User -->
 		<action name="SystemUser_list"
