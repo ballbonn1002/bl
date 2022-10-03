@@ -135,7 +135,7 @@ public class Employee implements Serializable {
 	@Column(name="time_create")
 	public java.sql.Timestamp time_create;
 	
-	@Column(name="time_cupdate")
+	@Column(name="time_update")
 	public java.sql.Timestamp time_update;
 
 	public String getEmployee_id() {
