@@ -23,8 +23,8 @@
 			<li class="breadcrumb-item" onclick="history.back()"><a
 				href="department_list">Home</a></li>
 			<li class="breadcrumb-item text-muted" href="#">Department</li>
-			<li class="breadcrumb-item active" aria-current="page">
-				Edit Department</li>
+			<li class="breadcrumb-item active" aria-current="page">Edit
+				Department</li>
 		</ol>
 	</div>
 </div>
@@ -59,12 +59,12 @@
 					</div>
 					<div class="form-group">
 						<label class="form-label">Description </label> <input type="text"
-							class="form-control form_department_control" name="description"
+							class="form-control form_department_control" name="description" id="descrip"
 							value="${departmentList.description}">
 					</div>
 					<div class="form-group">
 						<label class="form-label">Prefix ID </label> <input type="text"
-							class="form-control form_department_control" name="prefix_id"
+							class="form-control form_department_control" name="prefix_id" id="prefix"
 							value="${departmentList.prefix_id}">
 					</div>
 				</div>
@@ -74,8 +74,8 @@
 
 			</div>
 			<div style="text-align: right">
-				<button type="button" onclick="history.back()" class="btn btn-light">Cancel</button>
-				<button type="submit" class="btn btn-success">Save</button>
+				<button type="button" onclick="history.back()" class="btn btn-light" id="cancel" hidden>Cancel</button>
+				<button type="submit" id="save" class="btn btn-success" hidden>Save</button>
 
 			</div>
 		</form>
@@ -148,4 +148,37 @@ function validate() {
 	$(document).ready(function() {
 		validate()
 	});
+	/* 
+	$(document).ready(function() {
+		  $('#updateDepartForm').prop('disabled', true);
+
+		  function validateNextButton() {
+		    var buttonDisabled = $('#updateDepartForm').val().trim() === ''
+		    $('#save').prop('disabled', buttonDisabled);
+		  }
+
+		  $('#updateDepartForm').on('keyup', validateNextButton);
+		}); */
+		
+		/* $(document).ready(function() {
+			  $('#updateDepartForm').prop('disabled', true);
+
+			  function validateNextButton() {
+			    var buttonDisabled =  $('#form :input').on('change', function(){
+			        $('#save').removeAttr('disabled');
+			    $('#save').prop('disabled', buttonDisabled);
+			  }
+
+			  $('#updateDepartForm').on('keyup', validateNextButton);
+			}); */
+			
+			$(document).ready(function() {
+			    $('#name,#descrip,#prefix').on('input change', function() {
+			        if($(this).val() != '') {
+			            $('#save,#cancel').prop('hidden', false);
+			        } else {
+			            $('#save,#cancel').prop('hidden', true);
+			        }
+			    });
+			});
 </script>

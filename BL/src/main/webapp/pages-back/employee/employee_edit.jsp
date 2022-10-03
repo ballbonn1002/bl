@@ -63,55 +63,70 @@
 					<div class="form-group">
 						<label class="form-label">Name EN <span class="text-red">*</span></label>
 						<div class="input-group">
-
-							<select value="" class="custom-select custom-select-lg"
-								name="titleEN" required>
-								<option value="Mr."
-									<c:if test="${employeeList[0].title_name_en eq 'Mr.'}">selected</c:if>>Mr.</option>
-								<option value="Mrs."
-									<c:if test="${employeeList[0].title_name_en eq 'Mrs.'}">selected</c:if>>Mrs.</option>
-								<option value="Miss"
-									<c:if test="${employeeList[0].title_name_en eq 'Miss'}">selected</c:if>>Miss</option>
-							</select> <input type="text" class="form-control"
-								aria-label="Text input with dropdown button"
-								pattern="[a-zA-Z. ]+" placeholder="Enter Your Name" name="nameEN"
-								value="${employeeList[0].name_en}">
+							<div class="col-md-4">
+								<select value="" class="form-control select2 form-select"
+									name="titleEN" required>
+									<option value="Mr."
+										<c:if test="${employeeList[0].title_name_en eq 'Mr.'}">selected</c:if>>Mr.</option>
+									<option value="Mrs."
+										<c:if test="${employeeList[0].title_name_en eq 'Mrs.'}">selected</c:if>>Mrs.</option>
+									<option value="Miss"
+										<c:if test="${employeeList[0].title_name_en eq 'Miss'}">selected</c:if>>Miss</option>
+								</select>
+							</div>
+							<div class="col-md-8">
+								<input type="text" class="form-control"
+									aria-label="Text input with dropdown button"
+									pattern="[a-zA-Z. ]+" placeholder="Enter Your Name"
+									name="nameEN" id="nameEn" value="${employeeList[0].name_en}">
+							</div>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label class="form-label">Nickname EN <span
-							class="text-red">*</span></label> <input type="text"
-							class="form-control form_department_control" 
-							id="nicknameEN" placeholder="Enter Your Nickname"
-							name="nicknameEN" value="${employeeList[0].nickname_en}" required>
+							class="text-red">*</span></label>
+						<div class="col-md-12">
+							<input type="text" class="form-control form_department_control"
+								id="nicknameEN" placeholder="Enter Your Nickname"
+								name="nicknameEN" value="${employeeList[0].nickname_en}"
+								required>
+						</div>
 					</div>
 					<div class="form-group">
 						<label class="form-label">Name TH <span class="text-red">*</span></label>
 						<div class="input-group">
 
-							<select value="" class="custom-select custom-select-lg"
-								name="titleTH" required>
-								<option value="นาย"
-									<c:if test="${employeeList[0].title_name_th eq 'นาย'}">selected</c:if>>นาย</option>
-								<option value="นาง"
-									<c:if test="${employeeList[0].title_name_th eq 'นาง'}">selected</c:if>>นาง</option>
-								<option value="นางสาว"
-									<c:if test="${employeeList[0].title_name_th eq 'นางสาว'}">selected</c:if>>นางสาว</option>
-							</select> <input type="text" class="form-control"
-								aria-label="Text input with dropdown button"
-								placeholder="Enter Your Name" pattern="[ก-ฮ ]+"
-								name="nameTH" value="${employeeList[0].name_th}" required>
+							<div class="col-md-4">
+								<select value="" class="form-control select2 form-select"
+									name="titleTH" required>
+									<option value="นาย"
+										<c:if test="${employeeList[0].title_name_th eq 'นาย'}">selected</c:if>>นาย</option>
+									<option value="นาง"
+										<c:if test="${employeeList[0].title_name_th eq 'นาง'}">selected</c:if>>นาง</option>
+									<option value="นางสาว"
+										<c:if test="${employeeList[0].title_name_th eq 'นางสาว'}">selected</c:if>>นางสาว</option>
+								</select>
+							</div>
+							<div class="col-md-8">
+								<input type="text" class="form-control"
+									aria-label="Text input with dropdown button"
+									placeholder="Enter Your Name" pattern="[ก-ฮ ]+" name="nameTH"
+									id="nameTh" value="${employeeList[0].name_th}" required>
+							</div>
 						</div>
 
 					</div>
 					<div class="form-group">
 						<label class="form-label">Nickname TH <span
-							class="text-red">*</span></label> <input type="text"
-							class="form-control form_department_control"
-							id="Employee_id" placeholder="Enter Your Nickname"
-							pattern="[ก-ฮ ]+" name="nicknameTH"
-							value="${employeeList[0].nickname_th}" required>
+							class="text-red">*</span></label>
+						<div class="col-md-12">
+							<input type="text" class="form-control form_department_control"
+								id="nickTh" placeholder="Enter Your Nickname" pattern="[ก-ฮ ]+"
+								name="nicknameTH" value="${employeeList[0].nickname_th}"
+								required>
+
+						</div>
 					</div>
 				</div>
 			</div>
@@ -136,11 +151,12 @@
 						</div>
 						<div class="col-lg-6 col-md-12">
 							<div class="form-group">
-								<label class="form-label">Department <span class="text-red">*</span></label> 
-								<select id="depart_id"
-									class="form-control form-select form_employee_control"
-									name="user.departmentID" data-placeholder="Select Department" required>
-									
+								<label class="form-label">Department <span
+									class="text-red">*</span></label> <select id="depart_id"
+									class="form-control select2 form-select" id="depart"
+									name="user.departmentID" data-placeholder="Select Department"
+									required>
+
 									<c:forEach var="department" items="${departmentList}">
 										<option value="${department.department_id}"
 											<c:if test="${employeeList[0].department_id eq department.department_id }"> selected </c:if>>${department.department_id}
@@ -153,9 +169,8 @@
 							<div class="form-group">
 								<label class="form-label">Position <span
 									class="text-red">*</span></label> <select id="posi_id"
-									class="form-control form-select form_position_control"
-									name="user.positionID" data-placeholder="Select Position"
-									required>
+									class="form-control select2 form-select" name="user.positionID"
+									data-placeholder="Select Position" required>
 
 									<c:forEach var="position" items="${positionList}">
 										<option value="${position.position_id}"
@@ -178,15 +193,17 @@
 								<label class="form-label">Phone Number <span
 									class="text-red">*</span></label> <input type="tel"
 									class="form-control form_employee_control" name="Phone"
-									id="phone" placeholder="Enter Your Phone Number" value="${employeeList[0].phone }" onkeypress="return numberPressed(event);" required>
+									id="phone" placeholder="Enter Your Phone Number"
+									value="${employeeList[0].phone }"
+									onkeypress="return numberPressed(event);" required>
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label class="form-floating">Address</label>
 							<textarea class="form-control" placeholder="Enter your address"
-								name="Address">${employeeList[0].address}</textarea>
-								<div class="invalid-feedback"></div>
+								id="address" name="Address">${employeeList[0].address}</textarea>
+							<div class="invalid-feedback"></div>
 						</div>
 						<div class="form-group">
 							<label class="custom-control custom-checkbox mb-0"> <input
@@ -207,8 +224,9 @@
 	</div>
 
 	<div style="text-align: right">
-		<button type="button" onclick="history.back()" class="btn btn-light">Cancel</button>
-		<button type="submit" class="btn btn-success" id="NoSubmit">Save</button>
+		<button type="button" onclick="history.back()" class="btn btn-light"
+			id="cancel" hidden>Cancel</button>
+		<button type="submit" class="btn btn-success" id="save" hidden>Save</button>
 
 	</div>
 </form>
@@ -278,4 +296,13 @@ function phoneFormat(input){
     return input; 
 }
 
+$(document).ready(function() {
+    $('#nameEn,#nameTh,#email,#phone,#address,#posi_id,#depart,#nickTh,#nicknameEN').on('input change', function() {
+        if($(this).val() != '') {
+            $('#save,#cancel').prop('hidden', false);
+        } else {
+            $('#save,#cancel').prop('hidden', true);
+        }
+    });
+});
 </script>
