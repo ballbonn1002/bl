@@ -50,7 +50,7 @@
                     </div>  
               </div>
          </div>
-         <div class="col-sm-6 ">
+         <div class="col-sm-12">
 			<div class="form-group">
 					<label class="form-label">Company Name EN<span style="color:red;"> *</span></label> 
 					<div class="input-group mb-3">
@@ -58,7 +58,7 @@
                     </div>  
               </div>
          </div>
-         <div class="col-sm-6 ">
+         <div class="col-sm-12">
 			<div class="form-group">
 					<label class="form-label">Company Name TH<span style="color:red;"> *</span></label> 
 					<div class="input-group mb-3">

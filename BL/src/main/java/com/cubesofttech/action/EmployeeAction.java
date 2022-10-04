@@ -115,7 +115,7 @@ public class EmployeeAction extends ActionSupport {
     	    	employee.setEnable(isactive);
     	    	
     	    	employee.setTime_create(DateUtil.getCurrentTime());
-            	employee.setTime_cupdate(DateUtil.getCurrentTime());
+            	employee.setTime_update(DateUtil.getCurrentTime());
             	employeeDAO.save(employee);
             	
     	    } else {
@@ -236,7 +236,7 @@ public class EmployeeAction extends ActionSupport {
     	    
 	    	
 	    	employee.setTime_create(DateUtil.getCurrentTime());
-        	employee.setTime_cupdate(DateUtil.getCurrentTime());
+        	employee.setTime_update(DateUtil.getCurrentTime());
     	    
 
 			List<Map<String, Object>> departmentList = departmentDAO.fullNameDepartment();

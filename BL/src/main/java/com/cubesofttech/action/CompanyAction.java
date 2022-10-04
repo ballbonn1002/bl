@@ -286,57 +286,79 @@ public class CompanyAction extends ActionSupport {
 			 log.debug(fileUpload);
 			 Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser"); // Username login 
 	    	 String loginUser = ur.getSys_user_id(); // Username login
-	    	 
-	    	 Fileupload file = new Fileupload();
-	    	 ServletContext context = request.getServletContext();
-			 String fileServerPath = context.getRealPath("/");
-			 double fileSize = Double.parseDouble(filesize);
-			 String FileSize = FileUtil.getFileSize(fileSize);
-			 String filename = fileUploadFileName;
-			 int l = filename.length();
-			 int split = filename.indexOf(".");
-			 String name = filename.substring(0, split);
-			 String type = (String) filename.subSequence(split, l);
-			 int maxId = fileuploadDAO.getMaxId()+1;
-			 FileUtil.upload(fileUpload, fileServerPath + "upload/company/", maxId + "_" + filename);
-			 file.setFile_id(maxId);
-			 file.setName(name);
-			 file.setSize(FileSize);
-			 file.setPath("/upload/company/" + maxId + "_" + filename);
-			 file.setPage("company");
-			 file.setType(type);
-			 file.setUser_create(loginUser);
-			 file.setUser_update(loginUser);
-			 file.setTime_create(DateUtil.getCurrentTime());
-			 file.setTime_update(DateUtil.getCurrentTime());
-			 fileuploadDAO.save(file);
-			 log.debug(file);
-			 Integer f_id = file.getFile_id();
-		
-			 Company company = new Company();
-			 if(is_active == null) {
+	    	 Company company = new Company();
+	    	 if(is_active == null) {
 				 is_active = "0";
 			 }else {
 				 is_active = "1";
 			 }
-			 int maxid = companyDAO.getMaxId()+1;
-			 company.setCompany_id(maxid);
-			 company.setFile_id(f_id);
-			 company.setCompany_code(code);
-			 company.setTax_number(tax);
-			 company.setCompany_en(name_en);
-			 company.setCompany_th(name_th);
-			 company.setIndusty(industry);
-			 company.setStatus(status);
-			 company.setIs_active(is_active);
-			 company.setWebsite(website);
-			 company.setUser_create(loginUser);
-			 company.setUser_update(loginUser);
-			 company.setTime_create(DateUtil.getCurrentTime());
-			 company.setTime_update(DateUtil.getCurrentTime());
-			 companyDAO.save(company);
-			 company_ID = company.getCompany_id();
-			 
+	    	 
+	    if(fileUpload != null) {	 
+	    	
+		    	 Fileupload file = new Fileupload();
+		    	 ServletContext context = request.getServletContext();
+				 String fileServerPath = context.getRealPath("/");
+				 double fileSize = Double.parseDouble(filesize);
+				 String FileSize = FileUtil.getFileSize(fileSize);
+				 String filename = fileUploadFileName;
+				 int l = filename.length();
+				 int split = filename.indexOf(".");
+				 String name = filename.substring(0, split);
+				 String type = (String) filename.subSequence(split, l);
+				 int maxId = fileuploadDAO.getMaxId()+1;
+				 FileUtil.upload(fileUpload, fileServerPath + "upload/company/", maxId + "_" + filename);
+				 file.setFile_id(maxId);
+				 file.setName(name);
+				 file.setSize(FileSize);
+				 file.setPath("/upload/company/" + maxId + "_" + filename);
+				 file.setPage("company");
+				 file.setType(type);
+				 file.setUser_create(loginUser);
+				 file.setUser_update(loginUser);
+				 file.setTime_create(DateUtil.getCurrentTime());
+				 file.setTime_update(DateUtil.getCurrentTime());
+				 fileuploadDAO.save(file);
+				 log.debug(file);
+				 Integer f_id = file.getFile_id();
+			
+				 int maxid = companyDAO.getMaxId()+1;
+				 company.setCompany_id(maxid);
+				 company.setFile_id(f_id);
+				 company.setCompany_code(code);
+				 company.setTax_number(tax);
+				 company.setCompany_en(name_en);
+				 company.setCompany_th(name_th);
+				 company.setIndusty(industry);
+				 company.setStatus(status);
+				 company.setIs_active(is_active);
+				 company.setWebsite(website);
+				 company.setUser_create(loginUser);
+				 company.setUser_update(loginUser);
+				 company.setTime_create(DateUtil.getCurrentTime());
+				 company.setTime_update(DateUtil.getCurrentTime());
+				 companyDAO.save(company);
+				 company_ID = company.getCompany_id();
+				 
+	    }else if(fileUpload == null) {
+	    	
+		        int maxid = companyDAO.getMaxId()+1;
+		    	company.setCompany_id(maxid);
+		    	company.setFile_id(null);
+		    	company.setCompany_code(code);
+		    	company.setTax_number(tax);
+		    	company.setCompany_en(name_en);
+		    	company.setCompany_th(name_th);
+		    	company.setIndusty(industry);
+				company.setStatus(status);
+				company.setIs_active(is_active);
+				company.setWebsite(website);
+				company.setUser_create(loginUser);
+				company.setUser_update(loginUser);
+				company.setTime_create(DateUtil.getCurrentTime());
+				company.setTime_update(DateUtil.getCurrentTime());
+				companyDAO.save(company);
+				company_ID = company.getCompany_id();
+	    }
 			 return SUCCESS;
 		 }catch(Exception e) {
 			 e.printStackTrace();
@@ -630,8 +652,7 @@ public class CompanyAction extends ActionSupport {
 			 log.debug(filesize);
 			 Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser"); // Username login 
 		     String loginUser = ur.getSys_user_id(); // Username login
-		     String com_id = String.valueOf(company_ID);
-			 Company company = companyDAO.findById(com_id);
+			 Company company = companyDAO.findById(company_ID);
 			 log.debug(company.getFile_id());
 			 if(is_active == null) {
 				 is_active = "0";
@@ -742,8 +763,8 @@ public class CompanyAction extends ActionSupport {
 			 Integer fi_id = Integer.parseInt(f_id);
 			 Fileupload file_id = fileuploadDAO.findById(fi_id);
 			 fileuploadDAO.delete(file_id);
-			 
-			 Company company = companyDAO.findById(c_id);
+			 Integer com_id = Integer.parseInt(c_id);
+			 Company company = companyDAO.findById(com_id);
 			 company.setFile_id(null);
 			 company.setUser_update(loginUser);
 			 company.setTime_update(DateUtil.getCurrentTime());
