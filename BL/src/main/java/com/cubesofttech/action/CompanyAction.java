@@ -245,7 +245,8 @@ public class CompanyAction extends ActionSupport {
 			 String id = request.getParameter("id");
 			 log.debug(id);
 			 Company company = new Company();
-			 company = companyDAO.findById(id);
+			 Integer com_id = Integer.valueOf(id);
+			 company = companyDAO.findById(com_id);
 			 companyDAO.delete(company);
 			 
 			 List<Company> companyList = companyDAO.findAll();
@@ -261,7 +262,8 @@ public class CompanyAction extends ActionSupport {
 		 try {
 			 	Company company = new Company();
 				String ID = request.getParameter("CompanyID");
-				company = companyDAO.findById(ID);
+				Integer com_id = Integer.valueOf(ID);
+				company = companyDAO.findById(com_id);
 				log.debug(company);
 				String Isactive = request.getParameter("Isactive");
 				log.debug(Isactive);
@@ -289,7 +291,7 @@ public class CompanyAction extends ActionSupport {
 	    	 ServletContext context = request.getServletContext();
 			 String fileServerPath = context.getRealPath("/");
 			 double fileSize = Double.parseDouble(filesize);
-			 String FileSize = FileUtil.getFileSize(fileSize);;
+			 String FileSize = FileUtil.getFileSize(fileSize);
 			 String filename = fileUploadFileName;
 			 int l = filename.length();
 			 int split = filename.indexOf(".");

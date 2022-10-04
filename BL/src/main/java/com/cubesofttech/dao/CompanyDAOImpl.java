@@ -59,7 +59,7 @@ public class CompanyDAOImpl implements CompanyDAO{
 		return companyList;
 	}
 	@Override
-	public Company findById(String company_id) throws Exception {
+	public Company findById(Integer company_id) throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
 	    Company company = null;
 	    try {

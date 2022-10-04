@@ -19,7 +19,7 @@ public interface CompanyDAO {
     
     public List<Company> findByCompany_ID(String id) throws Exception;
     
-    public Company findById(String company_id) throws Exception;
+    public Company findById(Integer company_id) throws Exception;
     
     public List<Company> findAllCompany() throws Exception;
     
