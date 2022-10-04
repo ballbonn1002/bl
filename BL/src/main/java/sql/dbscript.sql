@@ -234,3 +234,7 @@ CREATE TABLE `file` (
   `time_create` timestamp NULL DEFAULT NULL,
   `time_update` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--04/10/2022 BEST change name
+ALTER TABLE `employee` CHANGE `image` `file_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+ALTER TABLE `sys_user` CHANGE `image` `file_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;

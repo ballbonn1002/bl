@@ -31,7 +31,7 @@ public class Employee implements Serializable {
             , String email
             , String gender
             , String roleId
-            , String image
+            , Integer file_id
             , String description
             , String userCreate	
             , String userUpdate	
@@ -51,7 +51,7 @@ public class Employee implements Serializable {
         this.email = email;
         this.gender = gender;
         this.role_id = roleId;
-        this.image = image;
+        this.file_id = file_id;
         this.description = description;	
         this.user_create = userCreate;	
         this.user_update = userUpdate;	
@@ -72,8 +72,8 @@ public class Employee implements Serializable {
 	@Column(name="role_id")
 	public String role_id;
 	
-	@Column(name="image")
-	public String image;
+	@Column(name="file_id")
+	public Integer file_id;
 	
 	@Column(name="gender")
 	public String gender;
@@ -170,14 +170,13 @@ public class Employee implements Serializable {
 		this.role_id = role_id;
 	}
 
-	public String getImage() {
-		return image;
+	public Integer getFile_id() {
+		return file_id;
 	}
-
-	public void setImage(String image) {
-		this.image = image;
+	public void setFile_id(Integer file_id) {
+		this.file_id = file_id;
 	}
-
+	
 	public String getGender() {
 		return gender;
 	}
@@ -338,12 +337,12 @@ public class Employee implements Serializable {
 		this.time_create = time_create;
 	}
 
-	public java.sql.Timestamp getTime_cupdate() {
+	public java.sql.Timestamp getTime_update() {
 		return time_update;
 	}
 
-	public void setTime_cupdate(java.sql.Timestamp time_cupdate) {
-		this.time_update = time_cupdate;
+	public void setTime_update(java.sql.Timestamp time_update) {
+		this.time_update = time_update;
 	}
 
 	

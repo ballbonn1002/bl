@@ -24,8 +24,8 @@ private String sys_role_id;
 private String user_id;
 
 
-@Column(name="image")
-private String image;
+@Column(name="file_id")
+private Integer file_id;
 
 @Column(name="name")
 private String name;
@@ -94,12 +94,12 @@ public String getTitle() {
 public void setTitle(String title) {
 	this.title = title;
 }
-public String getImage() {
-	return image;
-}
-public void setImage(String image) {
-	this.image = image;
 
+public Integer getFile_id() {
+	return file_id;
+}
+public void setFile_id(Integer file_id) {
+	this.file_id = file_id;
 }
 public String getName() {
 	return name;
