@@ -12,12 +12,14 @@ import javax.persistence.Table;
 @Table(name="company_contact")
 public class Company_contact implements Serializable{
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="company_contact_id")
-	public String company_contact_id;
+	public Integer company_contact_id;
 	
 	@Column(name="company_id")
-	public String company_id;
+	public Integer company_id;
+	
+	@Column(name="file_id")
+	public Integer file_id;
 	
 	@Column(name="title_name_en")
 	public String title_name_en;
@@ -53,6 +55,14 @@ public class Company_contact implements Serializable{
 	public java.sql.Timestamp time_update;
 
 	
+	public Integer getFile_id() {
+		return file_id;
+	}
+
+	public void setFile_id(Integer file_id) {
+		this.file_id = file_id;
+	}
+
 	public String getTitle_name_en() {
 		return title_name_en;
 	}
@@ -61,19 +71,19 @@ public class Company_contact implements Serializable{
 		this.title_name_en = title_name_en;
 	}
 
-	public String getCompany_contact_id() {
+	public Integer getCompany_contact_id() {
 		return company_contact_id;
 	}
 
-	public void setCompany_contact_id(String company_contact_id) {
+	public void setCompany_contact_id(Integer company_contact_id) {
 		this.company_contact_id = company_contact_id;
 	}
 
-	public String getCompany_id() {
+	public Integer getCompany_id() {
 		return company_id;
 	}
 
-	public void setCompany_id(String company_id) {
+	public void setCompany_id(Integer company_id) {
 		this.company_id = company_id;
 	}
 

@@ -13,6 +13,8 @@ public interface CompanyDAO {
     
     public void delete(Company company) throws Exception;
     
+    Integer getMaxId() throws Exception;
+    
     public List<Company> findAll() throws Exception;
     
     public List<Company> findByCompany_ID(String id) throws Exception;
