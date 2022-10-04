@@ -17,5 +17,7 @@ public interface QuotationDAO {
 	public List<Quotation> listQuotation() throws Exception; 
 	
 	public Quotation findById(String quotation_id) throws Exception;
+	
+	public List<Quotation> findByQuotationId(String id) throws Exception;
 
 }

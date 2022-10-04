@@ -93,7 +93,7 @@ tr{
                         	<td>
                         		<div style="text-align: center;">
 	                         		<div class="g-2">
-	                           			 <a href="" class="btn text-primary btn-sm" data-bs-toggle="tooltip" data-bs-original-title="Edit">
+	                           			 <a href="edit_quotation?id=${quotation.quotation_id}" class="btn text-primary btn-sm" data-bs-toggle="tooltip" data-bs-original-title="Edit">
 	                            		<span class="fe fe-edit fs-18"></span></a>
 	                           			 <a class="btn text-danger btn-sm" data-bs-toggle="tooltip" onclick="del('${quotation.quotation_id}')" data-bs-original-title="Delete">
 	                           	 		<span class="fe fe-trash-2 fs-18"></span></a>

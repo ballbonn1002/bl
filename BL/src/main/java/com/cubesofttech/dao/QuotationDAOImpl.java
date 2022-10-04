@@ -90,4 +90,23 @@ public class QuotationDAOImpl implements QuotationDAO{
 	        return quotation;
 	}
 
+	@Override
+	public List<Quotation> findByQuotationId(String id) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Quotation> quotationList = null;
+		try {
+			String sql = "SELECT q.*, DATE(q.time_create) as create_date, ct.company_contact_id  \r\n"
+						+ "FROM quotation q\r\n"
+						+ "JOIN company c ON c.company_id = q.company_id\r\n"
+						+ "JOIN company_contact ct ON ct.contact_name = q.contact_name\r\n"
+						+ "WHERE q.quotation_id = '"+id+"';";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			quotationList = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return quotationList;
+	}
+
 }

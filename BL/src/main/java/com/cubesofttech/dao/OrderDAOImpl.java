@@ -99,4 +99,19 @@ public class OrderDAOImpl implements OrderDAO{
 		return orderList;
 	}
 
+	@Override
+	public List<Order> findByQuotationId(String quotation_id) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Order> orderList = null;
+		try {
+			String sql = "SELECT * FROM quotation_order WHERE quotation_id = '"+quotation_id+"' ORDER BY order_id;";
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			orderList = query.list();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return orderList;
+	}
+
 }

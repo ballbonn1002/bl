@@ -16,5 +16,7 @@ public interface OrderDAO {
 	public Integer getMaxId() throws Exception;
 	
 	public List<Order> deleteByQuotationId(String quotation_id) throws Exception;
+	
+	public List<Order> findByQuotationId(String quotation_id) throws Exception;
 
 }

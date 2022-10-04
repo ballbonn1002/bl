@@ -83,7 +83,7 @@ public class UserAction extends ActionSupport {
 	                	sysuser.setSys_role_id(role);
 	                	sysuser.setUser_id(name);
 	                	sysuser.setEmail(email);
-	                	sysuser.setName_th(nameth);
+	                	sysuser.setName(nameth);
 	                	sysuser.setIs_active(isactive);
 	                	sysuser.setPhone(phone);
 	                	sysuser.setUser_create(loginUser);
@@ -96,7 +96,7 @@ public class UserAction extends ActionSupport {
 	                else{
 	                	sysuser.setSys_role_id(role);
 	                	sysuser.setEmail(email);
-	                	sysuser.setName_th(nameth);
+	                	sysuser.setName(nameth);
 	                	sysuser.setPhone(phone);
 	                	sysuser.setUser_id(name);
 	                	sysuser.setUser_update(loginUser);

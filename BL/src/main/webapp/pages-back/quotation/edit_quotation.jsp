@@ -87,32 +87,27 @@ li.animate{
 		<div class="card">
 			<div class="card-header">
 				<div class="card-title">Quotation Info</div>
-				<div class="card-options"><span class="badge bg-primary-transparent rounded-pill text-info p-2 px-3">In Progress</span></div>
+				<div class="card-options">
+					<c:if test ="${quotationList[0].quotation_status == 0}"><span class="badge bg-danger-transparent rounded-pill text-danger p-2 px-3">Reject</span></c:if>
+                    <c:if test ="${quotationList[0].quotation_status == 1}"><span class="badge bg-primary-transparent rounded-pill text-info p-2 px-3">In Progress</span></c:if>
+                    <c:if test ="${quotationList[0].quotation_status == 2}"><span class="badge bg-warning-transparent rounded-pill text-warning p-2 px-3">Waiting Approvaled</span></c:if>
+                    <c:if test ="${quotationList[0].quotation_status == 3}"><span class="badge bg-success-transparent rounded-pill text-success p-2 px-3">Approvaled</span></c:if>
+                    <c:if test ="${quotationList[0].quotation_status == 4}"><span class="badge bg-default rounded-pill text-text p-2 px-3">Return</span></c:if>
+				</div>
 			</div>
 			<div class="card-body">
 				<div class="row">
 					<div class="col-sm-6 col-md-6">
                    		<div class="form-group">
 	                    	<div class="mb-2">Quotation ID<span class="text-red"> *</span></div>
-	                   		<input type="text" class="form-control " id="quID" placeholder="" onkeyup="checkDuplicateId()">
-	                   		<div class="mt-2">
-	                   		<div  style="display:none;" id="error">
-										<i class="fa fa-check-circle-o text-danger" >&nbsp; You can not use this Quotation ID</i>
-									</div>
-									<div  style="display:none;" id="pass">
-										<i class="fa fa-check-circle-o text-success">&nbsp; You can  use this Quotation ID</i>
-									</div>
-									<div  style="display:none;" id="empty">
-										<i class="fa fa-check-circle-o text-warning">&nbsp; Please enter your Quotation ID</i>
-									</div>
-							</div>		
+	                   		<input type="text" class="form-control " id="quID" placeholder="" value="${quotationList[0].quotation_id}">
                     	</div>
                 	</div>
                 	<div class="col-sm-6 col-md-3">
                    		<div class="form-group">
 	                   		<div class="mb-2">Create date<span class="text-red"> *</span></div>
 	                           <div class="input-group">
-	                              <input class="form-control fc-datepicker" id="start" placeholder="Select date" type="text">
+	                              <input class="form-control fc-datepicker" id="start" placeholder="Select date" type="text" value="<fmt:formatDate value="${quotationList[0].create_date}" pattern="dd/MM/yyyy"></fmt:formatDate>">
 	                               <div class="input-group-text">
 	                                    <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
 	                               </div>
@@ -123,7 +118,7 @@ li.animate{
                    		<div class="form-group">
 	                   		<div class="mb-2">Due date<span class="text-red"> *</span></div>
 	                           <div class="input-group">
-	                               <input class="form-control fc-datepicker" id="end" placeholder="Select date" type="text">
+	                               <input class="form-control fc-datepicker" id="end" placeholder="Select date" type="text" value="<fmt:formatDate value="${quotationList[0].end_date}" pattern="dd/MM/yyyy"></fmt:formatDate>">
 	                               <div class="input-group-text">
 	                                    <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
 	                               </div>
@@ -134,7 +129,7 @@ li.animate{
                    		<div class="form-group">
 	                    	<div class="mb-2">Customer Name<span class="text-red"> *</span></div>
 	                    	<div class="input-group">
-		                   		<input type="text" class="form-control" id="customer" data-bs-toggle="modal" data-bs-target="#CustomerNameModal" placeholder="Select Company">
+		                   		<input type="text" class="form-control" id="customer" data-bs-toggle="modal" data-bs-target="#CustomerNameModal" placeholder="Select Company" value="${quotationList[0].company_name}">
 		                   		<div class="input-group-text" style="cursor: pointer;" data-bs-toggle="modal"  data-bs-target="#CustomerNameModal">
 		                   			<i class="bi bi-search tx-16 lh-0 op-6"></i>
 		                   		</div>
@@ -144,20 +139,23 @@ li.animate{
                 	<div class="col-sm-6 col-md-6">
                    		<div class="form-group">
 	                    	<div class="mb-2">Tax ID<span class="text-red"> *</span></div>
-	                   		<input type="text" class="form-control" id="taxID" placeholder="">
+	                   		<input type="text" class="form-control" id="taxID" placeholder="" value="${quotationList[0].tax_number}">
                     	</div>
                 	</div>
                 	<div class="col-sm-6 col-md-6" style="display:none">
                    		<div class="form-group">
 	                    	<div class="mb-2">company ID<span class="text-red"> *</span></div>
-	                   		<input type="text" class="form-control" id="companyID" placeholder="">
+	                   		<input type="text" class="form-control" id="companyID" placeholder="" value="${quotationList[0].company_id}">
                     	</div>
                 	</div>
                 	<div class="col-sm-6 col-md-6">
                    		<div class="form-group">
 	                    	<div class="mb-2">Contact Name<span class="text-red"> *</span></div>
-	                   		<select  class="form-control form-select select2" id="contact" data-bs-placeholder="Select Customer" onchange="change()">
-	                   			<option value="" selected>Select Contact</option>
+	                   		<select  class="form-control form-select select2" id="contact" data-bs-placeholder="Select Customer" onchange="change()" >
+	                   			<option value="" >Select Contact</option>
+	                   			<c:forEach var="contact" items="${contactList}">
+	                   			<option value="${contact.company_contact_id}" <c:if test="${quotationList[0].company_contact_id eq contact.company_contact_id}">selected</c:if>>${contact.title_name_en}&nbsp;${contact.contact_name}</option>
+	                   			</c:forEach>
                             </select>
                             <small class="text-danger small" style="display:none" id="invalid-contact-name">Please select a valid contact name</small>
                     	</div>
@@ -165,19 +163,19 @@ li.animate{
                 	<div class="col-sm-6 col-md-6">
                    		<div class="form-group">
 	                    	<div class="mb-2">email<span class="text-red"> *</span></div>
-	                   		<input type="email" class="form-control" id="email" placeholder="">
+	                   		<input type="email" class="form-control" id="email" placeholder="" value="${quotationList[0].email}">
                     	</div>
                 	</div>
                 	<div class="col-sm-6 col-md-6">
                    		<div class="form-group">
 	                    	<div class="mb-2">phone number 1<span class="text-red"> *</span></div>
-	                   		<input type="text" class="form-control" id="phone1" placeholder="">
+	                   		<input type="text" class="form-control" id="phone1" placeholder="" value="${quotationList[0].phone}">
                     	</div>
                 	</div>
                 	<div class="col-sm-6 col-md-6">
                    		<div class="form-group">
 	                    	<div class="mb-2">phone number 2</div>
-	                   		<input type="text" class="form-control" id="phone2" placeholder="">
+	                   		<input type="text" class="form-control" id="phone2" placeholder="" value="${quotationList[0].phone_2}">
                     	</div>
                 	</div>
                 	<div class="col-sm-6 col-md-6">
@@ -186,7 +184,7 @@ li.animate{
 	                   		<select  class="form-control form-select select2" id="salesperson" data-bs-placeholder="Select Sale" onchange="changeSale()">
 	                   		    <option value="" selected>Select Sale</option>
 	                   			<c:forEach var="employee" items="${employeeList}">
-	                   			<option value="${employee.employee_id}">${employee.employee_id}&nbsp;-&nbsp;${employee.title_name_en}&nbsp;${employee.name_en}</option>
+	                   			<option value="${employee.employee_id}" <c:if test="${quotationList[0].saleperson eq employee.name_en}">selected</c:if>>${employee.employee_id}&nbsp;-&nbsp;${employee.title_name_en}&nbsp;${employee.name_en}</option>
 	                   			</c:forEach>
                             </select>
                             <small class="text-danger small" style="display:none" id="invalid-salesperson">Please select a valid Salesperson</small>
@@ -259,7 +257,7 @@ li.animate{
 			</div>
 			<div class="card-body" id="address-list">
 			<div id="list-ul">
-				<div class="no-data" id="nodata">
+				<div class="no-data" id="nodata" style="display:none;">
 					<div style="text-align:center"> 
 						<i class="fe fe-inbox fs-24 text-gray"></i>
 					</div>
@@ -267,9 +265,27 @@ li.animate{
 						No data yet, please select address.
 					</div>
 				</div>
-				<div id="test-ul" style="display:none;">
+				<div id="test-ul" >
 		            <ul class="list-group" id="address-ul">
-		               
+		            	<c:forEach var="quoteAddress" items="${quotation_addressList}">
+			               <li class="list-group-item animate ">
+			               		<div class="row">
+			               			<div class="col-sm-6 col-md-3 data_address_name"> ${quoteAddress.address_name}</div>
+			                		<div class="col-sm-6 col-md-8 data_address_detail" >${quoteAddress.address}</div>
+			              			<div class="col-sm-6 col-md-1" style="text-align:right;">
+			                			<button class="btn text-danger btn-sm" onclick="deleteAddressData('${quoteAddress.quotation_address_id}',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">
+			                			<span class="fe fe-trash-2 fs-14"></span></button>
+			                		</div>
+			                		<div class="col-sm-6 col-md-3 mt-4">
+						                <label class="custom-control custom-checkbox">
+						                <input type="checkbox" class="custom-control-input check_address" name="example-checkbox5" value="" onchange="check_address(this)"
+						                 <c:if test="${quoteAddress.delivery_check == 1}">checked</c:if>>
+						                <span class="custom-control-label">Delivery Address</span>
+						                </label>
+			                		</div>
+			                    </div>
+			                </li>
+		               	 </c:forEach>
 		            </ul>
 	  			 </div>
 			</div>	
@@ -297,7 +313,18 @@ li.animate{
 	                    		</tr>
 	                    	</thead>
 	                    	<tbody id="getAddress">
-	                    		
+	                    	<c:forEach var="address" items="${addressList}">
+	                    		 <tr>
+									<td>
+										<label class="custom-control custom-checkbox">
+										<input type="checkbox" class="custom-control-input checkbox-tick chk" name="example-checkbox5" value="option5" >
+										<span class="custom-control-label"></span>
+										</label>
+									</td>
+									<td class="name">${address.address_name}</td>
+									<td class="address">${address.address}</td>
+								</tr>
+	                    	</c:forEach>
 	                    	</tbody>
                     	</table>
                     </div>
@@ -380,7 +407,7 @@ li.animate{
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
-				<c:set var="counter" value="${counter+1}"></c:set>
+				
 					<table id="table1" class="table table-bordered text-nowrap border-bottom order-list">
 						<thead>
 							<tr>
@@ -394,18 +421,25 @@ li.animate{
 							</tr>
 						</thead>
 						<tbody>
+						<c:forEach var="order" items="${orderList}">
+						<c:set var="counter" value="${counter+1}"></c:set>
 							<tr class="row_product ">
 								<td class="num">${counter}</td>
-								<td><input type="text" class="form-control product_name "  name="product_name" placeholder=""></td>
-								<td><textarea rows="2" cols="" class="form-control mb-4 description" name="description" ></textarea></td>
-								<td><input type="number" class="form-control many quantity-${counter}" placeholder="" onkeyup="calculatePrice('${counter}')" onchange="calculatePrice('${counter}')" name="quantity" style="text-align:right"></td>
-								<td><input type="text" class="form-control price unit_price-${counter}" placeholder="" onkeyup="myFunction(this);calculatePrice('${counter}')" onchange="onchangeValueWithDigits(this)" name="unit_price" style="text-align:right"></td>
-								<td><input type="text" class="form-control sum total-${counter} sub-total" placeholder="" name="total" style="text-align:right; background-color:transparent;"  readonly></td>
+								<td><input type="text" class="form-control product_name "  name="product_name"  value="${order.name}"></td>
+								<td><textarea rows="2" cols="" class="form-control mb-4 description" name="description" >${order.description}</textarea></td>
+								<td><input type="number" class="form-control many quantity-${counter}"   onkeyup="calculatePrice('${counter}')" onchange="calculatePrice('${counter}')" name="quantity" style="text-align:right"value="${order.quantity}"></td>
+								<td><input type="text" class="form-control price unit_price-${counter}"  onkeyup="myFunction(this);calculatePrice('${counter}')" onchange="onchangeValueWithDigits(this)" name="unit_price" style="text-align:right" 
+									 	   value="<fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${order.unit_price}" />">
+								</td>
+								<td><input type="text" class="form-control sum total-${counter} sub-total"  name="total" style="text-align:right; background-color:transparent;"  readonly 
+										   value="<fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value ="${order.total}" />">
+								</td>
 								<td>
-									<button class="btn text-danger btn-sm" data-bs-toggle="tooltip" onclick="deleteRow(this)" data-bs-original-title="Delete">
+									<button class="btn text-danger btn-sm" data-bs-toggle="tooltip" onclick="deleteOrder('${order.order_id}',this)" data-bs-original-title="Delete">
                          			<span class="fe fe-trash-2 fs-14"></span></button>
                          	    </td>
 							</tr>
+						</c:forEach>
 						</tbody>
 					</table>
 					<a href="javascript:void(0)" type="button" title="" class="add-author btn btn-primary">Add Product</a>
@@ -414,14 +448,15 @@ li.animate{
 					<div class="col-sm-6 col-md-6 mt-5">
 						<div class="form-group">
 	                    	<div class="mb-2">Description</div>
-	                   		<textarea rows="4" cols="" class="form-control mb-4" id="description" ></textarea>
+	                   		<textarea rows="4" cols="" class="form-control mb-4" id="description" >${quotationList[0].description}</textarea>
                     	</div>
 					</div>
 					<div class="col-sm-6 col-md-6 mt-5">
 						<div class="row">
 			                <div class="col-sm-6 col-md-6" style="text-align:right;align-self: center;">sub total</div>
 			                <div class=" col-sm-6 col-md-6 mb-2">
-			                <input type="text" class="form-control" id="sub-total" placeholder="" style="text-align:right; background-color:transparent;"  readonly>
+			                <input type="text" class="form-control" id="sub-total" placeholder=""  style="text-align:right; background-color:transparent;"  readonly
+			               		   value="<fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${quotationList[0].sub_total}" />">
 			                </div>
 			                
 			                
@@ -429,18 +464,21 @@ li.animate{
 				            <div class=" col-sm-6 col-md-3">
                                    <div class="input-group">
                                          <input type="text" id="dc-percent" class="form-control" style="text-align:right" 
+                                         		value="<fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value ="${quotationList[0].percent_discount}" />"
                                                 onkeyup="enterDiscountPercent()" onchange="onchangeValueWithDigits(this)">
                                          <span class="input-group-text" id="basic-addon2">%</span>
                                    </div>
                             </div>
                             <div class=" col-sm-6 col-md-6 mb-2">            
 			                <input type="text" class="form-control" id="discount" placeholder="" style="text-align:right" 
+			                	   value="<fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${quotationList[0].discount}" />"
 			                       onkeyup="myFunction(this);enterDiscountValue()" onchange="onchangeValueWithDigits(this)">
 			                </div>
 			                
 			                <div class="col-sm-6 col-md-6" style="text-align:right;align-self: center;">ส่วนลดเพิ่มเติม</div>
 			                <div class=" col-sm-6 col-md-6 mb-2">
 			                <input type="text" class="form-control" id="additional_discount" placeholder="" style="text-align:right" 
+			                	   value="<fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${quotationList[0].additional_discounts}" />"
 			                	   onkeyup="myFunction(this);enterAdditionalDiscount()" onchange="onchangeValueWithDigits(this)">
 			                </div>
 			                
@@ -448,9 +486,9 @@ li.animate{
 			                <div class="col-sm-6 col-md-6" style="text-align:right;align-self: center;">การคำนวนภาษี</div>
 			                <div class="col-sm-6 col-md-6 mb-2 ">
                                   <select class="form-control form-select form-select select2" id="inputGroupSelect01" onchange="sum_grandTotal()">
-                                       <option value="1" id="sum-vat" selected>ราคารวมภาษี</option>
-                                       <option value="2" id="no-sumvat">ราคาแยกภาษี</option>
-                                       <option value="3" id="no-vat">ไม่คำนวนภาษี</option>
+                                       <option value="1" id="sum-vat" <c:if test="${quotationList[0].tax_type == 1}">selected</c:if>>ราคารวมภาษี</option>
+                                       <option value="2" id="no-sumvat" <c:if test="${quotationList[0].tax_type == 2}">selected</c:if>>ราคาแยกภาษี</option>
+                                       <option value="3" id="no-vat" <c:if test="${quotationList[0].tax_type == 3}">selected</c:if>>ไม่คำนวนภาษี</option>
                                   </select>   
                             </div>
                             
@@ -458,18 +496,21 @@ li.animate{
 				            <div class=" col-sm-6 col-md-3">
                                    <div class="input-group">
                                           <input type="text" class="form-control" id="VAT" style="text-align:right" 
+                                                 value="<fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${quotationList[0].percent_tax}" />"
                                                  onkeyup="enterTaxPercent()" onchange="onchangeValueWithDigits(this)">
                                          <span class="input-group-text" id="basic-addon2">%</span>
                                   </div>
                             </div>
                             <div class=" col-sm-6 col-md-6 mb-2">            
 			                <input type="text" class="form-control " placeholder="" id="totalVAT" style="text-align:right" 
+			                	   value="<fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${quotationList[0].tax}" />"
 			                	   onkeyup="myFunction(this);enterTaxValue()" onchange="onchangeValueWithDigits(this)">
 			                </div>
 			                
 			                 <div class="col-sm-6 col-md-6" style="text-align:right;align-self: center;">grand total</div>
 			                <div class=" col-sm-6 col-md-6 mb-2">
-			                <input type="text" class="form-control " placeholder="" id="grand_total" style="text-align:right; background-color:transparent;"  readonly>
+			                <input type="text" class="form-control " placeholder="" id="grand_total"  style="text-align:right; background-color:transparent;"  readonly 
+			                       value="<fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${quotationList[0].grand_total}" />">
 			                </div>
 			            </div>	
 					</div>
@@ -479,8 +520,8 @@ li.animate{
 		<!-- BUTTON -->
 			<div  style="text-align: right; margin-top: 0.5rem; margin-bottom: 1.5rem;">
 				<a href="#" type="button" class="btn btn-default" style="min-width: 5%;">Cancel</a>
-				<button  type="button" class="btn btn-success" onclick="send_data('1')" style="min-width: 5%;">Save</button>
-				<button  type="button" class="btn btn-primary" style="min-width: 5%;" onclick="send_data('2')">Send Approve</button>
+				<button  type="button" class="btn btn-success" onclick="send_data()" style="min-width: 5%;">Save</button>
+				<button  type="button" class="btn btn-primary" style="min-width: 5%;" onclick="send_approve()">Send Approve</button>
 			</div>
 	</div>
 </div>
@@ -555,7 +596,10 @@ function deleteRow(r) {
     sum_subTotal();
     enterDiscountPercent();
 }
-
+function deleteOrder(id,r){
+	console.log(id);
+	console.log(r);
+}
 </script>
 <!--  <script>
 function calculatePrice(counter){
@@ -1007,7 +1051,8 @@ function DeleteAddress(currentEl){
 	  //currentEl.parentNode.parentNode.removeChild(currentEl.parentNode);
 	  currentEl.parentNode.parentNode.parentNode.remove();
 	  const tag = document.getElementById("list-ul");
-	  if( document.getElementById("address-ul").innerHTML==""){
+	  if(document.getElementById("address-ul").getElementsByTagName("li").length == 0){
+		  //console.log(document.getElementById("address-ul").getElementsByTagName("li").length);
 		 /*let text = '<div class="no-data">'+
 					'<div style="text-align:center">'+
 					'<i class="fe fe-inbox fs-24 text-gray"></i>'+
@@ -1020,11 +1065,26 @@ function DeleteAddress(currentEl){
 		$("#address-list .no-data").show();
 		 }
 }	
+function deleteAddressData(id,currentEl){
+	console.log(id);
+	console.log(currentEl.parentNode.parentNode.parentNode);
+	$.ajax({
+		url:"deleteQuoteAddress",
+		method:"POST",
+		type:"JSON",
+		data:{
+			"id":id
+		},
+		success:function(data){
+			console.log(data);
+			currentEl.parentNode.parentNode.parentNode.remove();
+			if(document.getElementById("address-ul").getElementsByTagName("li").length == 0){
+				$("#address-list .no-data").show();
+			}
+		}
+	})
+}
 
-/*function DeleteSale(currentEl){
-	//console.log(currentEl.parentNode.parentNode.parentNode);
-	currentEl.parentNode.parentNode.parentNode.remove();
-}*/
 
 </script>
 <script>
@@ -1075,7 +1135,7 @@ function selectAddress(){
 			//ul = ul + ul_end;
 			//console.log(ul);
 			$("#address-list .no-data").hide();
-			$("#address-ul").append(text);
+			body.innerHTML = text;
 			$("#test-ul").show();
 	  }
 	
@@ -1257,6 +1317,8 @@ function getOrderData(){
 });
 	return getOrderList;
 }
+
+
 </script>
 <script>
 /*------------------------ GET DATA FROM PAGE----------------------------------------*/
@@ -1410,48 +1472,10 @@ function onchangeSelect2(){
 		}
 	});
 
-function checkDuplicateId(){
-	var id = $("#quID").val();
-	if(id!=""){
-		$.ajax({
-			url:"checkDuplicateId",
-			method:"POST",
-			type:"JSON",
-			data:{
-				"id":id
-			},
-			success:function(data){
-				console.log(data);
-				if (data.toString().indexOf("1") != -1) {
-					$("#pass").hide();
-					$("#error").show();
-					$("#empty").hide();
-					//$(':input[type="submit"]').prop('disabled', true);
-					$("#quID").addClass("invalid");
-					$("#quID").removeClass("valid");
-				}
-				 else {
-					$("#pass").show();
-					$("#error").hide();
-					$("#empty").hide();
-					//$(':input[type="submit"]').prop('disabled', false);
-					$("#quID").addClass("valid");
-					$("#quID").removeClass("invalid");
-				}
-			}
-		})
-	}else{
-		$("#pass").hide();
-		$("#error").hide();
-		$("#empty").show();
-		//$(':input[type="submit"]').prop('disabled', false);
-		$("#quID").removeClass("invalid");
-		$("#quID").removeClass("valid");
-	}
-}
  
  
- function send_data(value){
+ 
+ function send_data(){
 	var id = $("#quID").val();  console.log("quotationID: "+id);
 	if(id ==''){
 		$("#quID").addClass("invalid");
@@ -1579,7 +1603,7 @@ function checkDuplicateId(){
 				"vat":vat,
 				"total_vat":total_vat,
 				"grand_total":grand_total,
-				"status":value
+				"status":"1"
 			},
 			success:function(data){
 				console.log(data);
@@ -1606,6 +1630,162 @@ function checkDuplicateId(){
 	}
 	
 }
+function send_approve(){
+		var id = $("#quID").val();  console.log("quotationID: "+id);
+		if(id ==''){
+			$("#quID").addClass("invalid");
+		}else{
+			$("#quID").removeClass("invalid");
+			$("#quID").addClass("valid");
+			
+		}
+		var start = $("#start").val();  console.log('start: '+start);
+		if(start ==''){
+			$("#start").addClass("invalid");
+		}else{
+			$("#start").removeClass("invalid");
+			$("#start").removeClass("valid");
+		}
+		
+		var end = $("#end").val();  console.log("end: "+end);
+		if(end ==''){
+			$("#end").addClass("invalid");
+		}else{
+			$("#end").removeClass("invalid");
+			$("#end").removeClass("valid");
+		}
+		
+		var tax = $("#taxID").val();  console.log("tax: "+tax);
+		if(tax ==''){
+			$("#taxID").addClass("invalid");
+		}else{
+			$("#taxID").removeClass("invalid");
+			$("#taxID").removeClass("valid");
+		}
+		
+		var contact = $("#contact").val();  console.log("contact: "+contact);
+		if(contact =='' || contact == null){
+			$("#contact").addClass("invalid");
+			$("#invalid-contact-name").show();
+		}else{
+			$("#contact").removeClass("invalid");
+			$("#contact").removeClass("valid");
+			$("#invalid-contact-name").hide();
+		}
+		
+		var email = $("#email").val();  console.log("email: "+email);
+		if(email ==''){
+			$("#email").addClass("invalid");
+		}else{
+			$("#email").removeClass("invalid");
+			$("#email").removeClass("valid");
+		}
+		
+		var phone1 = $("#phone1").val();  console.log("phone1: "+phone1);
+		if(phone1 ==''){
+			$("#phone1").addClass("invalid");
+		}else{
+			$("#phone1").removeClass("invalid");
+			$("#phone1").removeClass("valid");
+		}
+		
+		var phone2 = $("#phone2").val();  console.log("phone2: "+phone2);
+
+		var customer = $("#customer").val();  console.log("customer: "+customer);
+		if(customer ==''){
+			$("#customer").addClass("invalid");
+		}else{
+			$("#customer").removeClass("invalid");
+			$("#customer").removeClass("valid");
+		}
+		var salesperson = $("#salesperson").val();  console.log("salesperson: "+salesperson);
+		if(salesperson ==''){
+			$("#invalid-salesperson").show();
+			$("#salesperson").addClass("invalid");
+		}else{
+			$("#salesperson").removeClass("invalid");
+			$("#invalid-salesperson").hide();
+		}
+		
+		var company_id = $("#companyID").val();   console.log("company_id: "+company_id);
+		var order = getOrderData();  console.log(order);
+		//var sale = getSaleData();  console.log(sale); 
+		
+		var address = getCustomerAddressData();  console.log(address);
+		if(address.length == 0){
+			//console.log("address is empty");
+			$("#nodata").addClass("req");
+		}else{
+			$("#nodata").removeClass("req");
+		}
+		var description = $("#description").val();  console.log("description: "+description);
+		var sub_total = $("#sub-total").val();  console.log("sub_total: "+sub_total);
+		var dc_percent = $("#dc-percent").val();  console.log("dc_percent: "+dc_percent);
+		var discount = $("#discount").val();  console.log("discount: "+discount);
+		var additional_discount = $("#additional_discount").val();  console.log("additional_discount: "+additional_discount);
+		var tax_type = $("#inputGroupSelect01").val();  console.log("tax_type: "+tax_type);
+		var vat = $("#VAT").val();  console.log("vat: "+vat);
+		var total_vat = $("#totalVAT").val();  console.log("total_vat: "+total_vat);
+		var grand_total = $("#grand_total").val();  console.log("grand_total: "+grand_total);
+		var check = findInvalid(); console.log(check);
+		if(check){
+			console.log("pass");
+			$.ajax({
+				url:"sendApproveQuotation",
+				type:"JSON",
+				method:"POST",
+				data:{
+					"id":id,
+					"start":start,
+					"end":end,
+					"tax":tax,
+					"company_id":company_id,
+					"contact":contact,
+					"email":email,
+					"phone1":phone1,
+					"phone2":phone2,
+					"customer":customer,
+					"salesperson":salesperson,
+					"orderList":JSON.stringify(order),
+					//"saleList":JSON.stringify(sale),
+					"addressList":JSON.stringify(address),
+					"description":description,
+					"sub_total":sub_total,
+					"dc_percent":dc_percent,
+					"discount":discount,
+					"additional_discount":additional_discount,
+					"tax_type":tax_type,
+					"vat":vat,
+					"total_vat":total_vat,
+					"grand_total":grand_total,
+					"status":"2"
+				},
+				success:function(data){
+					console.log(data);
+					swal({
+		                title: "SUCCESS",
+		                text: "Your information has been succesfully save",
+		                type: "success",
+		        }, function(inputValue) {
+		            if (inputValue != "") {
+		            }
+		            document.location = "quotation_list";
+		        }
+		        )}
+			})
+		}else{
+			console.log("invalid");
+			swal({
+		          title: "กรอกข้อมูลไม่ครบ!",
+		          text: "กรุณากรอกข้อมูลให้ครบถ้วน",
+		          type: "warning",
+		          confirmButtonClass: 'btn-primary',
+		          confirmButtonText: 'OK'
+		      });
+		}
+		
+	}
+ 
 </script>
 <script>
 function findInvalid(){
@@ -1647,8 +1827,6 @@ $(document).ready(function(){
         }
     }
     console.log("liNodes.length: "+liNodes.length); //นับจำนวน li*/
-    var li = document.getElementById("address-ul").getElementsByTagName("li").length;
-    console.log(li);
     var checks = document.querySelectorAll(".chk");
     var max = 2;
     for (var i = 0; i < checks.length; i++)
