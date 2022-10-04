@@ -345,8 +345,23 @@
 			<result name="success" >/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<action name="sendApproveQuotation"
+			class="com.cubesofttech.action.QuotationAction" method="saveQuotation">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
 		<action name="quotation_delete"
 			class="com.cubesofttech.action.QuotationAction" method="delelteQuotation">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="edit_quotation"
+			class="com.cubesofttech.action.QuotationAction" method="edit_quotation">
+			<result name="success" type="tiles">edit_quotation</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="checkDuplicateId"
+			class="com.cubesofttech.action.QuotationAction" method="checkId">
 			<result name="success" >/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
@@ -362,6 +377,11 @@
 		</action>
 		<action name="listofAddressCompany"
 			class="com.cubesofttech.action.QuotationAction" method="listofAddressCompany">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="deleteQuoteAddress"
+			class="com.cubesofttech.action.QuotationAction" method="deleteQuoteAddress">
 			<result name="success" >/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>

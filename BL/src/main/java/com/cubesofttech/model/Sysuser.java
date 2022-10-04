@@ -19,26 +19,52 @@ private String sys_user_id;
 private String title;
 @Column(name="sys_role_id")
 private String sys_role_id;
+
 @Column(name="user_id")
 private String user_id;
+
+
+@Column(name="image")
+private String image;
+
 @Column(name="name")
 private String name;
+
+
 @Column(name="email")
 private String email;
+
 @Column(name="phone")
 private String phone;
+
 @Column(name="is_active")
 private String is_active;
+
 @Column(name="password")
 private String password;
+
 @Column(name="user_create")
 private String user_create;
+
 @Column(name="user_update")
 private String user_update;
+
 @Column(name="time_create")
 private java.sql.Timestamp timeCreate;
+
 @Column(name="time_update")
 private java.sql.Timestamp timeUpdate;
+
+
+
+
+
+/*public String toString() {
+    return super.toString() + "sys_user_id=[" + sys_user_id + "]\n" + "sys_role_id=[" + sys_role_id + "]\n" + "user_id=[" + user_id + "]\n"
+    						+ "name_th=[" + name_th + "]\n"+ "email=[" + email + "]\n"+ "phone=[" + phone + "]\n"+ "is_active=[" + is_active + "]\n"
+    						+ "password=[" + password + "]\n" + "user_create=[" + user_create + "]\n" + "user_update=[" + user_update + "]\n" 
+    						+ "timeCreate=[" + timeCreate + "]\n" + "timeUpdate=[" + timeUpdate + "]\n";
+}*/
 
 
 public String getSys_user_id() {
@@ -61,11 +87,19 @@ public void setUser_id(String user_id) {
 }
 
 
+
 public String getTitle() {
 	return title;
 }
 public void setTitle(String title) {
 	this.title = title;
+}
+public String getImage() {
+	return image;
+}
+public void setImage(String image) {
+	this.image = image;
+
 }
 public String getName() {
 	return name;
@@ -110,17 +144,18 @@ public void setUser_update(String user_update) {
 	this.user_update = user_update;
 }
 public java.sql.Timestamp getTimeCreate() {
-    return this.timeCreate;
-}		
+	return timeCreate;
+}
 public void setTimeCreate(java.sql.Timestamp timeCreate) {
-    this.timeCreate = timeCreate;
+	this.timeCreate = timeCreate;
 }
 public java.sql.Timestamp getTimeUpdate() {
-    return this.timeUpdate;
-}		
-public void setTimeUpdate(java.sql.Timestamp timeUpdate) {
-    this.timeUpdate = timeUpdate;
+	return timeUpdate;
 }
+public void setTimeUpdate(java.sql.Timestamp timeUpdate) {
+	this.timeUpdate = timeUpdate;
+}
+
 @Override
 public int hashCode() {
 	return Objects.hash(email, is_active, name, password, phone, sys_role_id, sys_user_id, timeCreate, timeUpdate,
@@ -142,6 +177,7 @@ public boolean equals(Object obj) {
 			&& Objects.equals(timeUpdate, other.timeUpdate) && Objects.equals(title, other.title)
 			&& Objects.equals(user_create, other.user_create) && Objects.equals(user_id, other.user_id)
 			&& Objects.equals(user_update, other.user_update);
+
 }
 @Override
 public String toString() {

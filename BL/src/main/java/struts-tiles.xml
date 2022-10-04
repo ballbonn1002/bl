@@ -157,6 +157,11 @@
 		<put-attribute name="body"
 			value="/pages-back/quotation/quotation_add.jsp" />
 	</definition>
+	<definition name="edit_quotation" extends="sashLayout">
+		<put-attribute name="title" value="Quotation Edit" />
+		<put-attribute name="body"
+			value="/pages-back/quotation/edit_quotation.jsp" />
+	</definition>
 	<definition name="test" extends="sashLayout">
 		<put-attribute name="title" value="Test" />
 		<put-attribute name="body"
