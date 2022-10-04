@@ -17,26 +17,48 @@ private String sys_user_id;
 
 @Column(name="sys_role_id")
 private String sys_role_id;
+
 @Column(name="user_id")
 private String user_id;
-@Column(name="name_th")
-private String name_th;
+
+@Column(name="image")
+private String image;
+
+@Column(name="name")
+private String name;
+
 @Column(name="email")
 private String email;
+
 @Column(name="phone")
 private String phone;
+
 @Column(name="is_active")
 private String is_active;
+
 @Column(name="password")
 private String password;
+
 @Column(name="user_create")
 private String user_create;
+
 @Column(name="user_update")
 private String user_update;
+
 @Column(name="time_create")
 private java.sql.Timestamp timeCreate;
+
 @Column(name="time_update")
 private java.sql.Timestamp timeUpdate;
+
+
+
+/*public String toString() {
+    return super.toString() + "sys_user_id=[" + sys_user_id + "]\n" + "sys_role_id=[" + sys_role_id + "]\n" + "user_id=[" + user_id + "]\n"
+    						+ "name_th=[" + name_th + "]\n"+ "email=[" + email + "]\n"+ "phone=[" + phone + "]\n"+ "is_active=[" + is_active + "]\n"
+    						+ "password=[" + password + "]\n" + "user_create=[" + user_create + "]\n" + "user_update=[" + user_update + "]\n" 
+    						+ "timeCreate=[" + timeCreate + "]\n" + "timeUpdate=[" + timeUpdate + "]\n";
+}*/
 
 public String getSys_user_id() {
 	return sys_user_id;
@@ -56,11 +78,17 @@ public String getUser_id() {
 public void setUser_id(String user_id) {
 	this.user_id = user_id;
 }
-public String getName_th() {
-	return name_th;
+public String getImage() {
+	return image;
 }
-public void setName_th(String name_th) {
-	this.name_th = name_th;
+public void setImage(String image) {
+	this.image = image;
+}
+public String getName() {
+	return name;
+}
+public void setName(String name) {
+	this.name = name;
 }
 public String getEmail() {
 	return email;
@@ -99,25 +127,17 @@ public void setUser_update(String user_update) {
 	this.user_update = user_update;
 }
 public java.sql.Timestamp getTimeCreate() {
-    return this.timeCreate;
-}		
+	return timeCreate;
+}
 public void setTimeCreate(java.sql.Timestamp timeCreate) {
-    this.timeCreate = timeCreate;
+	this.timeCreate = timeCreate;
 }
 public java.sql.Timestamp getTimeUpdate() {
-    return this.timeUpdate;
-}		
+	return timeUpdate;
+}
 public void setTimeUpdate(java.sql.Timestamp timeUpdate) {
-    this.timeUpdate = timeUpdate;
+	this.timeUpdate = timeUpdate;
 }
-
-public String toString() {
-    return super.toString() + "sys_user_id=[" + sys_user_id + "]\n" + "sys_role_id=[" + sys_role_id + "]\n" + "user_id=[" + user_id + "]\n"
-    						+ "name_th=[" + name_th + "]\n"+ "email=[" + email + "]\n"+ "phone=[" + phone + "]\n"+ "is_active=[" + is_active + "]\n"
-    						+ "password=[" + password + "]\n" + "user_create=[" + user_create + "]\n" + "user_update=[" + user_update + "]\n" 
-    						+ "timeCreate=[" + timeCreate + "]\n" + "timeUpdate=[" + timeUpdate + "]\n";
-}
-
 public boolean equals(Object obj) {
     if (this == obj) {
             return true;
@@ -138,8 +158,8 @@ public boolean equals(Object obj) {
                     : that.getUser_id().equals(this.getUser_id()))) {
             return false;
     }
-    if (!(that.getName_th() == null ? this.getName_th() == null
-            : that.getName_th().equals(this.getName_th()))) {
+    if (!(that.getName() == null ? this.getName() == null
+            : that.getName().equals(this.getName()))) {
     return false;
 }
     if (!(that.getEmail() == null ? this.getEmail() == null
