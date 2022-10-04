@@ -219,3 +219,18 @@ ALTER TABLE `employee` CHANGE `enable` `enable` VARCHAR(1) CHARACTER SET utf8 CO
 DROP TABLE `quotation_sale`
 
 DROP TABLE `user`
+
+--04/10/2022 BEST create table file
+CREATE TABLE `file` (
+  `file_id` bigint(20) NOT NULL,
+  `page` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `type` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `size` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `path` varchar(1024) CHARACTER SET utf8 NOT NULL,
+  `description` varchar(1024) CHARACTER SET utf8 DEFAULT NULL,
+  `user_create` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
+  `user_update` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
+  `time_create` timestamp NULL DEFAULT NULL,
+  `time_update` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
