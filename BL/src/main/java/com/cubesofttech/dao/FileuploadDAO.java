@@ -10,7 +10,7 @@ public void save(Fileupload fileupload) throws Exception;
     
     public List<Fileupload> findAll() throws Exception;
     
-    public Fileupload findById(String id) throws Exception;
+    public Fileupload findById(Integer id) throws Exception;
     
     public void update(Fileupload fileupload) throws Exception;
     

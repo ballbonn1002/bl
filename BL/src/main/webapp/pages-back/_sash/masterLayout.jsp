@@ -758,8 +758,7 @@
     <script src="/assets/js/sweet-alert.js"></script>
     
     <!-- file upload -->
-    <script src="/assets/plugins/fileuploads/js/fileupload.js"></script>
-    <script src="/assets/plugins/fileuploads/js/file-upload.js"></script>
+	
     <script src="/assets/plugins/fancyuploder/jquery.ui.widget.js"></script>
     <script src="/assets/plugins/fancyuploder/jquery.fileupload.js"></script>
     <script src="/assets/plugins/fancyuploder/jquery.iframe-transport.js"></script>

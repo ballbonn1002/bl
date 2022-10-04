@@ -10,6 +10,8 @@
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+<script src="/assets/plugins/fileuploads/js/fileupload.js"></script>
+<script src="/assets/plugins/fileuploads/js/file-upload.js"></script>
 <style>
 li.test{    
   opacity: 0;
@@ -34,6 +36,16 @@ tr{
     opacity: 1;
   }
 }
+.picture input[type="file"] {
+    cursor: pointer;
+    display: block;
+    height: 100%;
+    left: 0;
+    opacity: 0 !important;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
 </style>
 <div class="page-header">
     <h1 class="page-title">Company Management</h1>
@@ -53,9 +65,10 @@ tr{
 		<div class="row">
 			<div class="col-lg-4 col-sm-12 mb-4 mb-lg-0" ></div>
 			<div class="col-lg-4 col-sm-12 mb-4 mb-lg-0" >
-           		<input style="text-align:center;"  name="fileUpload" id="fileUpload" type="file" class="dropify"  data-default-file="${company[0].path}" accept="image/x-png,image/gif,image/jpeg" data-bs-height="180" value="${company[0].path}"/>
+           		<input style="text-align:center;"  name="fileUpload" id="fileUpload" type="file" class="dropify dropify-event"  data-default-file="${company[0].path}" accept="image/x-png,image/gif,image/jpeg" data-bs-height="180" value="${company[0].path}"/>
            		<input style="display:none;" id="filesize" name="filesize" type="text" value="">
-           		<input style="display:none;" type="text" class="form-control" name="company_ID" value="${company[0].company_id}">
+           		<input style="display:none;" type="text" class="form-control" id="company_ID" name="company_ID" value="${company[0].company_id}">
+           		<input style="display:none;" type="text" class="form-control" name="file_ID" id="file_ID" value="${company[0].file_id}">
     		</div>
 
     	<div class="col-sm-6 " style="margin-top:30px">
@@ -154,9 +167,9 @@ tr{
                		<div class="col-sm-8" style="margin-top:5px;">${address.address}</div>
                		<div class="col-sm-1" style="text-align:right;">
                		<div class="g-2">
-               			<button class="btn text-danger btn-sm" onclick="delete_address('${address.company_address_id}',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">
-                     	<span class="fe fe-trash-2 fs-18"></span></button>
-                     </div>
+               			<a class="btn text-danger btn-sm" onclick="delete_address('${address.company_address_id}',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">
+                     	<span class="fe fe-trash-2 fs-18"></span></a>
+                     </div>  
                		</div>
                </div>
                </li>
@@ -181,7 +194,7 @@ tr{
                <li class="list-group-item">
                <div class="row">
 					<div class="col-sm-4 d-flex">
-					<span class="avatar brround cover-image " data-bs-image-src="../assets/images/users/12.jpg" style="margin-top:5px;"></span>&nbsp;&nbsp;&nbsp;
+					<span><img src="${con.path}" class="avatar brround cover-image" style="margin-top:5px;"></span>&nbsp;&nbsp;&nbsp;
 					<span>
 							<span>${con.title_name_en} ${con.contact_name}</span><br>
 							<span class="text-muted">${con.position}</span>
@@ -192,7 +205,7 @@ tr{
                		<div class="col-sm-3" style="margin-top:10px;"><i class="ti-email"></i>&nbsp;&nbsp;${con.email}</div>
           	     	<div class="col-sm-1" style="text-align:right; margin-top:5px;">
                		 <div class="g-2">
-               			<a class="btn text-danger btn-sm" onclick="delete_contact('${con.company_contact_id}',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">
+               			<a class="btn text-danger btn-sm" onclick="delete_contact('${con.company_contact_id}','${con.file_id}',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">
                      	<span class="fe fe-trash-2 fs-18"></span></a>
                      </div>
                		</div>  
@@ -203,7 +216,7 @@ tr{
    </div>
 	<div  style="text-align: left; margin-top: 1rem; margin-bottom: 1.5rem;">
 		<button type="button" class="btn btn-primary" style="min-width: 5%;" data-bs-toggle="modal" data-bs-target="#ContactModal" id="clear_contact">Create Contact</button>
-	</div>
+	</div>  
 	</div>
 </div>
 
@@ -240,7 +253,7 @@ tr{
 
 <div  style="text-align: right; margin-top: 1rem; margin-bottom: 1.5rem;">
 	<a href="company_list" type="button" class="btn btn-default" style="min-width: 5%;">Cancel</a>&nbsp;&nbsp;
-	<button type="submit" class="btn btn-success" style="min-width: 5%;">Save</button>
+	<button type="submit" id="sub_edit" class="btn btn-success" style="min-width: 5%;">Save</button>
 </div>
 </form>
 <!-- Address Modal -->
@@ -288,56 +301,61 @@ tr{
 							<span aria-hidden="true">×</span>
 						</button>
                 </div>
+                <form id="uploadForm" enctype="multipart/form-data" action="#" method="POST" >
                 <div class="modal-body">
                 		<div class="form-group" style="display:none">
-							<input type="text" class="form-control" id="com_id_contact" value="${company[0].company_id}">   
+							<input type="text" class="form-control" name="company_ID" id="com_id_contact" value="${company[0].company_id}">   
              			</div>
+             			<div class="text-wrap picture" style="text-align:center;">
+             				<span class="avatar avatar-xxl brround cover-image"><img id="wizardPicturePreview" class="avatar avatar-xxl brround">
+                        	<span class="badge rounded-pill avatar-icons bg-primary"><i class="fe fe-edit fs-12"></i></span>
+                        	 <input type="file" id="wizard-picture" name="fileUpload" class="img-fluid" accept="image/x-png,image/gif,image/jpeg">
+                        	</span>
+                        	<input style="display:none;" id="fileSize" name="filesize" type="text" value="">
+                        </div>
                         <div class="col-sm-12">
-			<!--		 	<div class="form-group">
-							<label class="form-label">Contact Name<span style="color:red;"> *</span></label> 
-							<input type="text" class="form-control" id="contact_name" required>   
-             			</div> -->
              			<label class="form-label">Contact Name<span style="color:red;"> *</span></label> 
                              <div class="form-group">
                                             <div class="input-group">
-                                                <select class="form-control col-sm-3" type="button" id="contact_title_name">
+                                                <select class="form-control col-sm-3" type="button" name="contact_title_name" id="contact_title_name">
                                                     <option value="Mr.">Mr.</option>
                                                     <option value="Ms.">Ms.</option>
                                                     <option value="Mrs.">Mrs.</option>
                                                 </select>
-                                                <input type="text" class="form-control" id="contact_name" required >
+                                                <input type="text" class="form-control" name="contact_name" id="contact_name" required >
                                             </div>
                                         </div>
          			</div> 
          			<div class="col-sm-12">
 						<div class="form-group">
 							<label class="form-label">Position<span style="color:red;"> *</span></label> 
-							<input type="text" class="form-control" id="position" required>   
+							<input type="text" class="form-control" name="position" id="position" required>   
              			</div>
          			</div>
          			<div class="col-sm-12">
 						<div class="form-group">
 							<label class="form-label">Phone Number<span style="color:red;"> *</span></label> 
-							<input type="text" class="form-control" id="con_phone" required>   
+							<input type="text" class="form-control" name="con_phone" id="con_phone" required>   
              			</div>
          			</div>
          			<div class="col-sm-12">
 						<div class="form-group">
 							<label class="form-label">E-mail<span style="color:red;"> *</span></label> 
-							<input type="text" class="form-control" id="con_email" required>   
+							<input type="text" class="form-control"  name="con_email" id="con_email" required>   
              			</div>
          			</div>
          			<div class="col-sm-12">
 						<div class="form-group">
 							<label class="form-label">Address Location</label> 
-							<select class="form-control select2 form-select" id="add_location" data-placeholder="Select" ></select>
+							<select class="form-control select2 form-select" name="add_location" id="add_location" data-placeholder="Select" ></select>
              			</div>
          			</div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-default" data-bs-dismiss="modal">Cancel</button>
-                    <button id="sub_contact" class="btn btn-success" data-bs-dismiss="modal">Save changes</button>
+                    <button type="button" id="sub_contact" class="btn btn-success" data-bs-dismiss="modal">Save changes</button>
                 </div>
+            </form> 
             </div>
         </div>
     </div>
@@ -389,18 +407,42 @@ tr{
                 </div>
             </div>
         </div>
-    </div>  
+    </div>
+<script>
+$('#wizard-picture').bind('change', function() {
+	 var fs;
+	 var size = this.files[0].size;
+	 fs = $("#fileSize").val(size);
+	 console.log(fs);
+})
+</script>  
+<script>
+var drEvent = $('.dropify-event').dropify();
+//console.log(clear);
+drEvent.on('dropify.beforeClear', function(event, element) {
+var company_id = $("#company_ID").val();
+var file_id = $('#file_ID').val();
+
+$.ajax({
+	 url: 'Delete_image',
+	 method: 'POST',
+	 type: 'JSON',
+	 data: {
+		 'file_id' : file_id,
+		 'company_id' : company_id,
+	 },
+	 success:function(data){
+		 console.log(data);
+	 }
+})
+});
+</script>
 <script>
 $('#fileUpload').bind('change', function() {
 	 var fs;
 	 var size = this.files[0].size;
 	 fs = $("#filesize").val(size);
 	 console.log(fs);
-});
-</script>
-<script>
-$(".dropify-clear").trigger("click" , function(){
-	console.log("CLEAR");
 });
 </script>
 <script>
@@ -433,8 +475,8 @@ $(".dropify-clear").trigger("click" , function(){
 						'<div class="col-sm-8" style="margin-top:5px;">'+data.address+'</div>'+
 						'<div class="col-sm-1" style="text-align:right;">'+
 						'<div class="g-2">'+
-       					'<button class="btn text-danger btn-sm" onclick="delete_address('+data.company_address_id+',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">'+
-             			'<span class="fe fe-trash-2 fs-18"></span></button>'+
+       					'<a class="btn text-danger btn-sm" onclick="delete_address('+data.company_address_id+',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">'+
+             			'<span class="fe fe-trash-2 fs-18"></span></a>'+
        					'</div>'+
              			'</div>'+
        					'</div>'+
@@ -448,36 +490,21 @@ $(".dropify-clear").trigger("click" , function(){
 	})
 </script>
 <script>
-	$(document).ready(function(){
 		$("#sub_contact").on('click',function(){
-			var contact_name = $("#contact_name").val();
-			var position = $("#position").val();
-			var con_phone = $("#con_phone").val();
-			var con_email = $("#con_email").val();
-			var add_location = $("#add_location").val();
-			var id = $("#com_id_contact").val();
-			var title_name = $("#contact_title_name").val();
-			console.log(contact_name);
-			console.log(position);
-			console.log(con_phone);
-			console.log(con_email);
-			console.log(add_location);
-			console.log(title_name);
+			const form = document.getElementById('uploadForm');
+			var formData = new FormData(form);
+        	
 			$.ajax({
 				url: "add_contact" ,
 				type: "JSON",
 				method: "POST",
-				data:{
-						"contact_name" : contact_name,
-						"position" : position,
-						"con_phone" : con_phone,
-						"con_email" : con_email,
-						"add_location" : add_location,
-						"id" : id,
-						"title_name" : title_name,
-				},
+				processData: false,
+				contentType: false,
+				data: formData ,
+
 				success:function(data){
-				console.log(data)
+				console.log(data);
+				console.log(data[0].path);
 				swal({
 						title: "SUCCESS",
 		            	text: "Your information has been succesfully save",
@@ -486,19 +513,19 @@ $(".dropify-clear").trigger("click" , function(){
 		            if (inputValue != "") {
 		            	let text = '<li class="list-group-item test del">'+
 						'<div class="row">'+
-						'<div class="col-sm-3 d-flex">'+
-						'<span class="avatar brround cover-image " data-bs-image-src="../assets/images/users/12.jpg" style="margin-top:5px;"></span>&nbsp;&nbsp;&nbsp;'+
+						'<div class="col-sm-4 d-flex">'+
+						'<span><img src="'+data[0].path+'" class="avatar brround cover-image" style="margin-top:5px;"></span>&nbsp;&nbsp;&nbsp;'+
 						'<span>'+
-						'<span>'+data.title_name_en+' '+data.contact_name+'</span><br>'+
-						'<span class="text-muted">'+data.position+'</span>'+
+						'<span>'+data[0].title_name_en+' '+data[0].contact_name+'</span><br>'+
+						'<span class="text-muted">'+data[0].position+'</span>'+
                			'</span>'+
                			'</div>'+
-               			'<div class="col-sm-2" style="margin-top:10px;"><i class="ti-location-pin"></i>&nbsp;&nbsp;'+data.address_location+'</div>'+
-	               		'<div class="col-sm-2" style="margin-top:10px;"><i class="bi bi-telephone"></i>&nbsp;&nbsp;'+data.phone+'</div>'+
-	               		'<div class="col-sm-4" style="margin-top:10px;"><i class="ti-email"></i>&nbsp;&nbsp;'+data.email+'</div>'+
+               			'<div class="col-sm-2" style="margin-top:10px;"><i class="ti-location-pin"></i>&nbsp;&nbsp;'+data[0].address_location+'</div>'+
+	               		'<div class="col-sm-2" style="margin-top:10px;"><i class="bi bi-telephone"></i>&nbsp;&nbsp;'+data[0].phone+'</div>'+
+	               		'<div class="col-sm-3" style="margin-top:10px;"><i class="ti-email"></i>&nbsp;&nbsp;'+data[0].email+'</div>'+
 						'<div class="col-sm-1" style="text-align:right; margin-top:5px;">'+
 						'<div class="g-2">'+
-	   					'<a class="btn text-danger btn-sm" onclick="delete_contact('+data.company_contact_id+',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">'+
+	   					'<a class="btn text-danger btn-sm" onclick="delete_contact('+data[0].company_contact_id+','+data[0].file_id+',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">'+
 	         			'<span class="fe fe-trash-2 fs-18"></span></a>'+
 	         			'</div>'+
 	   					'</div>'+
@@ -508,9 +535,8 @@ $(".dropify-clear").trigger("click" , function(){
 		            }
 					})
 				}
-			}) 
-		})
-	});
+			})   
+		});
 </script>
 <script>
 $(document).ready(function(){
@@ -547,8 +573,9 @@ $(document).ready(function(){
 })
 </script>
 <script>
-function delete_contact(id,currentEl){
+function delete_contact(id,file_id,currentEl){
 		console.log(currentEl);
+		console.log(file_id);
 	    Swal.fire({
             title: 'Are you sure?',
             text: "You will be deleting this id!",
@@ -564,7 +591,8 @@ function delete_contact(id,currentEl){
                 		type: 'JSON',
                 		method: 'POST',
                 		data: {
-                				"id" : id
+                				"id" : id ,
+                				"file_id" : file_id
                 		},
                 		success:function(data){
                 			console.log(data);
@@ -575,11 +603,12 @@ function delete_contact(id,currentEl){
                 else if (result.isDenied) {
                     return false;
                 } 
-      }); 
+      });  
 };
 </script>
 <script>
 function delete_address(id,currentEl){
+	console.log(id);
 	console.log(currentEl);
     Swal.fire({
         title: 'Are you sure?',
@@ -602,13 +631,13 @@ function delete_address(id,currentEl){
             			console.log(data);
             			currentEl.parentNode.parentNode.parentNode.parentNode.remove();
             		}
-            	})
+            	}) 
             }
             else if (result.isDenied) {
                 return false;
             } 
   }); 
-};
+};  
 </script>
 <script>
 function delete_sales(id,currentEl){
@@ -770,4 +799,18 @@ $('#myTable tr').each(function() {
     })
 }
 </script>
+<script>
+	$("#wizard-picture").change(function(){
+	   readURL(this);
+	});
+	function readURL(input) {
+	    if (input.files && input.files[0]) {
+	        var reader = new FileReader();
 
+	        reader.onload = function (e) {
+	            $('#wizardPicturePreview').attr('src', e.target.result).fadeIn('slow');
+	        }
+	        reader.readAsDataURL(input.files[0]);
+	    }
+	}
+</script>

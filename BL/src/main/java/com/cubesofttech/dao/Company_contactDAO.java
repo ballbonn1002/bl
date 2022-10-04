@@ -14,5 +14,11 @@ public interface Company_contactDAO {
     
     public List<Company_contact> findByCompany_id(String id) throws Exception;
     
-    public Company_contact findById(String company_contact_id) throws Exception;
+    public List<Company_contact> contactwithFile(String id) throws Exception;
+    
+    Integer getMaxId() throws Exception;
+    
+    public List<Company_contact> contactwithFileById(String id , Integer file_id) throws Exception;
+    
+    public Company_contact findById(Integer company_contact_id) throws Exception;
 }

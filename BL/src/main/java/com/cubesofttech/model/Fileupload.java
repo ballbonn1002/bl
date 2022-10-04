@@ -15,6 +15,9 @@ public class Fileupload implements Serializable{
 	@Column(name="file_id")
 	public Integer file_id;
 	
+	@Column(name="page")
+	public String page;
+	
 	@Column(name="name")
 	public String name;
 	
@@ -26,6 +29,9 @@ public class Fileupload implements Serializable{
 	
 	@Column(name="path")
 	public String path;
+	
+	@Column(name="description")
+	public String description;
 	
 	@Column(name="user_create")
 	public String user_create;
@@ -45,6 +51,15 @@ public class Fileupload implements Serializable{
 
 	public void setFile_id(Integer file_id) {
 		this.file_id = file_id;
+	}
+
+	
+	public String getPage() {
+		return page;
+	}
+
+	public void setPage(String page) {
+		this.page = page;
 	}
 
 	public String getName() {
@@ -77,6 +92,14 @@ public class Fileupload implements Serializable{
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getUser_create() {

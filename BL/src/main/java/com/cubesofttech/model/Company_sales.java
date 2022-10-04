@@ -13,9 +13,8 @@ import javax.persistence.Table;
 @Table(name="company_sales")
 public class Company_sales implements Serializable{
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="company_sales_id")
-	public String company_sales_id;
+	public Integer company_sales_id;
 	
 	@Column(name="company_id")
 	public String company_id;
@@ -50,11 +49,11 @@ public class Company_sales implements Serializable{
 	@Column(name="time_update")
 	public java.sql.Timestamp time_update;
 
-	public String getCompany_sales_id() {
+	public Integer getCompany_sales_id() {
 		return company_sales_id;
 	}
 
-	public void setCompany_sales_id(String company_sales_id) {
+	public void setCompany_sales_id(Integer company_sales_id) {
 		this.company_sales_id = company_sales_id;
 	}
 
