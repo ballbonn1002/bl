@@ -68,6 +68,11 @@
 		<put-attribute name="title" value="Company Edit" />
 		<put-attribute name="body" value="/pages-back/company/company_edit.jsp" />
 	</definition>
+	<definition name="setting_company" extends="sashLayout">
+		<put-attribute name="title" value="Setting Company" />
+		<put-attribute name="body" value="/pages-back/company/setting_company.jsp" />
+	</definition>
+	
 	<!-- Dashboard -->
 	<definition name="dashboard" extends="sashLayout">
 		<put-attribute name="title" value="Dashboard" />
@@ -152,6 +157,11 @@
 		<put-attribute name="body"
 			value="/pages-back/quotation/quotation_add.jsp" />
 	</definition>
+	<definition name="edit_quotation" extends="sashLayout">
+		<put-attribute name="title" value="Quotation Edit" />
+		<put-attribute name="body"
+			value="/pages-back/quotation/edit_quotation.jsp" />
+	</definition>
 	<definition name="test" extends="sashLayout">
 		<put-attribute name="title" value="Test" />
 		<put-attribute name="body"
@@ -190,6 +200,23 @@
 		<put-attribute name="title" value="Position Add" />
 		<put-attribute name="body"
 			value="/pages-back/position/position_add.jsp" />
+	</definition>
+	
+	<!-- 	EMPLOYEE -->
+		<definition name="employee_list" extends="sashLayout">
+		<put-attribute name="title" value="Employee list" />
+		<put-attribute name="body"
+			value="/pages-back/employee/employee_list.jsp" />
+	</definition>
+	<definition name="employee_add" extends="sashLayout">
+		<put-attribute name="title" value="Employee add" />
+		<put-attribute name="body"
+			value="/pages-back/employee/employee_add.jsp" />
+	</definition>
+	<definition name="employee_edit" extends="sashLayout">
+		<put-attribute name="title" value="Employee edit" />
+		<put-attribute name="body"
+			value="/pages-back/employee/employee_edit.jsp" />
 	</definition>
 	
 </tiles-definitions>

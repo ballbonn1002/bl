@@ -52,7 +52,7 @@
 									You can use this id
 								</div>
 								
-								<div class="invalid-feedback">กรอกได้เฉพาะ ภาษาอังฤกษ ตัวเลข . (จุด) ห้ามซ้ำกับ Id เดิม และห้ามปล่อยฟิลนี้ว่าง</div>
+								<div class="invalid-feedback">Can only fill in English numbers . (dot) Don't duplicate the original Id and Don't leave this blank.</div>
 						</div>
 						<div class="form-group">
 							<label class="form-label">Department Name <span

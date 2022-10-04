@@ -4,8 +4,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="/WEB-INF/tlds/permission.tld" prefix="perm"%>
-  <!-- JQUERY JS -->
-    <script src="/assets/js/jquery.min.js"></script>
+<!-- JQUERY JS -->
+<script src="/assets/js/jquery.min.js"></script>
 
 <c:set var="now" value="<%=new java.util.Date()%>" />
 <fmt:formatDate value="${bean.date}" pattern="dd-MM-yyyy" />
@@ -13,30 +13,35 @@
 
 <!-- PAGE-HEADER -->
 
-	<div class="page-header">
-	    <h1 class="page-title">Create Position</h1>
-	    <div>
-	        <ol class="breadcrumb">
-	        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-	            <li class="breadcrumb-item"><a href="position_list">Position</a></li>
-	            <li class="breadcrumb-item active" aria-current="page">Create Position</li>
-	        </ol>
-	    </div>
+<div class="page-header">
+	<h1 class="page-title">Create Position</h1>
+	<div>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+			<li class="breadcrumb-item"><a href="position_list">Position</a></li>
+			<li class="breadcrumb-item active" aria-current="page">Create
+				Position</li>
+		</ol>
 	</div>
+</div>
 <!-- PAGE-HEADER END -->
 
-	<form id="form_send" action="javascript:sendData()" class="needs-validation" novalidate>
-		<div class="card">
-        	<div class="card-header">
-             	<h3 class="card-title">Create Position</h3>
-            </div>
-                                  
-        	<div class="card-body">                     
-            	<div class="col-md-12">
-                	<div class="form-group">
-                    	<label class="form-label ">Position ID <span class="text-red">*</span></label>
-                        <input type="text" class="form-control form_position_control" id="position_id" name="positionId" maxlength="4" pattern="[A-Za-z0-9.]{1,}" placeholder="Enter ID" required>
-                           		<!-- <div id="canuse"
+<form id="form_send" action="javascript:sendData()"
+	class="needs-validation" novalidate>
+	<div class="card">
+		<div class="card-header">
+			<h3 class="card-title">Create Position</h3>
+		</div>
+
+		<div class="card-body">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="form-label ">Position ID <span
+						class="text-red">*</span></label> <input type="text"
+						class="form-control form_position_control" id="position_id"
+						name="positionId" maxlength="4" pattern="[A-Za-z0-9.]{1,}"
+						placeholder="Enter ID" required>
+					<!-- <div id="canuse"
 							style="color: #28A745; text-color: #28A745; display: none; width: 100%;">
 						</div>
 						<div id="cannotuse"
@@ -48,59 +53,66 @@
 							Please, Enter userID
 						</div> -->
 
-						<div class="valid-feedback">You can use this id</div>                       
-						<div class="invalid-feedback">กรอกได้เฉพาะ ภาษาอังกฤษ ตัวเลข และ จุด(.) เท่านั้น และข้อมูลห้ามซ้ำ</div>
-                    </div>
-               	</div>
-                                           
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="form-label">Department <span class="text-red">*</span></label>
-                                                    <select id="depart_id"
-							class="form-control form-select form_position_control" name="user.departmentId" data-placeholder="Select Department" required>
-							<option value="" disabled hidden selected>Select Department</option>
-							 <c:forEach var="department" items="${departmentList}">
-								<option value="${department.department_id}"
-									>${department.department_id}
-									- ${department.name}</option>
-							 </c:forEach>  
-						</select>
-							<div class="valid-feedback"></div>
-						<div class="invalid-feedback">required this field</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="form-label">Name <span class="text-red">*</span></label>
-                                                    <input type="text" name="name" class="form-control form_position_control" id="name_position" placeholder="Enter Name" required>
-                                                    	<div class="valid-feedback"></div>
-						<div class="invalid-feedback">required this field</div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label class="form-label">Description</label>
-                                                    <input type="text" name="description" class="form-control" placeholder="Enter Description" >
+					<div class="valid-feedback">You can use this id</div>
+					<div class="invalid-feedback">Can only fill in English
+						numbers . (dot) Don't duplicate the original Id and Don't leave
+						this blank.</div>
+				</div>
+			</div>
 
-                                                </div>
-                                            </div>
-                                           <!--  <div class="col-md-12">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="form-label">Department <span class="text-red">*</span></label>
+					<select id="depart_id"
+						class="form-control form-select form_position_control"
+						name="user.departmentId" data-placeholder="Select Department"
+						required>
+						<option value="" disabled hidden selected>Select
+							Department</option>
+						<c:forEach var="department" items="${departmentList}">
+							<option value="${department.department_id}">${department.department_id}
+								- ${department.name}</option>
+						</c:forEach>
+					</select>
+					<div class="valid-feedback"></div>
+					<div class="invalid-feedback">required this field</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="form-label">Name <span class="text-red">*</span></label>
+					<input type="text" name="name"
+						class="form-control form_position_control" id="name_position"
+						placeholder="Enter Name" required>
+					<div class="valid-feedback"></div>
+					<div class="invalid-feedback">required this field</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="form-label">Description</label> <input type="text"
+						name="description" class="form-control"
+						placeholder="Enter Description">
+
+				</div>
+			</div>
+			<!--  <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="form-label">Prefix ID:</label>
                                                     <input type="text" name="prefix" class="form-control" >
   
                                                 </div>
                                             </div> -->
-        	</div>
 		</div>
-                                 
-                                
-    	<div class="text-end">
-        	<a type="reset" class="btn btn-default" href="position_list">Cancel</a>
-			<button id="submit_position" type="submit" class="btn btn-success">Save</button>
-		</div>
-	</form>
-                                
+	</div>
+
+
+	<div class="text-end">
+		<a type="reset" class="btn btn-default" href="position_list">Cancel</a>
+		<button id="submit_position" type="submit" class="btn btn-success">Save</button>
+	</div>
+</form>
+
 
 
 

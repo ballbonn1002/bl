@@ -167,5 +167,10 @@ public class Company_contact implements Serializable{
 		this.time_update = time_update;
 	}
 	
+
+	public String toString() {
+        return super.toString() + "id=[" + company_contact_id + "]\n" + "company_id=[" + company_id + "]\n" + "contact_name=[" + contact_name + "]\n" + "position=[" + position + "]\n" + "phone=[" + phone + "]\n"+ "email=[" + email + "]\n" + "address_location=[" + address_location + "]\n"+ "description=[" + description + "]\n";
+    }
+	
 	
 }

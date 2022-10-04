@@ -58,78 +58,50 @@ tr{
 			<div class="card-header">
 				<div class="card-title">Quotation List</div>
 				<div class="card-options">
-					<a href="quotation_add" class="btn btn-primary btn-sm">Add Quotation</a>
+					<div class="card-options"><a href="quotation_add" class="btn btn-primary"><i class="ion-plus-round">&nbsp;</i>Create Quotation</a></div>
 				</div>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
-					<table class="table table-bordered text-nowrap border-bottom dataTable no-footer" id="responsive-datatable">
+					<table class="table table-bordered text-nowrap table-hover border-bottom dataTable no-footer myTable" id="">
 						<thead>
                         	<tr>
 		                        <th class= "border-bottom-0">Quotation_id</th>
 		                        <th class=" border-bottom-0">Customer Name</th>
-		                        <th class="border-bottom-0">date issue</th>
-		                        <th class="border-bottom-0">date</th>
-		                        <th class="border-bottom-0">total</th>
+		                        <th class="border-bottom-0">Create Date</th>
+		                        <th class="border-bottom-0">Due Date</th>
+		                        <th class="border-bottom-0">Status</th>
 		                        <th class="border-bottom-0">sale</th>
-		                        <th class="border-bottom-0">status</th>
-		                        <th class=""></th>
-		                        
+		                        <th class="border-bottom-0">Action</th>
                         	</tr>
                         </thead>
                         <tbody>
-                        	<tr>
-                                                        <td>Bella</td>
-                                                        <td>Chloe</td>
-                                                        <td>System Developer</td>
-                                                        <td>2018/03/12</td>
-                                                        <td>$654,765</td>
-                                                        <td>b.Chloe@datatables.net</td>
-                                                        <td>b.Chloe@datatables.net</td>
-                                                        <td>
-                                                        	<div style="text-align: center;">
-                             <button type="button" class="btn btn-icon btn-primary btn-sm"><i class="fe fe-edit"></i></button>
-                            <button type="button" onclick="del()" class="btn btn-icon btn-danger btn-sm"><i class="fe fe-trash-2"></i></button>
-                         </div>
-                                                                                </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Donna</td>
-                                                        <td>Bond</td>
-                                                        <td>Account Manager</td>
-                                                        <td>2012/02/21</td>
-                                                        <td>$543,654</td>
-                                                        <td>d.bond@datatables.net</td>
-                                                        <td>b.Chloe@datatables.net</td>
-                                                         <td>
-                             <button type="button" class="btn btn-icon btn-primary btn-sm"><i class="fe fe-edit"></i></button>
-                            <button type="button" onclick="del()" class="btn btn-icon btn-danger btn-sm"><i class="fe fe-trash-2"></i></button>
-                                                                                </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Harry</td>
-                                                        <td>Carr</td>
-                                                        <td>Technical Manager</td>
-                                                        <td>20011/02/87</td>
-                                                        <td>$86,000</td>
-                                                        <td>h.carr@datatables.net</td>
-                                                        <td>b.Chloe@datatables.net</td>
-                                                         <td>  <button type="button" class="btn btn-icon btn-primary btn-sm"><i class="fe fe-edit"></i></button>
-                            <button type="button" onclick="del()" class="btn btn-icon btn-danger btn-sm"><i class="fe fe-trash-2"></i></button>
-				                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Lucas</td>
-                                                        <td>Dyer</td>
-                                                        <td>Javascript Developer</td>
-                                                        <td>2014/08/23</td>
-                                                        <td>$456,123</td>
-                                                        <td>l.dyer@datatables.net</td>
-                                                        <td>b.Chloe@datatables.net</td>
-                                                         <td> <button type="button" class="btn btn-icon btn-primary btn-sm"><i class="fe fe-edit"></i></button>
-                            <button type="button" onclick="del()" class="btn btn-icon btn-danger btn-sm"><i class="fe fe-trash-2"></i></button>
-				                                        </td>
-                                                    </tr>
+                        <c:forEach var="quotation" items="${quotationList}">
+                        <tr>
+                        	<td>${quotation.quotation_id}</td>
+                        	<td>${quotation.company_name}</td>
+                        	<td><fmt:formatDate value="${quotation.create_date}" pattern="dd MMM yyyy"></fmt:formatDate></td>
+                        	<td><fmt:formatDate value="${quotation.end_date}" pattern="dd MMM yyyy"></fmt:formatDate></td>
+                        	<td>
+                        		<c:if test ="${quotation.quotation_status == 0}"><span class="badge bg-danger-transparent rounded-pill text-danger p-2 px-3">Reject</span></c:if>
+                        		<c:if test ="${quotation.quotation_status == 1}"><span class="badge bg-primary-transparent rounded-pill text-info p-2 px-3">In Progress</span></c:if>
+                        		<c:if test ="${quotation.quotation_status == 2}"><span class="badge bg-warning-transparent rounded-pill text-warning p-2 px-3">Waiting Approvaled</span></c:if>
+                        		<c:if test ="${quotation.quotation_status == 3}"><span class="badge bg-success-transparent rounded-pill text-success p-2 px-3">Approvaled</span></c:if>
+                        		<c:if test ="${quotation.quotation_status == 4}"><span class="badge bg-default rounded-pill text-text p-2 px-3">Return</span></c:if>
+                        	</td>
+                        	<td>${quotation.saleperson}</td>
+                        	<td>
+                        		<div style="text-align: center;">
+	                         		<div class="g-2">
+	                           			 <a href="" class="btn text-primary btn-sm" data-bs-toggle="tooltip" data-bs-original-title="Edit">
+	                            		<span class="fe fe-edit fs-18"></span></a>
+	                           			 <a class="btn text-danger btn-sm" data-bs-toggle="tooltip" onclick="del('${quotation.quotation_id}')" data-bs-original-title="Delete">
+	                           	 		<span class="fe fe-trash-2 fs-18"></span></a>
+	                        		 </div>
+                         		</div>
+                        	</td>
+                        </tr>
+                        </c:forEach>
                         </tbody>
 					</table>
 				</div>
@@ -140,21 +112,58 @@ tr{
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 <script>
-function del(){
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You will be deleting this id!",
-            icon: 'error',
-            showDenyButton: true,
-            denyButtonText: 'Cancel',
-            confirmButtonText: 'Confirm',
-
-            reverseButtons: true,
-    }, function (inputValue) {
-        if (inputValue === false) return false;
-        if (inputValue === "") {
-          return false
-        }
-      });
-};
+function del(id){
+	console.log(id);
+	Swal.fire({
+        title: 'Are you sure?',
+        text: "You will be deleting this id!",
+        icon: 'error',
+        showDenyButton: true,
+        denyButtonText: `Cancel`,
+        reverseButtons: true,
+      }).then((result) => {
+            if (result.isConfirmed) {
+              $.ajax({
+                  method : "POST",
+                  url: "quotation_delete",
+                  type: "JSON",
+                  data : {
+                      "quotation_id" : id
+                  },
+                  success : function(data){
+                      console.log(data);
+                      window.location.reload(true);
+                  }
+              })
+            } 
+            else if (result.isDenied) {
+                
+            }
+  })
+}
+</script>
+<script>
+$(document).ready(function(){
+	var t = $('.myTable').DataTable({
+	     "bPaginate": true,
+	      "bLengthChange": true,
+	      "bFilter": true,
+	      "bInfo": true,
+	      "bAutoWidth": true,
+	      "ordering": true,
+	        language: {
+	            search: " ",
+	            searchPlaceholder: "Search..." 
+	           } ,
+	        columnDefs: [
+	           {
+	            	targets:6,
+	            	orderable: false
+	            }
+	        ]
+	    });
+	    
+	    //$('div#DataTables_Table_2_filter').prepend('<div class="row" id="test1"></div>');
+	    //$("label ").prependTo("#destination");
+	});
 </script>

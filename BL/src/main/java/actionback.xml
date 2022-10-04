@@ -103,6 +103,49 @@
 			<result name="success" type="tiles">department_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
 			<result name="error">/index.jsp</result>
 		</action>
+		
+		<!-- employee -->
+		<action name="employee_list"
+			class="com.cubesofttech.action.EmployeeAction" method="list">
+			<result name="success" type="tiles">employee_list</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="employee_add"
+			class="com.cubesofttech.action.EmployeeAction" method="addEmployee">
+			<result name="success" type="tiles">employee_add</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="save_employ"
+			class="com.cubesofttech.action.EmployeeAction" method="save_employ">
+			<result name="success" type="tiles">employee_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+			<result name="error">/index.jsp</result>
+			<result name="input" type="tiles">employee_add</result>
+		</action>
+		<action name="employee_edit"
+			class="com.cubesofttech.action.EmployeeAction" method="edit_employ">
+			<result name="success" type="tiles">employee_edit</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="Employee_delete"
+			class="com.cubesofttech.action.EmployeeAction" method="deleteEmployee">
+			<result name="success" type="tiles">employee_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="CheckDuplicateEmploy"
+			class="com.cubesofttech.action.EmployeeAction" method="CheckDuplicateEmploy">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="updateEmployee"
+			class="com.cubesofttech.action.EmployeeAction" method="updateEmployee">
+			<result name="success" type="tiles">employee_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="ChangecheckboxEmployee"
+			class="com.cubesofttech.action.EmployeeAction" method="ChangeCheckBoxemploy">
+			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
 
 		<!-- System User -->
 		<action name="SystemUser_list"
@@ -287,17 +330,58 @@
 		
 		<!-- Quotation -->
 		<action name="quotation_list"
-			class="com.cubesofttech.action.Sys_roleAction" method="">
+			class="com.cubesofttech.action.QuotationAction" method="listQuotation">
 			<result name="success" type="tiles">quotation_list</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		<action name="quotation_add"
-			class="com.cubesofttech.action.Sys_roleAction" method="">
+			class="com.cubesofttech.action.QuotationAction" method="listForQuotation_add">
 			<result name="success" type="tiles">quotation_add</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		
 		<action name="saveQuotation"
 			class="com.cubesofttech.action.QuotationAction" method="saveQuotation">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="sendApproveQuotation"
+			class="com.cubesofttech.action.QuotationAction" method="saveQuotation">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="quotation_delete"
+			class="com.cubesofttech.action.QuotationAction" method="delelteQuotation">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="edit_quotation"
+			class="com.cubesofttech.action.QuotationAction" method="edit_quotation">
+			<result name="success" type="tiles">edit_quotation</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="checkDuplicateId"
+			class="com.cubesofttech.action.QuotationAction" method="checkId">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="listContact"
+			class="com.cubesofttech.action.QuotationAction" method="listContactCompany">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="findDataContact"
+			class="com.cubesofttech.action.QuotationAction" method="findDataContact">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="listofAddressCompany"
+			class="com.cubesofttech.action.QuotationAction" method="listofAddressCompany">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="deleteQuoteAddress"
+			class="com.cubesofttech.action.QuotationAction" method="deleteQuoteAddress">
 			<result name="success" >/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
@@ -424,6 +508,9 @@
 		<action name="Delete_image"
 			class="com.cubesofttech.action.CompanyAction" method="Delete_image">
 			<result name="success">/pages-back/common/json.jsp</result>
+		<action name="setting_company"
+			class="com.cubesofttech.action.CompanyAction" method="">
+			<result name="success" type="tiles">setting_company</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		

@@ -34,7 +34,7 @@
     <li class="slide">
         <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0)"><i class="side-menu__icon fe fe-layers"></i><span class="side-menu__label">Master</span><i class="angle fe fe-chevron-right"></i></a>
         <ul class="slide-menu">
-            <li><a href="#" class="slide-item"> User</a></li>
+            <li><a href="employee_list" class="slide-item"> Employee</a></li>
             <li><a href="position_list" class="slide-item"> Position</a></li>
             <li><a href="department_list" class="slide-item"> Department</a></li>
         </ul>
@@ -47,6 +47,7 @@
     	<a class="side-menu__item" data-bs-toggle="slide" href="SystemUser_list"><i class="side-menu__icon fe fe-layers"></i><span class="side-menu__label">Sys User</span></a>
         <a class="side-menu__item" data-bs-toggle="slide" href="role_management"><i class="side-menu__icon fe fe-layers"></i><span class="side-menu__label">Role</span></a>
         <a class="side-menu__item" data-bs-toggle="slide" href="page_menu"><i class="side-menu__icon fe fe-layers"></i><span class="side-menu__label">Page menu</span></a>
+        <a class="side-menu__item" data-bs-toggle="slide" href="setting_company"><i class="side-menu__icon fe fe-layers"></i><span class="side-menu__label">Setting Company</span></a>
     </li>
 </ul>
          

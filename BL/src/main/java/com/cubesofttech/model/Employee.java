@@ -3,16 +3,65 @@ package com.cubesofttech.model;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Column;
 
 @Entity
 @Table(name="employee")
+@NamedQueries({
+	@NamedQuery(name = "Employee.findAll", query = "SELECT t FROM Employee t")})
 public class Employee implements Serializable {
 
+	public Employee() {
+    }
+    public Employee(
+            String employee_id
+            , String position_id
+            , String department_id
+            , String name_en
+            , String title_name_en
+            , String nickname_en
+            , String name_th
+            , String title_name_th
+            , String nickname_th
+            , String phone
+            , String address
+            , String email
+            , String gender
+            , String roleId
+            , String image
+            , String description
+            , String userCreate	
+            , String userUpdate	
+            , java.sql.Timestamp timeCreate	
+            , java.sql.Timestamp timeUpdate	
+        ) {
+        this.employee_id = employee_id;	
+        this.position_id = position_id;
+        this.department_id = department_id;	
+        this.name_en = name_en;	
+        this.title_name_en = title_name_en;	
+        this.nickname_en = nickname_en;	
+        this.name_th = name_th;	
+        this.title_name_th = title_name_th;	
+        this.nickname_th = nickname_th;
+        this.phone = phone;
+        this.email = email;
+        this.gender = gender;
+        this.role_id = roleId;
+        this.image = image;
+        this.description = description;	
+        this.user_create = userCreate;	
+        this.user_update = userUpdate;	
+        this.time_create = timeCreate;	
+        this.time_update = timeUpdate;	
+    }
+    
 	@Id
 	@Column(name="employee_id")
-	public String employee_id;
+ 	public String employee_id;
 	
 	@Column(name="department_id")
 	public String department_id;
@@ -56,7 +105,7 @@ public class Employee implements Serializable {
 	@Column(name="address_name")
 	public String address_name;
 	
-	@Column(name="adddress")
+	@Column(name="address")
 	public String address;
 	
 	@Column(name="province")
@@ -68,7 +117,7 @@ public class Employee implements Serializable {
 	@Column(name="subdistrict")
 	public String subdistrict;
 	
-	@Column(name="zip_code")
+	@Column(name="zip")
 	public String zip_code;
 	
 	@Column(name="enable")
@@ -90,12 +139,12 @@ public class Employee implements Serializable {
 	public java.sql.Timestamp time_update;
 
 	public String getEmployee_id() {
-		return employee_id;
-	}
+ 		return employee_id;
+ 	}
 
-	public void setEmployee_id(String employee_id) {
-		this.employee_id = employee_id;
-	}
+ 	public void setEmployee_id(String employee_id) {
+ 		this.employee_id = employee_id;
+ 	}
 
 	public String getDepartment_id() {
 		return department_id;
@@ -289,12 +338,12 @@ public class Employee implements Serializable {
 		this.time_create = time_create;
 	}
 
-	public java.sql.Timestamp getTime_update() {
+	public java.sql.Timestamp getTime_cupdate() {
 		return time_update;
 	}
 
-	public void setTime_update(java.sql.Timestamp time_update) {
-		this.time_update = time_update;
+	public void setTime_cupdate(java.sql.Timestamp time_cupdate) {
+		this.time_update = time_cupdate;
 	}
 
 	
