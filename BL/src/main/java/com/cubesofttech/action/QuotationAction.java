@@ -234,8 +234,8 @@ public class QuotationAction extends ActionSupport{
 				}
 				
 				
-				
-				Company_contact contactInfo = company_contactDAO.findById(contact);
+				Integer ct = Integer.valueOf(contact);
+				Company_contact contactInfo = company_contactDAO.findById(ct);
 				String contact_name = contactInfo.getContact_name();
 				
 				
@@ -357,9 +357,10 @@ public class QuotationAction extends ActionSupport{
 						}
 						
 						
-						
-						Company_contact contactInfo = company_contactDAO.findById(contact);
+						Integer ct = Integer.valueOf(contact);
+						Company_contact contactInfo = company_contactDAO.findById(ct);
 						String contact_name = contactInfo.getContact_name();
+						
 						
 						
 						List<Map<String, Object>> employee = employeeDAO.findByEmployee_id(salesperson);
@@ -550,7 +551,8 @@ public class QuotationAction extends ActionSupport{
 		try {
 			String id = request.getParameter("contact_id");
 			log.debug(id);
-			Company_contact contactInfo = company_contactDAO.findById(id);
+			Integer ct = Integer.valueOf(id);
+			Company_contact contactInfo = company_contactDAO.findById(ct);
 			log.debug(contactInfo.toString());
 			
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();

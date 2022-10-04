@@ -508,6 +508,7 @@
 		<action name="Delete_image"
 			class="com.cubesofttech.action.CompanyAction" method="Delete_image">
 			<result name="success">/pages-back/common/json.jsp</result>
+		</action>
 		<action name="setting_company"
 			class="com.cubesofttech.action.CompanyAction" method="">
 			<result name="success" type="tiles">setting_company</result>
