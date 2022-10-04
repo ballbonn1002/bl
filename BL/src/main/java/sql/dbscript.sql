@@ -171,3 +171,51 @@ ALTER TABLE `quotation` ADD `title_name_en` VARCHAR(32) CHARACTER SET utf8 COLLA
 --29/09/2022 Guy
 ALTER TABLE `sys_user` CHANGE `name_th` `name` VARCHAR(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
 ALTER TABLE `sys_user` ADD `title`  VARCHAR(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `image`;
+
+--04/10/2022 TAN
+ALTER TABLE `quotation` CHANGE `sum_price_discount` `additional_discounts` DECIMAL(10,2) NOT NULL;
+
+ALTER TABLE `quotation` DROP `quotation_sale_id`;
+
+ALTER TABLE `quotation` CHANGE `province_1` `province_1` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `district_1` `district_1` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `sub-district_1` `sub-district_1` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `zip_code_1` `zip_code_1` VARCHAR(5) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `address_check` `address_check` VARCHAR(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+ALTER TABLE `quotation` ADD `address_name_1` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `contact_name`;
+
+ALTER TABLE `quotation` ADD `address_name_2` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `zip_code_1`;
+
+ALTER TABLE `quotation` CHANGE `address_name_1` `address_name_1` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `address_1` `address_1` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+
+
+ALTER TABLE `quotation` CHANGE `sub-district_1` `sub_district_1` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+ALTER TABLE `quotation` CHANGE `sub-district_2` `sub_district_2` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+ALTER TABLE `quotation` CHANGE `status` `quotation_status` VARCHAR(2) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
+
+CREATE TABLE `billing`.`quotation_address` ( `quotation_address_id` BIGINT(20) NOT NULL AUTO_INCREMENT , `quotation_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `address_name_1` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `address_1` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `province_1` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `district_1` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `sub_district_1` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `zip_code_1` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `address_name_2` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `address_2` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `province_2` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `district_2` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `sub_district_2` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `zip_code_2` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `delivery_check` VARCHAR(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `description` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `user_create` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `user_update` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL , `time_create` TIMESTAMP NULL , `time_update` TIMESTAMP NULL , PRIMARY KEY (`quotation_address_id`)) ENGINE = InnoDB;
+
+
+ALTER TABLE `quotation` DROP `address_name_1`, DROP `address_1`, DROP `province_1`, DROP `district_1`, DROP `sub_district_1`, DROP `zip_code_1`, DROP `address_name_2`, DROP `address_2`, DROP `province_2`, DROP `district_2`, DROP `sub_district_2`, DROP `zip_code_2`, DROP `address_check`;
+
+ALTER TABLE `quotation` ADD `saleperson` VARCHAR(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `end_date`;
+
+ALTER TABLE `quotation_address` DROP `address_name_2`, DROP `address_2`, DROP `province_2`, DROP `district_2`, DROP `sub_district_2`, DROP `zip_code_2`;
+
+
+ALTER TABLE `quotation_address` CHANGE `address_name_1` `address_name` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL, CHANGE `address_1` `address` VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL, CHANGE `province_1` `province` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `district_1` `district` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `sub_district_1` `sub_district` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+ALTER TABLE `quotation_address` CHANGE `zip_code_1` `zip_code` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+
+ALTER TABLE `employee` CHANGE `time_cupdate` `time_update` TIMESTAMP NULL DEFAULT NULL;
+
+-- employee
+
+ALTER TABLE `employee` CHANGE `gender` `gender` VARCHAR(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+
+ALTER TABLE `employee` CHANGE `address_name` `address_name` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+
+ALTER TABLE `employee` CHANGE `enable` `enable` VARCHAR(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+
+DROP TABLE `quotation_sale`
+
+DROP TABLE `user`
