@@ -35,25 +35,24 @@ tr{
 	</div>
 	<div class="card-body">
 	<div class="table-responsive">
-			<table  class="table table-bordered text-nowrap mb-0 myTable">
+			<table  class="table table-bordered text-nowrap mb-0 myTable" style="width:100%;">
 				<thead class="border-top">
 					<tr>
 						<th class="bg-transparent border-bottom-0" style="text-align: center; width: 7%;"> #</th>
-						<th class="bg-transparent border-bottom-0" style="text-align: left; width: 33%">Company Name</th>
+						<th class="bg-transparent border-bottom-0 " style="text-align: left; width: 39%">Company Name</th>
 						<th class="bg-transparent border-bottom-0" style="text-align: left; width: 20%">Company_code</th>
 						<th class="bg-transparent border-bottom-0" style="text-align: left; width: 20%">status</th>
-						<th class="bg-transparent border-bottom-0" style="text-align: left; width: 10%">Is_active</th>
-						<th class="bg-transparent border-bottom-0" style="text-align: left; width: 10%">Action</th>
+						<th class="bg-transparent border-bottom-0" style="text-align: left; width: 7%">Is_active</th>
+						<th class="bg-transparent border-bottom-0" style="text-align: left; width: 7%">Action</th>
 					</tr>
 				</thead>
 				<tbody>
 				<c:forEach var="com" items="${companyList}">
 					<tr>
-					
 						<td style="text-align: center;"> </td>
 						<td>
 						<div class="d-flex">
-							<span class="avatar avatar bradius cover-image" style="max-width:100%;" data-bs-image-src="${com.path}"></span>&nbsp;&nbsp;<span class="ms-3 mt-0 mt-sm-2 d-block">${com.company_en}</span>
+							<span><img src="${com.path}" class="avatar bradius" style="min-width:32px; min-height:32px"></span><span class="ms-3 mt-0 mt-sm-2 d-block">${com.company_en}</span>
 						</div>
 						</td>
 						<td><div class="d-flex">
@@ -132,7 +131,7 @@ var t = $('.myTable').DataTable({
             	targets: 5,
             	orderable: false
             },
-        ],
+        ], 
         order: [[1, 'asc']],
     });
  
@@ -143,7 +142,7 @@ var t = $('.myTable').DataTable({
             this.data(i++);
         });
     }).draw();
-});
+}); 
 </script>
 <script>
 function Change(CompanyID){

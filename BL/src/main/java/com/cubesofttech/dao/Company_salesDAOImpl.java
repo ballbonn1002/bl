@@ -2,13 +2,16 @@ package com.cubesofttech.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.cubesofttech.model.Company_contact;
 import com.cubesofttech.model.Company_sales;
 import com.cubesofttech.model.Employee;
 
@@ -60,7 +63,7 @@ public class Company_salesDAOImpl implements Company_salesDAO{
 	}
 
 	@Override
-	public Company_sales findById(String company_sales_id) throws Exception {
+	public Company_sales findById(Integer company_sales_id) throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
 		Company_sales companysalesList = null;
 	    try {
@@ -70,6 +73,30 @@ public class Company_salesDAOImpl implements Company_salesDAO{
 	    }finally{
 	    }        
 	    return companysalesList;
+	}
+
+	@Override
+	public Integer getMaxId() throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		Integer maxId = 0;
+
+		try {
+
+			Criteria criteria = session.createCriteria(Company_sales.class).setProjection(Projections.max("company_sales_id"));
+			maxId = (Integer) criteria.uniqueResult();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			maxId = new Integer(0);
+
+		} finally {
+
+		}
+		if (maxId != null) {
+			return maxId;
+		} else {
+			return new Integer(0);
+		}
 	}
 
 }

@@ -472,7 +472,7 @@
 		</action>
 		<action name="add_contact"
 			class="com.cubesofttech.action.CompanyAction" method="add_contact">
-			<result name="success">/pages-back/common/json.jsp</result>
+			<result name="success" >/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		<action name="add_sales"
@@ -505,6 +505,9 @@
 			<result name="success" type="redirectAction">EditCompany?company_ID=${company_ID}</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<action name="Delete_image"
+			class="com.cubesofttech.action.CompanyAction" method="Delete_image">
+			<result name="success">/pages-back/common/json.jsp</result>
 		<action name="setting_company"
 			class="com.cubesofttech.action.CompanyAction" method="">
 			<result name="success" type="tiles">setting_company</result>

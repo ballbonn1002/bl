@@ -8,6 +8,10 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="/WEB-INF/tlds/permission.tld" prefix="perm"%>
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+<script src="/assets/plugins/fileuploads/js/fileupload.js"></script>
+<script src="/assets/plugins/fileuploads/js/file-upload.js"></script>
 <div class="page-header">
     <h1 class="page-title">Company Management</h1>
     <div>
@@ -26,7 +30,7 @@
 		<div class="row">
 			<div class="col-lg-4 col-sm-12 mb-4 mb-lg-0" ></div>
 			<div class="col-lg-4 col-sm-12 mb-4 mb-lg-0" >
-           		<input style="text-align:center;"  name="fileUpload" id="fileUpload" type="file" class="dropify" accept="image/x-png,image/gif,image/jpeg" data-bs-height="180"/>
+           		<input style="text-align:center;"  name="fileUpload" id="fileUpload" type="file" class="dropify" accept="image/x-png,image/gif,image/jpeg" data-max-width="1000"/>
            		<input style="display:none;" id="filesize" name="filesize" type="text" value="">
     		</div>
 
@@ -96,7 +100,7 @@
 			<div class="form-group">
 					<label class="form-label">Website</label> 
 					<div class="input-group mb-3">
-							<input type="text" class="form-control" id="website">  
+							<input type="text" class="form-control" name="website" id="website">  
                     </div>  
               </div>
          </div>
@@ -129,48 +133,5 @@ $('#fileUpload').bind('change', function() {
 })
 </script>
 <script>
-/*
-$(document).ready(function(){
-	var size;
-
-	$("#submit").on('click', function(){
-	var code = $("#code").val();
-	var tax = $("#tax").val();
-	var name_en = $("#name_en").val();
-	var name_th = $("#name_th").val();
-	var industry = $("#industry").val();
-	var status = $("#status").val();
-	var is_active = $("#is_active").val();
-	var website = $("#website").val();
-	var fileUpload = $("#fileUpload").val();
-	
-	const input = document.querySelector('#fileUpload');
-	const formData = new FormData();
-	formData.append('tax_file', $('input[type=file]')[0].files[0]);
-	console.log(formData);
-	
-	console.log(code);
-	console.log(fileUpload);
-	$.ajax({
-		url: "add" ,
-		type: "JSON",
-		method: "POST",
-		data: { "code" : code ,
-				"tax" : tax ,
-				"name_en" : name_en ,
-				"name_th" : name_th , 
-				"industry" : industry , 
-				"status" : status ,
-				"is_active" : is_active , 
-				"website" : website , 
-				"fileUpload" : fileUpload,
-				"size" : size
-		},
-		success:function(data){
-			console.log(data);
-			window.location.href = "EditCompany?id=" + data.company_id;
-		}
-	})  
-	})
-})  */
+ $('.dropify').dropify();
 </script>

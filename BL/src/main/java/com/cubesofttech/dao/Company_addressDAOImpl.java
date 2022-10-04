@@ -2,9 +2,11 @@ package com.cubesofttech.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -59,7 +61,7 @@ public class Company_addressDAOImpl implements Company_addressDAO{
 	}
 
 	@Override
-	public Company_address findById(String company_address_id) throws Exception {
+	public Company_address findById(Integer company_address_id) throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
 		Company_address company_address = null;
 	    try {
@@ -69,5 +71,29 @@ public class Company_addressDAOImpl implements Company_addressDAO{
 	    }finally{
 	    }        
 	    return company_address;
+	}
+
+	@Override
+	public Integer getMaxId() throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		Integer maxId = 0;
+
+		try {
+
+			Criteria criteria = session.createCriteria(Company_address.class).setProjection(Projections.max("company_address_id"));
+			maxId = (Integer) criteria.uniqueResult();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			maxId = new Integer(0);
+
+		} finally {
+
+		}
+		if (maxId != null) {
+			return maxId;
+		} else {
+			return new Integer(0);
+		}
 	}
 }

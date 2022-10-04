@@ -40,7 +40,7 @@ public class FileuploadDAOImpl implements FileuploadDAO{
 	}
 
 	@Override
-	public Fileupload findById(String id) throws Exception {
+	public Fileupload findById(Integer id) throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
 		Fileupload Fileupload = null;
 		try {
