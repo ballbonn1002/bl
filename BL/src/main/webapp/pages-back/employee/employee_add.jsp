@@ -45,70 +45,89 @@
 					<div class="form-group text-center">
 						<div class="form-check form-check-inline">
 							<input class="form-check-input form_employee_control"
-								type="radio" name="Gender" required id="Gender" value="M"> <label
-								class="form-check-label" for="genderM">Male</label>
+								type="radio" name="Gender" required id="Gender" value="M">
+							<label class="form-check-label" for="genderM">Male</label>
 						</div>
 						<div class="form-check form-check-inline">
 							<input class="form-check-input form_employee_control"
-								type="radio" name="Gender" required id="Gender" value="F"> <label
-								class="form-check-label" for="genderF">Female</label>
+								type="radio" name="Gender" required id="Gender" value="F">
+							<label class="form-check-label" for="genderF">Female</label>
 						</div>
-						
+
 					</div>
 					<div class="form-group">
 						<label class="form-label">Name EN <span class="text-red">*</span></label>
 						<div class="input-group">
-							<select value=""
-								class="custom-select custom-select-lg form_employee_control"
-								name="titleEN" required>
-								<option selected>Select</option>
-								<option value="Mr.">Mr.</option>
-								<option value="Mrs.">Mrs.</option>
-								<option value="Miss">Miss</option>
-							</select> 
-							<div class="invalid-feedback">Can only  fill in English, Don't leave this blank.</div>
-							<input type="text" class="form-control form_employee_control"
-								aria-label="Text input with dropdown button"
-								placeholder="Enter Your Name" name="nameEN"
-								 autocomplete="no" pattern="^[a-zA-Z\s]+$" required>
-							<div class="invalid-feedback">Can only  fill in English, Don't leave this blank.</div>
+							<div class="col-md-4">
+								<select value=""
+									class="form-control select2 form-select form_employee_control"
+									name="titleEN" required>
+									<option value="" disabled hidden selected>Select</option>
+									<option value="Mr.">Mr.</option>
+									<option value="Mrs.">Mrs.</option>
+									<option value="Miss">Miss</option>
+								</select>
+							</div>
+							<div class="invalid-feedback">Can only fill in English,
+								Don't leave this blank.</div>
+							<div class="col-md-8">
+								<input type="text" class="form-control form_employee_control"
+									aria-label="Text input with dropdown button"
+									placeholder="Enter Your Name" name="nameEN" autocomplete="no"
+									pattern="^[a-zA-Z\s]+$" required>
+								<div class="invalid-feedback">Can only fill in English,
+									Don't leave this blank.</div>
+							</div>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label class="form-label">Nickname EN <span
-							class="text-red">*</span></label> <input type="text"
+							class="text-red">*</span></label> 
+							<div class="col-md-12">
+							<input type="text"
 							class="form-control form_employee_control " id="nicknameEN"
-							placeholder="Enter Your Nickname" name="nicknameEN" pattern="^[a-zA-Z\s]+$" required>
-							<div class="invalid-feedback">Can only  fill in English, Don't leave this blank.</div>
-							
+							placeholder="Enter Your Nickname" name="nicknameEN"
+							pattern="^[a-zA-Z\s]+$" required>
+							</div>
+						<div class="invalid-feedback">Can only fill in English,
+							Don't leave this blank.</div>
+
 					</div>
 					<div class="form-group">
 						<label class="form-label">Name TH <span class="text-red">*</span></label>
 						<div class="input-group">
-							<select value=""
-								class="custom-select custom-select-lg form_employee_control"
-								name="titleTH" required>
-								<option selected>Select</option>
-								<option value="นาย">นาย</option>
-								<option value="นาง">นาง</option>
-								<option value="นางสาว">นางสาว</option>
-							</select> <input type="text" class="form-control form_employee_control"
+							<div class="col-md-4">
+								<select value=""
+									class="form-control select2 form-select form_employee_control"
+									name="titleTH" required>
+									<option value="" disabled hidden selected>Select</option>
+									<option value="นาย">นาย</option>
+									<option value="นาง">นาง</option>
+									<option value="นางสาว">นางสาว</option>
+								</select>
+							</div>
+							<div class="col-md-8">
+							<input type="text" class="form-control form_employee_control"
 								aria-label="Text input with dropdown button"
 								placeholder="Enter Your Name" pattern="^[ก-๏\s]+$" name="nameTH"
 								autocomplete="no" required>
-
-							<div class="invalid-feedback">Can only fill in Thai, Don't leave this blank.</div>
+							</div>
+							<div class="invalid-feedback">Can only fill in Thai, Don't
+								leave this blank.</div>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="form-label">Nickname TH <span
-							class="text-red">*</span></label> <input type="text"
+							class="text-red">*</span></label> 
+							<div class="col-md-12"><input type="text"
 							class="form-control form_employee_control " id="nicknameTH"
 							placeholder="Enter Your Nickname" pattern="^[ก-๏\s]+$"
 							name="nicknameTH" autocomplete="no" required>
+							</div>
 
-						<div class="invalid-feedback">Can only  fill in Thai, Don't leave this blank.</div>
+						<div class="invalid-feedback">Can only fill in Thai, Don't
+							leave this blank.</div>
 					</div>
 				</div>
 			</div>
@@ -127,31 +146,35 @@
 								class="form-control form_employee_control" name="employID"
 								id="Employee_id" placeholder="Enter Employee ID"
 								pattern="[a-zA-Z0-9.]+" autocomplete="no" required>
-							<div class="valid-feedback" id="canuse">You can use this
-								id</div>
+							<div class="valid-feedback" id="canuse">You can use this id</div>
 
-							<div class="invalid-feedback">Can only fill in English numbers . (dot) Don't duplicate the original Id and Don't leave this blank.</div>
+							<div class="invalid-feedback">Can only fill in English
+								numbers . (dot) Don't duplicate the original Id and Don't leave
+								this blank.</div>
 						</div>
 						<div class="col-lg-6 col-md-12">
 							<div class="form-group">
-								<label class="form-label">Department <span class="text-red">*</span></label> 
-								<select id="depart_id" class="form-control form-select form_employee_control"
-									name="user.departmentID" data-placeholder="Select Department" required>
-									<option value="" disabled hidden selected>Select Department</option>
+								<label class="form-label">Department <span
+									class="text-red">*</span></label> <select id="depart_id"
+									class="form-control select2 form_employee_control"
+									name="user.departmentID" data-placeholder="Select Department"
+									required>
+									<option value="" disabled hidden selected>Select
+										Department</option>
 									<c:forEach var="department" items="${departmentList}">
 										<option value="${department.department_id}">${department.department_id}
 											- ${department.name}</option>
 									</c:forEach>
 								</select>
 								<div class="valid-feedback"></div>
-						<div class="invalid-feedback">Required this field</div>
+								<div class="invalid-feedback">Required this field</div>
 							</div>
 						</div>
 						<div class="col-lg-6 col-md-12">
 							<div class="form-group">
 								<label class="form-label">Position <span
 									class="text-red">*</span></label> <select id="posi_id"
-									class="form-control form-select form_employee_control"
+									class="form-control  select2  form-select form_employee_control"
 									name="user.positionID" data-placeholder="Select Position"
 									required>
 									<option value="" disabled hidden selected>Select
@@ -162,15 +185,16 @@
 									</c:forEach>
 								</select>
 								<div class="valid-feedback"></div>
-						<div class="invalid-feedback">Required this field</div>
+								<div class="invalid-feedback">Required this field</div>
 							</div>
 						</div>
 						<div class="col-lg-6 col-md-12">
 							<div class="form-group">
 								<label class="form-label">Email <span class="text-red">*</span></label>
 								<input type="email" class="form-control form_employee_control"
-									name="Email" id="email" placeholder="Enter Your Email" autocomplete="no" required>
-									<div class="invalid-feedback">please enter your email !</div>
+									name="Email" id="email" placeholder="Enter Your Email"
+									autocomplete="no" required>
+								<div class="invalid-feedback">please enter your email !</div>
 							</div>
 						</div>
 						<div class="col-lg-6 col-md-12">
@@ -178,14 +202,16 @@
 								<label class="form-label">Phone Number <span
 									class="text-red">*</span></label> <input type="tel"
 									class="form-control form_employee_control" name="Phone"
-									id="phone" placeholder="Enter Your Phone Number" onkeypress="return numberPressed(event);" required>
-									<div class="invalid-feedback">Please enter your phone !</div>
+									id="phone" placeholder="Enter Your Phone Number"
+									onkeypress="return numberPressed(event);" required>
+								<div class="invalid-feedback">Please enter your phone !</div>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="form-floating">Address</label>
 							<textarea class="form-control form_employee_control"
-								placeholder="Enter your address" name="Address" autocomplete="no"></textarea>
+								placeholder="Enter your address" name="Address"
+								autocomplete="no"></textarea>
 						</div>
 						<div class="form-group">
 							<label class="custom-control custom-checkbox mb-0"> <input

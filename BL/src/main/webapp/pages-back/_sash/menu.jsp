@@ -47,6 +47,7 @@
     	<a class="side-menu__item" data-bs-toggle="slide" href="SystemUser_list"><i class="side-menu__icon fe fe-layers"></i><span class="side-menu__label">Sys User</span></a>
         <a class="side-menu__item" data-bs-toggle="slide" href="role_management"><i class="side-menu__icon fe fe-layers"></i><span class="side-menu__label">Role</span></a>
         <a class="side-menu__item" data-bs-toggle="slide" href="page_menu"><i class="side-menu__icon fe fe-layers"></i><span class="side-menu__label">Page menu</span></a>
+        <a class="side-menu__item" data-bs-toggle="slide" href="setting_company"><i class="side-menu__icon fe fe-layers"></i><span class="side-menu__label">Setting Company</span></a>
     </li>
 </ul>
          

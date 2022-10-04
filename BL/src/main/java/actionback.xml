@@ -505,5 +505,11 @@
 			<result name="success" type="redirectAction">EditCompany?company_ID=${company_ID}</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<action name="setting_company"
+			class="com.cubesofttech.action.CompanyAction" method="">
+			<result name="success" type="tiles">setting_company</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		
 	</package>
 </struts>

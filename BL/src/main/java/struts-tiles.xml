@@ -68,6 +68,11 @@
 		<put-attribute name="title" value="Company Edit" />
 		<put-attribute name="body" value="/pages-back/company/company_edit.jsp" />
 	</definition>
+	<definition name="setting_company" extends="sashLayout">
+		<put-attribute name="title" value="Setting Company" />
+		<put-attribute name="body" value="/pages-back/company/setting_company.jsp" />
+	</definition>
+	
 	<!-- Dashboard -->
 	<definition name="dashboard" extends="sashLayout">
 		<put-attribute name="title" value="Dashboard" />
