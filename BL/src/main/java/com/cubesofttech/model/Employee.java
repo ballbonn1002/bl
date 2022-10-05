@@ -117,7 +117,7 @@ public class Employee implements Serializable {
 	@Column(name="subdistrict")
 	public String subdistrict;
 	
-	@Column(name="zip")
+	@Column(name="zip_code")
 	public String zip_code;
 	
 	@Column(name="enable")
