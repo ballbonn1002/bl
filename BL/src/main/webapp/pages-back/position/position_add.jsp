@@ -64,7 +64,7 @@
 				<div class="form-group">
 					<label class="form-label">Department <span class="text-red">*</span></label>
 					<select id="depart_id"
-						class="form-control form-select form_position_control"
+						class="form-control form-select select2 form_position_control"
 						name="user.departmentId" data-placeholder="Select Department"
 						required>
 						<option value="" disabled hidden selected>Select
@@ -253,7 +253,20 @@ var duplicate_id = false
 		      }, false);
 		      
 		    });
-
+		    $("select").on("select2:close", function (e) {  
+		    	console.log("select");
+		    	this.classList.remove('is-invalid')
+			    this.classList.remove('is-valid')
+		        if (this.checkValidity() === false) {
+		        	this.classList.add('is-invalid')
+		        	
+		        }
+		        else {
+		        this.classList.add('is-valid')
+		       
+		        
+		        }
+		    });
 		    
 		    Array.prototype.filter.call(inputs, function(input) {
 		    

@@ -48,7 +48,7 @@
 					<div class="form-group">
 						<label class="form-label">Department <span
 							class="text-red">*</span></label> <select id="depart_id"
-							class="form-control form-select form_position_control"
+							class="form-control form-select select2 form_position_control"
 							name="departmentId" data-placeholder="Select Department" required>
 							
 							 <c:forEach var="department" items="${departmentList}">
@@ -75,7 +75,7 @@
 				<div class="col-md-12">
 					<div class="form-group">
 						<label class="form-label">Description:</label> <input type="text"
-							name="description" class="form-control"
+							name="description" class="form-control" id="description"
 							value="${positionList.description}">
 
 					</div>
@@ -86,14 +86,24 @@
 		
 	</div>
 	<div class="text-end">
-				<a type="reset" class="btn btn-default"
+				<a id="reset" type="reset" class="btn btn-default"
 					href="position_list">Cancel</a>
 				<button id="submit_position" type="submit" class="btn btn-success">Save</button>
 			</div>
 	</form>
 
 <script>
-
+	function showButton() {
+		 $('#reset').hide();
+		 $('#submit_position').hide();
+		 $('#depart_id , #name_position , #description').on('change', function() {
+			 $('#submit_position').show();
+			 $('#reset').show();
+		 }); 
+		
+		
+		
+	}
 
 	function updateData() {
 		var update_data = $("#form_update").serializeArray();
@@ -135,6 +145,20 @@
 			}, false);
 
 		});
+		$("select").on("select2:close", function (e) {  
+	    	console.log("select");
+	    	this.classList.remove('is-invalid')
+		    this.classList.remove('is-valid')
+	        if (this.checkValidity() === false) {
+	        	this.classList.add('is-invalid')
+	        	
+	        }
+	        else {
+	        this.classList.add('is-valid')
+	       
+	        
+	        }
+	    });
 
 		Array.prototype.filter.call(inputs, function(input) {
 
@@ -189,6 +213,7 @@
 
 	$(document).ready(function() {
 		validate()
+		showButton()
 	});
 </script>
 
