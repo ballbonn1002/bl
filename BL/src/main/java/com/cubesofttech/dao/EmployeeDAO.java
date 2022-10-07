@@ -13,6 +13,8 @@ public void save(Employee employee) throws Exception;
     
     public void delete(Employee employee) throws Exception;
     
+    Integer getMaxId() throws Exception;
+    
     public List<Map<String, Object>> findByEmployee_id(String id) throws Exception;
     
     public List<Employee> findAll() throws Exception;

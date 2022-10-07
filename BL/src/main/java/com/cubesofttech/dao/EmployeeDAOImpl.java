@@ -3,9 +3,11 @@ package com.cubesofttech.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -48,7 +50,8 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Map<String, Object>>  employeeList = null;
 		try {
-			String sql = " SELECT * FROM employee WHERE employee_id = '"+id+"' ";
+//			String sql = " SELECT * FROM employee WHERE employee_id = '"+id+"' ";
+			String sql = "SELECT employee.* , file.path FROM employee LEFT JOIN file ON file.file_id = employee.file_id WHERE employee.employee_id = '"+id+"';";
 					
 			SQLQuery query = session.createSQLQuery(sql);
 
@@ -92,7 +95,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Employee> employee = null;
 		try {
-			String sql = " SELECT * FROM employee";
+			String sql = " SELECT employee.* , file.path FROM employee LEFT JOIN file on employee.file_id = file.file_id order by employee.employee_id ;";
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			employee = query.list();
@@ -119,6 +122,30 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 			e.printStackTrace();
 		}
 		return employeeList;
+	}
+	
+	@Override
+	public Integer getMaxId() throws Exception {
+		Session  session = this.sessionFactory.getCurrentSession();
+		Integer maxId = 0;
+		
+		try {
+			
+			Criteria criteria = session.createCriteria(Employee.class).setProjection(Projections.max("employee_id"));
+			maxId = (Integer) criteria.uniqueResult();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			maxId = new Integer(0);
+		} finally {
+			
+		} 
+		
+		if (maxId != null) {
+			return maxId;
+		} else {
+			return new  Integer(0);
+		}
 	}
 	
 }

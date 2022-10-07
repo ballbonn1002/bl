@@ -17,7 +17,7 @@
 	<h1 class="page-title">Employee</h1>
 	<div>
 		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="department_list">Home</a></li>
+			<li class="breadcrumb-item"><a href="employee_list">Home</a></li>
 			<li class="breadcrumb-item active" aria-current="page">Employee</li>
 		</ol>
 	</div>
@@ -55,7 +55,9 @@
 									<th scope="row" class="align-middle text-center"><div
 											class="mt-0 mt-sm-1 d-block">${counter}</div></th>
 									<td><div class="mt-0 mt-sm-1 d-block"> 
-									<span class="avatar avatar-sm brround " style="margin-right:0.5rem;"></span>
+									<span style="margin-right:0.5rem;">
+									<img src="${employ.path}" class="avatar avatar-sm brround "
+													style="min-width: 32px; min-height: 32px"></span>
 											<!-- <img class="avatar avatar-sm brround primary"
 												style="margin-right: 0.5rem;" alt="avatar"
 												src="../assets/images/users/21.jpg"> -->${employ.title_name_en}

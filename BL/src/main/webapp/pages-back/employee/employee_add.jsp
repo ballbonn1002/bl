@@ -27,8 +27,9 @@
 </div>
 
 <!-- DepartmentForm -->
-<form action="javascript:submitAddEmployee()" name="addEmployeeForm"
-	id="addEmployeeForm" class="needs-validation" novalidate method="POST">
+<form action="save_employ" name="addEmployeeForm" id="addEmployeeForm"
+	class="needs-validation" novalidate method="POST"
+	enctype="multipart/form-data">
 	<div class="row clearfix">
 		<div class="col-xl-4">
 			<div class="card">
@@ -36,11 +37,24 @@
 					<h3 class="card-title">Personal Information</h3>
 				</div>
 				<div class="card-body">
+				<div class="avatar avatar-xxl brround">
 					<div class="form-group text-center">
-						<div class="avatar avatar-xxl brround">
-							<span class="badge rounded-pill avatar-icons bg-primary"><i
-								class="fe fe-edit fs-12"></i></span>
+						<img class="avatar avatar-xxl brround">
+
+							<label class="badge rounded-pill avatar-icons bg-primary "><i
+								class="fe fe-edit fs-12"></i> 
+							<input style="text-align: center;" name="fileUpload"
+							id="fileUpload" type="file" class="dropify"
+							accept="image/x-png,image/gif,image/jpeg" data-max-width="1000" hidden/>
+						<input style="display: none;" id="filesize" name="filesize"
+							type="text" value=""hidden> 
+							</label>
 						</div>
+ 						<!-- <input style="text-align: center;" name="fileUpload"
+							id="fileUpload" type="file" class="dropify"
+							accept="image/x-png,image/gif,image/jpeg" data-max-width="1000" />
+						<input style="display: none;" id="filesize" name="filesize"
+							type="text" value="">  -->
 					</div>
 					<div class="form-group text-center">
 						<div class="form-check form-check-inline">
@@ -83,13 +97,12 @@
 
 					<div class="form-group">
 						<label class="form-label">Nickname EN <span
-							class="text-red">*</span></label> 
-							<div class="col-md-12">
-							<input type="text"
-							class="form-control form_employee_control " id="nicknameEN"
-							placeholder="Enter Your Nickname" name="nicknameEN"
-							pattern="^[a-zA-Z\s]+$" required>
-							</div>
+							class="text-red">*</span></label>
+						<div class="col-md-12">
+							<input type="text" class="form-control form_employee_control "
+								id="nicknameEN" placeholder="Enter Your Nickname"
+								name="nicknameEN" pattern="^[a-zA-Z\s]+$" required>
+						</div>
 						<div class="invalid-feedback">Can only fill in English,
 							Don't leave this blank.</div>
 
@@ -108,10 +121,10 @@
 								</select>
 							</div>
 							<div class="col-md-8">
-							<input type="text" class="form-control form_employee_control"
-								aria-label="Text input with dropdown button"
-								placeholder="Enter Your Name" pattern="^[ก-๏\s]+$" name="nameTH"
-								autocomplete="no" required>
+								<input type="text" class="form-control form_employee_control"
+									aria-label="Text input with dropdown button"
+									placeholder="Enter Your Name" pattern="^[ก-๏\s]+$"
+									name="nameTH" autocomplete="no" required>
 							</div>
 							<div class="invalid-feedback">Can only fill in Thai, Don't
 								leave this blank.</div>
@@ -119,12 +132,13 @@
 					</div>
 					<div class="form-group">
 						<label class="form-label">Nickname TH <span
-							class="text-red">*</span></label> 
-							<div class="col-md-12"><input type="text"
-							class="form-control form_employee_control " id="nicknameTH"
-							placeholder="Enter Your Nickname" pattern="^[ก-๏\s]+$"
-							name="nicknameTH" autocomplete="no" required>
-							</div>
+							class="text-red">*</span></label>
+						<div class="col-md-12">
+							<input type="text" class="form-control form_employee_control "
+								id="nicknameTH" placeholder="Enter Your Nickname"
+								pattern="^[ก-๏\s]+$" name="nicknameTH" autocomplete="no"
+								required>
+						</div>
 
 						<div class="invalid-feedback">Can only fill in Thai, Don't
 							leave this blank.</div>
@@ -157,7 +171,7 @@
 								<label class="form-label">Department <span
 									class="text-red">*</span></label> <select id="depart_id"
 									class="form-control select2 form_employee_control"
-									name="user.departmentID" data-placeholder="Select Department"
+									name="departmentID" data-placeholder="Select Department"
 									required>
 									<option value="" disabled hidden selected>Select
 										Department</option>
@@ -175,8 +189,7 @@
 								<label class="form-label">Position <span
 									class="text-red">*</span></label> <select id="posi_id"
 									class="form-control  select2  form-select form_employee_control"
-									name="user.positionID" data-placeholder="Select Position"
-									required>
+									name="positionID" data-placeholder="Select Position" required>
 									<option value="" disabled hidden selected>Select
 										Position</option>
 									<c:forEach var="position" items="${positionList}">
@@ -214,14 +227,20 @@
 								autocomplete="no"></textarea>
 						</div>
 						<div class="form-group">
-							<label class="custom-control custom-checkbox mb-0"> <input
-								type="checkbox" id="userIsactive" class="custom-control-input"
-								name="user_isactive" value="${employeeList.enable}"> <c:if
-									test="${fn:contains(employeeList.enable, '1')}">checked</c:if>
-								<input id='checkboxHidden' type='hidden' value='0'
+							<!-- <label class="custom-control custom-checkbox mb-0"> 
+							<input type="checkbox" id="userIsactive" class="custom-control-input"
+								name="user_isactive" value="">
+								<input id='checkboxHidden' type='hidden' 
 								name='user_isactive'> <span class="custom-control-label">Is
 									Active</span>
-							</label>
+							</label> -->
+							<div class="col-sm-2">
+								<label class="custom-control custom-checkbox"> <input
+									name="user_isactive" type="checkbox"
+									class="custom-control-input" id="userIsactive"><span
+									class="custom-control-label">Is Active</span>
+								</label>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -358,7 +377,7 @@
 		});
 	}
 
-	function submitAddEmployee() {
+/* 	function submitAddEmployee() {
 		var values = $("#addEmployeeForm").serializeArray()
 		console.log(values);
 		$.ajax({
@@ -374,7 +393,7 @@
 				console.log(textStatus, errorThrown);
 			}
 		});
-	}
+	} */
 
 	$('#userIsactive').on('change', function() {
 		this.value = this.checked ? 1 : 0;
@@ -429,4 +448,15 @@
 	    return input; 
 	}
 
+</script>
+<script>
+$('#fileUpload').bind('change', function() {
+	 var fs;
+	 var size = this.files[0].size;
+	 fs = $("#filesize").val(size);
+	 console.log(fs);
+})
+</script>
+<script>
+ $('.dropify').dropify();
 </script>
