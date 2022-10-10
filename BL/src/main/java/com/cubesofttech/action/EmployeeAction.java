@@ -75,7 +75,6 @@ public class EmployeeAction extends ActionSupport {
 	private String user_isactive;
 	private String Email;
 
-	
 	public Integer getFile_ID() {
 		return file_ID;
 	}
@@ -372,16 +371,16 @@ public class EmployeeAction extends ActionSupport {
 			String em_id = String.valueOf(employID);
 			String id = request.getParameter("id");
 			log.debug(employID);
-			
-			if(id != null && employID == null) {	 
-				 List<Map<String, Object>>employee = employeeDAO.findByEmployee_id(id);
-				 request.setAttribute("employee", employee);
-				 log.debug(employee);
-			} else if(employID != null) {
-				List<Map<String, Object>>employee = employeeDAO.findByEmployee_id(em_id);
-				 request.setAttribute("employee", employee);
-				 log.debug(employee);
-		}
+
+			if (id != null && employID == null) {
+				List<Map<String, Object>> employee = employeeDAO.findByEmployee_id(id);
+				request.setAttribute("employee", employee);
+				log.debug(employee);
+			} else if (employID != null) {
+				List<Map<String, Object>> employee = employeeDAO.findByEmployee_id(em_id);
+				request.setAttribute("employee", employee);
+				log.debug(employee);
+			}
 
 			List<Map<String, Object>> employeeList = employeeDAO.findByEmployee_id(employID);
 			request.setAttribute(Employee, employeeList);
@@ -401,12 +400,19 @@ public class EmployeeAction extends ActionSupport {
 
 	public String deleteEmployee() {
 		try {
-			String idEmploy = request.getParameter("employID");
-			log.debug(idEmploy);
+			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser"); // Username login
+			String loginUser = ur.getSys_user_id(); // Username login
+
 			Employee employee = new Employee();
 
-			employee = employeeDAO.findById(idEmploy);
+			employee = employeeDAO.findById(employID);
 			log.debug(employee);
+			
+			Integer file_id = employee.getFile_id();
+			Fileupload file = new Fileupload();
+			file = fileuploadDAO.findById(file_id);
+			fileuploadDAO.delete(file);
+			employee.setUser_update(loginUser);
 			employeeDAO.delete(employee);
 			List<Employee> employeeList = employeeDAO.findAll();
 			request.setAttribute(Employee, employeeList);
@@ -421,39 +427,124 @@ public class EmployeeAction extends ActionSupport {
 			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser"); // Username login
 			String loginUser = ur.getSys_user_id(); // Username login
 			log.debug(ur);
-			Employee employee = new Employee();
-			String phonee = Phone.replace("-", "");
+			log.debug(fileUpload);
+			log.debug(filesize);
 
-			if (fileUpload != null) {
+			Employee employee = employeeDAO.findById(employID);
+			log.debug(employee.getFile_id());
+
+//			Employee employee = new Employee();
+			String phonee = Phone.replace("-", "");
+			if (employee.getFile_id() != null) {
+				if (fileUpload != null && fileUploadFileName != null && filesize != "") {
+					Fileupload file = new Fileupload();
+					ServletContext context = request.getServletContext();
+					String fileServerPath = context.getRealPath("/");
+					double fileSize = Double.parseDouble(filesize);
+					log.debug("test" + filesize);
+					log.debug("test" + fileUploadFileName);
+					String FileSize = FileUtil.getFileSize(fileSize);
+					String filename = fileUploadFileName;
+					int l = filename.length();
+					int split = filename.indexOf(".");
+					String name = filename.substring(0, split);
+					String type = (String) filename.subSequence(split, l);
+//				int maxId = fileuploadDAO.getMaxId() + 1;
+					FileUtil.upload(fileUpload, fileServerPath + "upload/employee/", file_ID + "_" + filename);
+					file.setFile_id(file_ID);
+					file.setName(name);
+					file.setSize(FileSize);
+					file.setPath("/upload/employee/" + file_ID + "_" + filename);
+					file.setPage("employee");
+					file.setType(type);
+					file.setUser_create(loginUser);
+					file.setUser_update(loginUser);
+					file.setTime_update(DateUtil.getCurrentTime());
+					fileuploadDAO.update(file);
+					log.debug(file);
+
+					Integer f_id = file.getFile_id();
+					employee.setFile_id(f_id);
+					log.debug(f_id);
+
+					employee.setGender(Gender);
+					employee.setTitle_name_en(titleEN);
+					employee.setName_en(nameEN);
+					employee.setNickname_en(nicknameEN);
+
+					employee.setTitle_name_th(titleTH);
+					employee.setName_th(nameTH);
+					employee.setNickname_th(nicknameTH);
+
+					employee.setEmployee_id(employID);
+					employee.setDepartment_id(departmentID);
+					employee.setPosition_id(positionID);
+					employee.setEmail(Email);
+					employee.setPhone(phonee);
+					employee.setAddress(Address);
+					employee.setEnable(user_isactive);
+					log.debug(user_isactive);
+
+					employee.setUser_update(loginUser);
+					employee.setTime_update(DateUtil.getCurrentTime());
+					employeeDAO.update(employee);
+					request.setAttribute("flag", "1");
+					List<Employee> employeeList = employeeDAO.findAllEmployee();
+					request.setAttribute(Employee, employeeList);
+
+				} else if (fileUpload == null && fileUploadFileName == null && filesize == "") {
+					employee.setFile_id(employee.getFile_id());
+					employee.setGender(Gender);
+					employee.setTitle_name_en(titleEN);
+					employee.setName_en(nameEN);
+					employee.setNickname_en(nicknameEN);
+
+					employee.setTitle_name_th(titleTH);
+					employee.setName_th(nameTH);
+					employee.setNickname_th(nicknameTH);
+
+					employee.setEmployee_id(employID);
+					employee.setDepartment_id(departmentID);
+					employee.setPosition_id(positionID);
+					employee.setEmail(Email);
+					employee.setPhone(phonee);
+					employee.setAddress(Address);
+					employee.setEnable(user_isactive);
+
+					employee.setUser_update(loginUser);
+					employee.setTime_update(DateUtil.getCurrentTime());
+					employeeDAO.update(employee);
+				}
+			} else if (employee.getFile_id() == null) {
 				Fileupload file = new Fileupload();
 				ServletContext context = request.getServletContext();
 				String fileServerPath = context.getRealPath("/");
 				double fileSize = Double.parseDouble(filesize);
-				log.debug("test" + filesize);
-				log.debug("test" + fileUploadFileName);
 				String FileSize = FileUtil.getFileSize(fileSize);
+				;
 				String filename = fileUploadFileName;
 				int l = filename.length();
 				int split = filename.indexOf(".");
 				String name = filename.substring(0, split);
 				String type = (String) filename.subSequence(split, l);
 				int maxId = fileuploadDAO.getMaxId() + 1;
-				FileUtil.upload(fileUpload, fileServerPath + "upload/employee/", file_ID + "_" + filename);
-				file.setFile_id(file_ID);
+				FileUtil.upload(fileUpload, fileServerPath + "upload/employee/", maxId + "_" + filename);
+				file.setFile_id(maxId);
 				file.setName(name);
 				file.setSize(FileSize);
-				file.setPath("/upload/employee/" + file_ID + "_" + filename);
 				file.setPage("employee");
+				file.setPath("/upload/employee/" + maxId + "_" + filename);
 				file.setType(type);
 				file.setUser_create(loginUser);
 				file.setUser_update(loginUser);
+				file.setTime_create(DateUtil.getCurrentTime());
 				file.setTime_update(DateUtil.getCurrentTime());
-				fileuploadDAO.update(file);
+				fileuploadDAO.save(file);
 				log.debug(file);
 
 				Integer f_id = file.getFile_id();
+				log.debug(f_id);
 				employee.setFile_id(f_id);
-
 				employee.setGender(Gender);
 				employee.setTitle_name_en(titleEN);
 				employee.setName_en(nameEN);
@@ -472,34 +563,14 @@ public class EmployeeAction extends ActionSupport {
 				employee.setEnable(user_isactive);
 				log.debug(user_isactive);
 
+				employee.setUser_update(loginUser);
 				employee.setTime_update(DateUtil.getCurrentTime());
 				employeeDAO.update(employee);
-				request.setAttribute("flag", "1");
-				List<Employee> employeeList = employeeDAO.findAllEmployee();
-				request.setAttribute(Employee, employeeList);
+				log.debug(employee);
 
-			} else if (fileUpload == null) {
-				employee.setFile_id(null);
-				employee.setGender(Gender);
-				employee.setTitle_name_en(titleEN);
-				employee.setName_en(nameEN);
-				employee.setNickname_en(nicknameEN);
-
-				employee.setTitle_name_th(titleTH);
-				employee.setName_th(nameTH);
-				employee.setNickname_th(nicknameTH);
-
-				employee.setEmployee_id(employID);
-				employee.setDepartment_id(departmentID);
-				employee.setPosition_id(positionID);
-				employee.setEmail(Email);
-				employee.setPhone(phonee);
-				employee.setAddress(Address);
-				employee.setEnable(user_isactive);
-
-				employee.setTime_update(DateUtil.getCurrentTime());
-				employeeDAO.update(employee);
 			}
+			List<Employee> employeeList = employeeDAO.findAllEmployee();
+			request.setAttribute(Employee, employeeList);
 
 			List<Map<String, Object>> departmentList = departmentDAO.fullNameDepartment();
 			request.setAttribute("departmentList", departmentList);

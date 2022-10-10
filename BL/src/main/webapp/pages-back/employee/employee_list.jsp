@@ -36,7 +36,7 @@
 			<!-- table list -->
 			<div class="card-body">
 				<div class="table-responsive">
-					<table class="table table-bordered text-nowrap border-bottom"
+					<table class="table table-bordered text-nowrap border-bottom table-hover"
 						id="basic-datatable">
 						<thead>
 							<tr>
@@ -52,8 +52,8 @@
 							<c:forEach var="employ" items="${employeeList}">
 								<c:set var="counter" value="${counter + 1}" />
 								<tr>
-									<th scope="row" class="align-middle text-center"><div
-											class="mt-0 mt-sm-1 d-block">${counter}</div></th>
+									<td scope="row" class="align-middle text-center">
+									<div class="mt-0 mt-sm-1 d-block">${counter}</div></td>
 									<td><div class="mt-0 mt-sm-1 d-block"> 
 									<span style="margin-right:0.5rem;">
 									<img src="${employ.path}" class="avatar avatar-sm brround "

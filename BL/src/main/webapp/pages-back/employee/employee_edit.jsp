@@ -28,8 +28,9 @@
 </div>
 
 <!-- DepartmentForm -->
-<form action="javascript:submitUpdateEmployeeForm()"
-	id="updateEmployForm" class="need-validation" novalidate method="POST">
+<form action="updateEmployee"
+	id="updateEmployForm" class="need-validation" novalidate method="POST"
+	enctype="multipart/form-data">
 	<div class="row clearfix">
 
 		<div class="col-xl-4">
@@ -40,10 +41,30 @@
 				</div>
 				<div class="card-body">
 					<div class="form-group text-center">
-						<div class="avatar avatar-xxl brround">
+						<!-- <div class="avatar avatar-xxl brround">
 							<span class="badge rounded-pill avatar-icons bg-primary"><i
 								class="fe fe-edit fs-12"></i></span>
+						</div> -->
+						<div class="avatar avatar-xxl brround">
+						<img src="${employeeList[0].path}" id="wizardPicturePreview" class="avatar avatar-xxl brround" title="">
+							<label class="badge rounded-pill avatar-icons bg-primary "><i
+								class="fe fe-edit fs-12"></i> 
+								<input style="text-align: center;" name="fileUpload" id="fileUpload" type="file"
+								data-default-file="${employeeList[0].path}"
+								accept="image/x-png,image/gif,image/jpeg" data-bs-height="180"
+								value="${employeeList[0].path}"/ hidden> 
+								<input style="display: none;" id="filesize" name="filesize" type="text"
+								value="" hidden> 
+								<input style="display: none;" type="text" class="form-control" id="employee_ID" name="employID"
+								value="${employeeList[0].employee_id}" hidden> 
+								<input style="display: none;" type="text" class="form-control"
+								name="file_ID" id="file_ID" value="${employeeList[0].file_id}" hidden>
+							</label>
 						</div>
+						<%-- <input style="text-align:center;"  name="fileUpload" id="fileUpload" type="file" class="dropify dropify-event"  data-default-file="${employeeList[0].path}" accept="image/x-png,image/gif,image/jpeg" data-bs-height="180" value="${employeeList[0].path}"/>
+           		<input style="display:none;" id="filesize" name="filesize" type="text" value="">
+           		<input style="display:none;" type="text" class="form-control" id="company_ID" name="company_ID" value="${employeeList[0].employee_id}">
+           		<input style="display:none;" type="text" class="form-control" name="file_ID" id="file_ID" value="${employeeList[0].file_id}"> --%>
 					</div>
 					<div class="form-group text-center">
 						<div class="form-check form-check-inline">
@@ -65,7 +86,7 @@
 						<div class="input-group">
 							<div class="col-md-4">
 								<select value="" class="form-control select2 form-select"
-									name="titleEN" required>
+									name="titleEN" id="titleEN" required>
 									<option value="Mr."
 										<c:if test="${employeeList[0].title_name_en eq 'Mr.'}">selected</c:if>>Mr.</option>
 									<option value="Mrs."
@@ -99,7 +120,7 @@
 
 							<div class="col-md-4">
 								<select value="" class="form-control select2 form-select"
-									name="titleTH" required>
+									name="titleTH" id="titleTH" required>
 									<option value="นาย"
 										<c:if test="${employeeList[0].title_name_th eq 'นาย'}">selected</c:if>>นาย</option>
 									<option value="นาง"
@@ -153,8 +174,8 @@
 							<div class="form-group">
 								<label class="form-label">Department <span
 									class="text-red">*</span></label> <select id="depart_id"
-									class="form-control select2 form-select" id="depart"
-									name="user.departmentID" data-placeholder="Select Department"
+									class="form-control select2 form-select"
+									name="departmentID" data-placeholder="Select Department"
 									required>
 
 									<c:forEach var="department" items="${departmentList}">
@@ -169,7 +190,7 @@
 							<div class="form-group">
 								<label class="form-label">Position <span
 									class="text-red">*</span></label> <select id="posi_id"
-									class="form-control select2 form-select" name="user.positionID"
+									class="form-control select2 form-select" name="positionID"
 									data-placeholder="Select Position" required>
 
 									<c:forEach var="position" items="${positionList}">
@@ -206,14 +227,26 @@
 							<div class="invalid-feedback"></div>
 						</div>
 						<div class="form-group">
-							<label class="custom-control custom-checkbox mb-0"> <input
+							<%-- <label class="custom-control custom-checkbox mb-0"> <input
 								type="checkbox" id="userIsactive" class="custom-control-input"
 								name="user_isactive" value="${employeeList[0].enable}"
 								<c:if test="${fn:contains(employeeList[0].enable, '1')}">checked</c:if>>
 								<input id='checkboxHidden' type='hidden' value='0'
 								name='user_isactive'> <span class="custom-control-label">Is
 									Active</span>
-							</label>
+								
+							</label> --%>
+
+							<div class="col-sm-2">
+								<label class="custom-control custom-checkbox"> <input
+									name="user_isactive" type="checkbox"
+									class="custom-control-input" id="userIsactive"
+									value="${employeeList[0].enable}"
+									<c:if test="${fn:contains(employeeList[0].enable, '1')}">checked</c:if>><span
+									class="custom-control-label">Is Active</span>
+								</label>
+							</div>
+
 						</div>
 					</div>
 				</div>
@@ -242,7 +275,7 @@
 		}
 	});
 
-function submitUpdateEmployeeForm() {
+/* function submitUpdateEmployeeForm() {
 		var values = $("#updateEmployForm").serializeArray()
 		console.log(values);
 		$.ajax({
@@ -257,7 +290,7 @@ function submitUpdateEmployeeForm() {
 				console.log(textStatus, errorThrown);
 			}
 		});
-	}
+	} */
 document.getElementById('phone').addEventListener('keyup',function(evt){
     var phoneNumber = document.getElementById('phone');
     var charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -297,7 +330,7 @@ function phoneFormat(input){
 }
 
 $(document).ready(function() {
-    $('#nameEn,#nameTh,#email,#phone,#address,#posi_id,#depart,#nickTh,#nicknameEN').on('input change', function() {
+    $('#titleEN,#nameEn,#nameTh,#email,#phone,#address,#posi_id,#depart,titleTH,#nickTh,#nicknameEN,#fileUpload,#userIsactive').on('input change', function() {
         if($(this).val() != '') {
             $('#save,#cancel').prop('hidden', false);
         } else {
@@ -306,3 +339,27 @@ $(document).ready(function() {
     });
 });
 </script>
+<script>
+$('#fileUpload').on('change', function() {
+	 var fs;
+	 var size = this.files[0].size;
+	 fs = $("#filesize").val(size);
+	 console.log(fs);
+})
+$(document).ready(function(){
+	// Prepare the preview for profile picture
+	    $("#fileUpload").change(function(){
+	        readURL(this);
+	    });
+	});
+	function readURL(input) {
+	    if (input.files && input.files[0]) {
+	        var reader = new FileReader();
+
+	        reader.onload = function (e) {
+	            $('#wizardPicturePreview').attr('src', e.target.result).fadeIn('slow');
+	        }
+	        reader.readAsDataURL(input.files[0]);
+	    }
+	}
+	</script>

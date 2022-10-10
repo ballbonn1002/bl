@@ -37,20 +37,25 @@
 					<h3 class="card-title">Personal Information</h3>
 				</div>
 				<div class="card-body">
-				<div class="avatar avatar-xxl brround">
-					<div class="form-group text-center">
-						<img class="avatar avatar-xxl brround">
 
-							<label class="badge rounded-pill avatar-icons bg-primary "><i
-								class="fe fe-edit fs-12"></i> 
-							<input style="text-align: center;" name="fileUpload"
-							id="fileUpload" type="file" class="dropify"
-							accept="image/x-png,image/gif,image/jpeg" data-max-width="1000" hidden/>
-						<input style="display: none;" id="filesize" name="filesize"
-							type="text" value=""hidden> 
-							</label>
+					<div class="form-group text-center">
+						<div class="avatar avatar-xxl brround">
+						<img id="wizardPicturePreview" class="avatar avatar-xxl brround" title="" >
+							<label class="badge rounded-pill avatar-icons bg-primary"><i class="fe fe-edit fs-12"> 
+							<input name="fileUpload" id="fileUpload" type="file" class="dropify"
+									accept="image/x-png,image/gif,image/jpeg" data-max-width="1000" hidden /> 
+							<input style="display: none;" id="filesize" name="filesize" type="text" value="" hidden>
+							</i></label>
 						</div>
- 						<!-- <input style="text-align: center;" name="fileUpload"
+						<!-- <img class="avatar avatar-xxl brround"> <label
+							class="badge rounded-pill avatar-icons bg-primary "><i
+							class="fe fe-edit fs-12"></i> <input style="text-align: center;"
+							name="fileUpload" id="fileUpload" type="file" class="dropify"
+							accept="image/x-png,image/gif,image/jpeg" data-max-width="1000"
+							hidden /> <input style="display: none;" id="filesize"
+							name="filesize" type="text" value="" hidden> </label>
+					</div> -->
+						<!-- <input style="text-align: center;" name="fileUpload"
 							id="fileUpload" type="file" class="dropify"
 							accept="image/x-png,image/gif,image/jpeg" data-max-width="1000" />
 						<input style="display: none;" id="filesize" name="filesize"
@@ -458,5 +463,20 @@ $('#fileUpload').bind('change', function() {
 })
 </script>
 <script>
- $('.dropify').dropify();
+$(document).ready(function(){
+	// Prepare the preview for profile picture
+	    $("#fileUpload").change(function(){
+	        readURL(this);
+	    });
+	});
+	function readURL(input) {
+	    if (input.files && input.files[0]) {
+	        var reader = new FileReader();
+
+	        reader.onload = function (e) {
+	            $('#wizardPicturePreview').attr('src', e.target.result).fadeIn('slow');
+	        }
+	        reader.readAsDataURL(input.files[0]);
+	    }
+	}
 </script>
