@@ -51,7 +51,29 @@ public class Company_salesDAOImpl implements Company_salesDAO{
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Company_sales> companysalesList = null;
 		try {
-			String sql = " SELECT * FROM company_sales where company_id = '"+id+"' order by employee_id ;";
+			String sql = " SELECT company_sales.* , file.path FROM company_sales \r\n"
+					+ "LEFT JOIN employee ON company_sales.employee_id = employee.employee_id\r\n"
+					+ "LEFT JOIN file ON file.file_id = employee.file_id\r\n"
+					+ "where company_id = '"+id+"' order by employee_id; ;";
+					
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			companysalesList = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return companysalesList;
+	}
+	
+	@Override
+	public List<Company_sales> findByCompany_sales_id(String id) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Company_sales> companysalesList = null;
+		try {
+			String sql = " SELECT company_sales.* , file.path FROM company_sales \r\n"
+					+ "LEFT JOIN employee ON company_sales.employee_id = employee.employee_id\r\n"
+					+ "LEFT JOIN file ON file.file_id = employee.file_id\r\n"
+					+ "where company_sales.company_sales_id = '"+id+"' order by employee_id; ;";
 					
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);

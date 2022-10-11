@@ -20,17 +20,17 @@ tr{
 }
 </style>
 <div class="page-header">
-    <h1 class="page-title">Company Management</h1>
+    <h1 class="page-title">Company</h1>
     <div>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0)">Company</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Company Management</li>
+            <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Company</li>
         </ol>
     </div>
 </div>
 <div class="card">
     <div class="card-header">    
-		<div class="card-title">Company Management</div>
+		<div class="card-title">Company</div>
 			<div class="card-options"><a href="company_add" class="btn btn-primary"><i class="ion-plus-round">&nbsp;</i>Create Company</a></div>
 	</div>
 	<div class="card-body">

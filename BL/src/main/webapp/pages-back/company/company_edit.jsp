@@ -46,6 +46,22 @@ tr{
     top: 0;
     width: 100%;
 }
+.inValid{
+    border-color: #dc3545 !important;
+    padding-right: calc(1.5em + 0.75rem);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+.Valid{
+    border-color: #198754 !important;
+    padding-right: calc(1.5em + 0.75rem);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
 </style>
 <div class="page-header">
     <h1 class="page-title">Company Management</h1>
@@ -56,7 +72,7 @@ tr{
         </ol>
     </div>
 </div>
-<form action="update_information" method="POST" enctype="multipart/form-data">
+<form action="update_information" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
 <div class="card">
 	<div class="card-header">
 		<div class="card-title">Company Information</div>
@@ -65,7 +81,7 @@ tr{
 		<div class="row">
 			<div class="col-lg-4 col-sm-12 mb-4 mb-lg-0" ></div>
 			<div class="col-lg-4 col-sm-12 mb-4 mb-lg-0" >
-           		<input style="text-align:center;"  name="fileUpload" id="fileUpload" type="file" class="dropify dropify-event"  data-default-file="${company[0].path}" accept="image/x-png,image/gif,image/jpeg" data-bs-height="180" value="${company[0].path}"/>
+           		<input style="text-align:center;"  name="fileUpload" id="fileUpload" type="file" class="dropify dropify-event"  data-default-file="${company[0].path}" accept="image/x-png,image/gif,image/jpeg" data-bs-height="180"/>
            		<input style="display:none;" id="filesize" name="filesize" type="text" value="">
            		<input style="display:none;" type="text" class="form-control" id="company_ID" name="company_ID" value="${company[0].company_id}">
            		<input style="display:none;" type="text" class="form-control" name="file_ID" id="file_ID" value="${company[0].file_id}">
@@ -74,34 +90,30 @@ tr{
     	<div class="col-sm-6 " style="margin-top:30px">
 			<div class="form-group">
 					<label class="form-label">Company Code<span style="color:red;"> *</span></label> 
-					<div class="input-group mb-3">
-							<input type="text" class="form-control" name="code" value="${company[0].company_code}" required>
-							  
-                    </div>  
+						<input type="text" class="form-control" name="code" value="${company[0].company_code}" required>
+						<div class="invalid-feedback">Don't leave this blank.</div>  
               </div>
          </div>
          <div class="col-sm-6 " style="margin-top:30px">
 			<div class="form-group">
 					<label class="form-label">Tax ID<span style="color:red;"> *</span></label> 
-					<div class="input-group mb-3">
-							<input type="text" class="form-control" name="tax" value="${company[0].tax_number}" required>  
-                    </div>  
+						<input type="text" class="form-control" name="tax" value="${company[0].tax_number}"  
+						pattern="^[0-9\s]{13}" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="13" required>  
+                    	<div class="invalid-feedback">Can't fill in Thai , Don't leave this blank.</div>
               </div>
          </div>
          <div class="col-sm-12 ">
 			<div class="form-group">
 					<label class="form-label">Company Name EN<span style="color:red;"> *</span></label> 
-					<div class="input-group mb-3">
-							<input type="text" class="form-control" name="name_en" value="${company[0].company_en }" required>  
-                    </div>  
+						<input type="text" class="form-control" name="name_en" value="${company[0].company_en}" pattern="^[a-zA-Z0-9.,\s]+$" required>
+						<div class="invalid-feedback">Can only fill in English , Don't leave this blank.</div> 
               </div>
          </div>
          <div class="col-sm-12 ">
 			<div class="form-group">
 					<label class="form-label">Company Name TH<span style="color:red;"> *</span></label> 
-					<div class="input-group mb-3">
-							<input type="text" class="form-control" name="name_th" value="${company[0].company_th }" required>  
-                    </div>  
+						<input type="text" class="form-control" name="name_th" value="${company[0].company_th}" pattern="^[ก-๏\s]+$" required>  
+                        <div class="invalid-feedback">Can only fill in Thai , Don't leave this blank.</div>  
               </div>
          </div>
          <div class="col-sm-6 ">
@@ -118,6 +130,7 @@ tr{
 						<option value="6" <c:if test="${company[0].industry == 6}">selected</c:if>>Services</option>
 						<option value="7" <c:if test="${company[0].industry == 7}">selected</c:if>>Technology</option>
 					</select> 
+					<div class="invalid-feedback">Don't leave this blank.</div>
               </div>
          </div>
          <div class="col-sm-6 ">
@@ -131,15 +144,14 @@ tr{
 						<option value="3" <c:if test="${company[0].status == 3}">selected</c:if>>Legal</option>
 						<option value="4" <c:if test="${company[0].status == 4}">selected</c:if>>Leadership and Peer Mentors</option>
 						<option value="5" <c:if test="${company[0].status == 5}">selected</c:if>>Employees</option>
-					</select> 
+					</select>
+					<div class="invalid-feedback">Don't leave this blank.</div>
               </div>
          </div>
           <div class="col-sm-12 ">
 			<div class="form-group">
 					<label class="form-label">Website</label> 
-					<div class="input-group mb-3">
-							<input type="text" class="form-control" name="website" id="website" value="${company[0].website}">  
-                    </div>  
+						<input type="text" class="form-control" name="website" id="website" value="${company[0].website}">  
               </div>
          </div>
          <div class="col-sm-2">
@@ -201,11 +213,11 @@ tr{
                		</span>
                		</div>
                		<div class="col-sm-2" style="margin-top:10px;"><i class="ti-location-pin"></i>&nbsp;&nbsp;${con.address_location}</div>
-               		<div class="col-sm-2" style="margin-top:10px;"><i class="bi bi-telephone"></i>&nbsp;&nbsp;${con.phone}</div>
+               		<div class="col-sm-2" style="margin-top:10px;"><i class="bi bi-telephone"></i>&nbsp;&nbsp;<span class="phone_con">${con.phone}</span></div>
                		<div class="col-sm-3" style="margin-top:10px;"><i class="ti-email"></i>&nbsp;&nbsp;${con.email}</div>
           	     	<div class="col-sm-1" style="text-align:right; margin-top:5px;">
                		 <div class="g-2">
-               			<a class="btn text-danger btn-sm" onclick="delete_contact('${con.company_contact_id}','${con.file_id}',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">
+               			<a class="btn text-danger btn-sm" onclick="delete_contact('${con.company_contact_id}',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">
                      	<span class="fe fe-trash-2 fs-18"></span></a>
                      </div>
                		</div>  
@@ -231,8 +243,14 @@ tr{
 			<c:forEach var="sales" items="${salesList}">
                <li class="list-group-item ">
                <div class="row">
-             	<div class="col-sm-6" style="margin-top:5px;">${sales.employee_id}&nbsp;<span>·</span>&nbsp;${sales.name_en}</div>
-               		<div class="col-sm-2" style="margin-top:5px;"><i class="bi bi-telephone"></i>&nbsp;&nbsp;${sales.phone}</div>
+               <div class="col-sm-6 d-flex">
+					<span><img src="${sales.path}" class="avatar brround cover-image" style="margin-top:5px;"></span>&nbsp;&nbsp;&nbsp;
+					<span>
+							<span>${sales.title_name_en} ${sales.name_en}</span><br>
+							<span class="text-muted">${sales.employee_id}</span>
+               		</span>
+               		</div>
+               		<div class="col-sm-2" style="margin-top:5px;"><i class="bi bi-telephone"></i>&nbsp;&nbsp;<span class="phone_sales">${sales.phone}</span></div>
                		<div class="col-sm-3" style="margin-top:5px;"><i class="ti-email"></i>&nbsp;&nbsp;${sales.email}</div>
           	     	<div class="col-sm-1" style="text-align:right;">
                		 <div class="g-2">
@@ -274,18 +292,20 @@ tr{
 						<div class="form-group">
 							<label class="form-label">Address Name<span style="color:red;"> *</span></label> 
 							<input type="text" class="form-control" id="address_name" required>   
+							<small class="text-danger small" style="display:none" id="invalid-address_name">Don't leave this blank.</small>
              			</div>
          			</div>
          			<div class="col-sm-12">
 						<div class="form-group">
 							<label class="form-label">Address<span style="color:red;"> *</span></label> 
 							<textarea class="form-control" rows="4" id="address" required></textarea>   
+							<small class="text-danger small" style="display:none" id="invalid-address">Don't leave this blank.</small>
              			</div>
          			</div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-default" data-bs-dismiss="modal">Cancel</button>
-                    <button id="sub_address" class="btn btn-success" data-bs-dismiss="modal">Save changes</button>
+                    <button id="sub_address" class="btn btn-success" onclick="submit_address()">Save changes</button>
                 </div>
             </div>
         </div>
@@ -324,36 +344,40 @@ tr{
                                                 </select>
                                                 <input type="text" class="form-control" name="contact_name" id="contact_name" required >
                                             </div>
+                                            <small class="text-danger small" style="display:none" id="invalid-contact_name">Don't leave this blank.</small>
                                         </div>
          			</div> 
          			<div class="col-sm-12">
 						<div class="form-group">
 							<label class="form-label">Position<span style="color:red;"> *</span></label> 
 							<input type="text" class="form-control" name="position" id="position" required>   
+							<small class="text-danger small" style="display:none" id="invalid-position">Don't leave this blank.</small>
              			</div>
          			</div>
          			<div class="col-sm-12">
 						<div class="form-group">
 							<label class="form-label">Phone Number<span style="color:red;"> *</span></label> 
-							<input type="text" class="form-control" name="con_phone" id="con_phone" required>   
+							<input type="text" class="form-control" name="con_phone" id="con_phone" oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="12" required>   
+             				<small class="text-danger small" style="display:none" id="invalid-phone"> Only numbers 0-9 can be entered , Don't leave this blank.</small>
              			</div>
          			</div>
          			<div class="col-sm-12">
 						<div class="form-group">
 							<label class="form-label">E-mail<span style="color:red;"> *</span></label> 
-							<input type="text" class="form-control"  name="con_email" id="con_email" required>   
+							<input type="email" class="form-control"  name="con_email" id="con_email" required>
+							<small class="text-danger small" style="display:none" id="invalid-email">EX. example@example.com , Don't leave this blank </small>
              			</div>
          			</div>
          			<div class="col-sm-12">
 						<div class="form-group">
 							<label class="form-label">Address Location</label> 
-							<select class="form-control select2 form-select" name="add_location" id="add_location" data-placeholder="Select" ></select>
+							<select class="form-select form-select select2" name="add_location" id="add_location" data-placeholder="Select"></select>
              			</div>
          			</div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-default" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" id="sub_contact" class="btn btn-success" data-bs-dismiss="modal">Save changes</button>
+                    <button type="button" id="sub_contact" class="btn btn-success" onclick="submit_contact()" >Save changes</button>
                 </div>
             </form> 
             </div>
@@ -391,10 +415,14 @@ tr{
 	                                        <span class="custom-control-label"></span>
                                         </label>
 	                    			</td>
-	                    			<td class="emp_id">${emp.employee_id}</td>
-	                    			<td><span class="sale_title">${emp.title_name_en}</span> <span class="sale_name_en">${emp.name_en}</span></td>
-	                    			<td class="sale_phone">${emp.phone}</td>
-	                    			<td><div class="sale_email">${emp.email}</div><div class="sale_company_id" style="display:none">${company[0].company_id}</div></td>
+	                    			<td>
+	                    				<div class="d-flex">
+											<span><img src="${emp.path}" class="avatar brround cover-image" style="min-width:32px; min-height:32px"></span><span class="ms-3 mt-0 mt-sm-2 d-block emp_id">${emp.employee_id}</span>
+										</div>
+									</td>
+	                    			<td><div class="ms-3 mt-0 mt-sm-2 d-block"><span class="sale_title">${emp.title_name_en}</span> <span class="sale_name_en">${emp.name_en}</span></div></td>
+	                    			<td><div class="ms-3 mt-0 mt-sm-2 d-block sale_phone phone_sales">${emp.phone}</div></td>
+	                    			<td><div class="ms-3 mt-0 mt-sm-2 d-block sale_email">${emp.email}</div><div class="sale_company_id" style="display:none">${company[0].company_id}</div></td>
 	                    		</tr>
 	                    		</c:forEach>    
 	                    	</tbody> 
@@ -418,7 +446,6 @@ $('#wizard-picture').bind('change', function() {
 </script>  
 <script>
 var drEvent = $('.dropify-event').dropify();
-//console.log(clear);
 drEvent.on('dropify.beforeClear', function(event, element) {
 var company_id = $("#company_ID").val();
 var file_id = $('#file_ID').val();
@@ -446,12 +473,11 @@ $('#fileUpload').bind('change', function() {
 });
 </script>
 <script>
-	$(document).ready(function(){
-		$("#sub_address").on('click',function(){
+	$("#sub_address").on('click',function(){
 			var address_name = $("#address_name").val();
 			var address = document.getElementById("address").value;
 			var id = $("#com_id_address").val();
-			
+	if(address_name != "" && address != ""){		
 			$.ajax({
 				url: "add_address" ,
 				type: "JSON",
@@ -469,6 +495,7 @@ $('#fileUpload').bind('change', function() {
 		            	type: "success",
 				}, function(inputValue) {
 		            if (inputValue != "") {
+		            	$('#AddressModal').modal('hide');
 		            	let text = '<li class="list-group-item test">'+
 						'<div class="row">'+
 						'<div class="col-sm-3" style="margin-top:5px;">'+data.address_name+'</div>'+
@@ -486,14 +513,20 @@ $('#fileUpload').bind('change', function() {
 					})
 			}
 		})
-	})
+	}
 	})
 </script>
 <script>
 		$("#sub_contact").on('click',function(){
 			const form = document.getElementById('uploadForm');
 			var formData = new FormData(form);
-        	
+			var name = $("#contact_name").val();
+			var position = $("#position").val();
+			var phone = $("#con_phone").val();
+			var email = $("#con_email").val();
+			var phlength = 12;
+			var validRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		if(name != "" && position != ""  && phone.length == phlength && email.match(validRegex)){
 			$.ajax({
 				url: "add_contact" ,
 				type: "JSON",
@@ -504,14 +537,14 @@ $('#fileUpload').bind('change', function() {
 
 				success:function(data){
 				console.log(data);
-				console.log(data[0].path);
 				swal({
 						title: "SUCCESS",
 		            	text: "Your information has been succesfully save",
 		            	type: "success",
 				}, function(inputValue) {
 		            if (inputValue != "") {
-		            	let text = '<li class="list-group-item test del">'+
+		            	$('#ContactModal').modal('hide');
+		            	let text = '<li class="list-group-item test">'+
 						'<div class="row">'+
 						'<div class="col-sm-4 d-flex">'+
 						'<span><img src="'+data[0].path+'" class="avatar brround cover-image" style="margin-top:5px;"></span>&nbsp;&nbsp;&nbsp;'+
@@ -521,11 +554,11 @@ $('#fileUpload').bind('change', function() {
                			'</span>'+
                			'</div>'+
                			'<div class="col-sm-2" style="margin-top:10px;"><i class="ti-location-pin"></i>&nbsp;&nbsp;'+data[0].address_location+'</div>'+
-	               		'<div class="col-sm-2" style="margin-top:10px;"><i class="bi bi-telephone"></i>&nbsp;&nbsp;'+data[0].phone+'</div>'+
+	               		'<div class="col-sm-2" style="margin-top:10px;"><i class="bi bi-telephone"></i>&nbsp;&nbsp;<span class="phone_con">'+data[0].phone+'</span></div>'+
 	               		'<div class="col-sm-3" style="margin-top:10px;"><i class="ti-email"></i>&nbsp;&nbsp;'+data[0].email+'</div>'+
 						'<div class="col-sm-1" style="text-align:right; margin-top:5px;">'+
 						'<div class="g-2">'+
-	   					'<a class="btn text-danger btn-sm" onclick="delete_contact('+data[0].company_contact_id+','+data[0].file_id+',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">'+
+	   					'<a class="btn text-danger btn-sm" onclick="delete_contact('+data[0].company_contact_id+',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">'+
 	         			'<span class="fe fe-trash-2 fs-18"></span></a>'+
 	         			'</div>'+
 	   					'</div>'+
@@ -533,18 +566,42 @@ $('#fileUpload').bind('change', function() {
 	   					'</li>';
 						$("#gen_contact").append(text);
 		            }
+		            var phoneNumber = document.getElementsByClassName('phone_con');
+		        	var x;
+		        		for(var i=0; i< phoneNumber.length; i++){
+		        			x = phoneFormat(phoneNumber[i].innerText);
+		        			phoneNumber[i].innerText = x;
+		        		}
 					})
 				}
 			})   
+		}
 		});
 </script>
 <script>
-$(document).ready(function(){
 	$("#clear_address").on('click',function(){
 		var address_name = $("#address_name").val('');
 		var address = document.getElementById("address").value = "";
+		$("#address_name").removeClass("Valid");
+		$("#address_name").removeClass("inValid");
+		$("#address").removeClass("Valid");
+		$("#address").removeClass("inValid");
+		$("#invalid-address_name").hide();
+		$("#invalid-address").hide();
 	});
 	$("#clear_contact").on('click',function(){
+		$("#contact_name").removeClass("Valid");
+		$("#contact_name").removeClass("inValid");
+		$("#position").removeClass("Valid");
+		$("#position").removeClass("inValid");
+		$("#con_phone").removeClass("Valid");
+		$("#con_phone").removeClass("inValid");
+		$("#con_email").removeClass("Valid");
+		$("#con_email").removeClass("inValid");
+		$("#invalid-contact_name").hide();
+		$("#invalid-position").hide();
+		$("#invalid-phone").hide()
+		$("#invalid-email").hide();
 		var contact_name = $("#contact_name").val('');
 		var position = $("#position").val('');
 		var con_phone = $("#con_phone").val('');
@@ -570,12 +627,10 @@ $(document).ready(function(){
 			}
 		})
 	});
-})
 </script>
 <script>
-function delete_contact(id,file_id,currentEl){
+function delete_contact(id,currentEl){
 		console.log(currentEl);
-		console.log(file_id);
 	    Swal.fire({
             title: 'Are you sure?',
             text: "You will be deleting this id!",
@@ -592,7 +647,6 @@ function delete_contact(id,file_id,currentEl){
                 		method: 'POST',
                 		data: {
                 				"id" : id ,
-                				"file_id" : file_id
                 		},
                 		success:function(data){
                 			console.log(data);
@@ -754,8 +808,8 @@ function selectSale(){
 	var getSaleList = []
 $('#myTable tr').each(function() {
     $(this).find(".chk:checked").each(function() {
-        let values = { 'employee_id' :  $(this).closest("tr").find('td.emp_id').text(),'name_en' :  $(this).closest("tr").find('span.sale_name_en').text(),
-        				'title_name_en' :  $(this).closest("tr").find('span.sale_title').text(), 'phone' :  $(this).closest("tr").find('td.sale_phone').text(),
+        let values = { 'employee_id' :  $(this).closest("tr").find('span.emp_id').text(),'name_en' :  $(this).closest("tr").find('span.sale_name_en').text(),
+        				'title_name_en' :  $(this).closest("tr").find('span.sale_title').text(), 'phone' :  $(this).closest("tr").find('div.sale_phone').text(),
         				'email' :  $(this).closest("tr").find('div.sale_email').text() , 'company_id' : $(this).closest("tr").find('div.sale_company_id').text()}
         getSaleList.push(values);
     });
@@ -768,7 +822,7 @@ $('#myTable tr').each(function() {
     				"value" : JSON.stringify(getSaleList)
     	},
     	success:function(data){
-    		console.log(data[0]);
+    		console.log(data);
 			swal({
 				title: "SUCCESS",
             	text: "Your information has been succesfully save",
@@ -776,23 +830,36 @@ $('#myTable tr').each(function() {
 		}, function(inputValue) {
             if (inputValue != "") {
 		let text = '';
-		for(var i=0; i<getSaleList.length;i++){
+		for(var i=0; i<data.length;i++){
+			for(var j=0; j<data[i].length;j++){
             	text += '<li class="list-group-item test del">'+
 						'<div class="row">'+
-						'<div class="col-sm-3" style="margin-top:5px;">'+getSaleList[i].employee_id+'&nbsp;<span>·</span>&nbsp;'+getSaleList[i].name_en+'</div>'+
-           				'<div class="col-sm-3" style="margin-top:5px;"><i class="bi bi-telephone"></i>&nbsp;&nbsp;'+getSaleList[i].phone+'</div>'+
-           				'<div class="col-sm-5" style="margin-top:5px;"><i class="ti-email"></i>&nbsp;&nbsp;'+getSaleList[i].email+'</div>'+
+						'<div class="col-sm-6 d-flex">'+
+						'<span><img src="'+data[i][j].path+'" class="avatar brround cover-image" style="margin-top:5px;"></span>&nbsp;&nbsp;&nbsp;'+
+						'<span>'+
+						'<span>'+data[i][j].title_name_en+' '+data[i][j].name_en+'</span><br>'+
+						'<span class="text-muted">'+data[i][j].employee_id+'</span>'+
+           				'</span>'+
+           				'</div>'+
+           				'<div class="col-sm-2" style="margin-top:5px;"><i class="bi bi-telephone"></i>&nbsp;&nbsp;<span class="phone_sales">'+data[i][j].phone+'</span></div>'+
+           				'<div class="col-sm-3" style="margin-top:5px;"><i class="ti-email"></i>&nbsp;&nbsp;'+data[i][j].email+'</div>'+
 						'<div class="col-sm-1" style="text-align:right;">'+
 						'<div class="g-2">'+
-						'<a class="btn text-danger btn-sm" onclick="delete_sales('+data[i]+',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">'+
+						'<a class="btn text-danger btn-sm" onclick="delete_sales('+data[i][j].company_sales_id+',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">'+
      					'<span class="fe fe-trash-2 fs-18"></span></a>'+
      					'</div> '+
 					'</div>'+
 					'</div>'+
 					'</li>';
 				}
+		}
 			$("#gen_sales").append(text);
-			
+			var phoneNumber = document.getElementsByClassName('phone_sales');
+			var x;
+				for(var i=0; i< phoneNumber.length; i++){
+					x = phoneFormat(phoneNumber[i].innerText);
+					phoneNumber[i].innerText = x;
+				}
             }
 			})
     	}
@@ -813,4 +880,184 @@ $('#myTable tr').each(function() {
 	        reader.readAsDataURL(input.files[0]);
 	    }
 	}
+</script>
+<script>
+document.getElementById('con_phone').addEventListener('keyup',function(evt){
+	    var phoneNumber = document.getElementById('con_phone');
+	    var charCode = (evt.which) ? evt.which : evt.keyCode;
+	    phoneNumber.value = phoneFormat(phoneNumber.value);
+	});
+
+$(document).ready(function(){
+	var phoneNumber = document.getElementsByClassName('phone_con');
+	var x; var y;
+		for(var i=0; i< phoneNumber.length; i++){
+			x = phoneFormat(phoneNumber[i].innerText);
+			phoneNumber[i].innerText = x;
+		}
+}); 
+
+$(document).ready(function(){
+	var phoneNumber = document.getElementsByClassName('phone_sales');
+	var x; var y;
+		for(var i=0; i< phoneNumber.length; i++){
+			x = phoneFormat(phoneNumber[i].innerText);
+			phoneNumber[i].innerText = x;
+		}
+});
+
+function phoneFormat(input){
+	    input = input.replace(/\D/g,'');
+	    input = input.substring(0,10);
+	    var size = input.length;
+	    if(size == 0){
+	            input = input;
+	    }else if(size < 4){
+	            input = ''+input;
+	    }else if(size < 7){
+	            input = ''+input.substring(0,3)+'-'+input.substring(3,6);
+	    }else{
+	            input = ''+input.substring(0,3)+'-'+input.substring(3,6)+'-'+input.substring(6,10);
+	    }
+	    return input; 
+	}
+</script>
+<script>	
+$("#address_name").on("keyup",function(){
+	$("#address_name").removeClass("inValid");
+	$("#address_name").addClass("Valid");
+	$("#invalid-address_name").hide();
+	if($("#address_name").val()==''){
+		$("#address_name").removeClass("Valid");
+		$("#address_name").addClass("inValid");
+		$("#invalid-address_name").show();
+	}
+});
+$("#address").on("keyup",function(){
+	$("#address").removeClass("inValid");
+	$("#address").addClass("Valid");
+	$("#invalid-address").hide();
+	if($("#address").val()==''){
+		$("#address").removeClass("Valid");
+		$("#address").addClass("inValid");
+		$("#invalid-address").show();
+	}
+});
+function submit_address(){
+	var address_name = $("#address_name").val();
+	var address = $("#address").val();
+	console.log(address_name);
+	
+	if(address_name == ''){
+		$("#address_name").addClass("inValid");
+		$("#invalid-address_name").show();
+	}else{
+		$("#address_name").addClass("Valid");
+		$("#address_name").removeClass("inValid");
+		$("#invalid-address_name").hide();
+	}
+	
+	if(address == ''){
+		$("#address").addClass("inValid");
+		$("#invalid-address").show();
+	}else{
+		$("#address").addClass("Valid");
+		$("#address").removeClass("inValid");
+		$("#invalid-address").hide();
+	}
+}
+</script>
+<script>
+$("#contact_name").on("keyup",function(){
+	$("#contact_name").removeClass("inValid");
+	$("#contact_name").addClass("Valid");
+	$("#invalid-contact_name").hide();
+	if($("#contact_name").val()==''){
+		$("#contact_name").removeClass("Valid");
+		$("#contact_name").addClass("inValid");
+		$("#invalid-contact_name").show();
+	}
+});
+$("#position").on("keyup",function(){
+	$("#position").removeClass("inValid");
+	$("#position").addClass("Valid");
+	$("#invalid-position").hide();
+	if($("#position").val()==''){
+		$("#position").removeClass("Valid");
+		$("#position").addClass("inValid");
+		$("#invalid-position").show();
+	}
+});
+$("#con_phone").on("keyup",function(){
+	var x = $("#con_phone").val();
+	if(x.length == 12){
+		$("#con_phone").removeClass("inValid");
+		$("#con_phone").addClass("Valid");
+		$("#invalid-phone").hide();
+	}
+	else{
+		$("#con_phone").removeClass("Valid");
+		$("#con_phone").addClass("inValid");
+		$("#invalid-phone").show();
+	}
+});
+$("#con_email").on("keyup",function(){
+	var validRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	var x = $("#con_email").val();
+	if(x.match(validRegex)){
+	$("#con_email").removeClass("inValid");
+	$("#con_email").addClass("Valid");
+	$("#invalid-email").hide();
+	}
+	else{
+		$("#con_email").removeClass("Valid");
+		$("#con_email").addClass("inValid");
+		$("#invalid-email").show();
+	}
+});
+
+function submit_contact(){
+	var contact_name = $("#contact_name").val();
+	var position = $("#position").val();
+	var con_phone = $("#con_phone").val();
+	var con_email = $("#con_email").val();
+	var add_location = $("#add_location").val();
+	
+	if(contact_name == ''){
+		$("#contact_name").addClass("inValid");
+		$("#invalid-contact_name").show();
+	}else{
+		$("#contact_name").addClass("Valid");
+		$("#contact_name").removeClass("inValid");
+		$("#invalid-contact_name").hide();
+	}
+	
+	if(position == ''){
+		$("#position").addClass("inValid");
+		$("#invalid-position").show();
+	}else{
+		$("#position").addClass("Valid");
+		$("#position").removeClass("inValid");
+		$("#invalid-position").hide();
+	}
+	
+	if(con_phone == ''){
+		$("#con_phone").addClass("inValid");
+		$("#invalid-phone").show();
+	}else{
+		$("#con_phone").addClass("Valid");
+		$("#con_phone").removeClass("inValid");
+		$("#invalid-phone").hide();
+	}
+	
+	if(con_email == ''){
+		$("#con_email").addClass("inValid");
+		$("#invalid-email").show();
+	}else{
+		$("#con_email").addClass("Valid");
+		$("#con_email").removeClass("inValid");
+		$("#invalid-email").hide();
+	}
+	
+}
 </script>

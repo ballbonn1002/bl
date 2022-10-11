@@ -95,7 +95,7 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Employee> employee = null;
 		try {
-			String sql = " SELECT employee.* , file.path FROM employee LEFT JOIN file on employee.file_id = file.file_id order by employee.employee_id ;";
+			String sql = " SELECT employee.* , file.path FROM employee LEFT JOIN file on employee.file_id = file.file_id where enable = '1' order by employee.employee_id ;";
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			employee = query.list();
