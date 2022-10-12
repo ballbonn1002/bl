@@ -165,7 +165,7 @@
 		</action>
 		<action name="save_sysuser"
 			class="com.cubesofttech.action.UserAction" method="save_sysuser">
-			<result name="success" type="tiles">SystemUser_add</result>
+			<result name="success" type="redirect">sysuser_edit?sysuser_id=${userid}</result>
 			<result name="error">/index.jsp</result>
 		</action>
 		<action name="SystemUser_list"
