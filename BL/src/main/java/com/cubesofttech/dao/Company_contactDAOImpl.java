@@ -96,14 +96,14 @@ public class Company_contactDAOImpl implements Company_contactDAO{
 	}
 
 	@Override
-	public List<Company_contact> contactwithFileById(String id , Integer file_id) throws Exception {
+	public List<Company_contact> FindByContactIdwithfile(Integer id) throws Exception {
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Company_contact> company_contactList = null;
 		try {
 			String sql = " select company_contact.* , file.path \r\n"
 					+ "FROM company_contact\r\n"
 					+ "LEFT JOIN file ON company_contact.file_id = file.file_id\r\n"
-					+ "WHERE company_contact.company_id = '"+id+"'  AND company_contact.file_id = '"+file_id+"'";
+					+ "WHERE company_contact.company_contact_id = '"+id+"'"; 
 					
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
@@ -113,7 +113,7 @@ public class Company_contactDAOImpl implements Company_contactDAO{
 		}
 		return company_contactList;
 	}
-
+	
 	@Override
 	public Integer getMaxId() throws Exception {
 			Session session = this.sessionFactory.getCurrentSession();

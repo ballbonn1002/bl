@@ -119,7 +119,6 @@
 			class="com.cubesofttech.action.EmployeeAction" method="save_employ">
 			<result name="success" type="tiles">employee_list</result> <!-- type = "chain" เป้นการส่งให้ชื่อ Action นั่นทำงาน -->
 			<result name="error">/index.jsp</result>
-			<result name="input" type="tiles">employee_add</result>
 		</action>
 		<action name="employee_edit"
 			class="com.cubesofttech.action.EmployeeAction" method="edit_employ">

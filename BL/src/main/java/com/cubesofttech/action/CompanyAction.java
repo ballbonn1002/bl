@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
+import org.hibernate.mapping.Array;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -247,8 +248,12 @@ public class CompanyAction extends ActionSupport {
 			 Company company = new Company();
 			 Integer com_id = Integer.valueOf(id);
 			 company = companyDAO.findById(com_id);
+			 Integer file_id = company.getFile_id();
 			 companyDAO.delete(company);
 			 
+			 Fileupload file = new Fileupload();
+			 file = fileuploadDAO.findById(file_id);
+			 fileuploadDAO.delete(file);
 			 List<Company> companyList = companyDAO.findAll();
 			 request.setAttribute("companyList", companyList);
 			 return SUCCESS;
@@ -392,7 +397,7 @@ public class CompanyAction extends ActionSupport {
 				request.setAttribute("salesList", salesList);
 		}
 		
-		 	 List<Employee>employeeList = employeeDAO.findAll();
+		 	 List<Employee>employeeList = employeeDAO.findAllEmployee();
 		 	 request.setAttribute("employeeList", employeeList); 
 			 
 			 return SUCCESS;
@@ -446,71 +451,92 @@ public class CompanyAction extends ActionSupport {
 				 Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser"); // Username login 
 			     String loginUser = ur.getSys_user_id(); // Username login
 				 Fileupload file = new Fileupload();
-		    	 ServletContext context = request.getServletContext();
-				 String fileServerPath = context.getRealPath("/");
-				 double fileSize = Double.parseDouble(filesize);
-				 String FileSize = FileUtil.getFileSize(fileSize);;
-				 String filename = fileUploadFileName;
-				 int l = filename.length();
-				 int split = filename.indexOf(".");
-				 String name = filename.substring(0, split);
-				 String type = (String) filename.subSequence(split, l);
-				 int maxId = fileuploadDAO.getMaxId()+1;
-				 FileUtil.upload(fileUpload, fileServerPath + "upload/company/", maxId + "_" + filename);
-				 file.setFile_id(maxId);
-				 file.setName(name);
-				 file.setSize(FileSize);
-				 file.setPage("company_contact");
-				 file.setPath("/upload/company/" + maxId + "_" + filename);
-				 file.setType(type);
-				 file.setUser_create(loginUser);
-				 file.setUser_update(loginUser);
-				 file.setTime_create(DateUtil.getCurrentTime());
-				 file.setTime_update(DateUtil.getCurrentTime());
-				 fileuploadDAO.save(file);
-				 log.debug(file);
-				 Integer f_id = file.getFile_id();
-			 
-				Company_contact contact = new Company_contact();
-				String com_id = String.valueOf(company_ID);
-		    	log.debug(com_id);
-		    	log.debug(fileUpload);
-		    	log.debug(contact_title_name);
-		    	log.debug(contact_name);
-		    	log.debug(con_phone);
-		    	log.debug(con_email);
-		    	log.debug(position);
-		    	log.debug(add_location);
-		    	log.debug(filesize);
-		    	log.debug(fileUploadFileName);
-		    	int maxid = company_contactDAO.getMaxId()+1;
-		    	contact.setCompany_contact_id(maxid);
-		    	contact.setFile_id(f_id);
-		    	contact.setCompany_id(company_ID);
-		    	contact.setTitle_name_en(contact_title_name);
-		    	contact.setContact_name(contact_name);
-		    	contact.setPosition(position);
-		    	contact.setPhone(con_phone);
-		    	contact.setEmail(con_email);
-		    	contact.setAddress_location(add_location);
-		    	contact.setUser_create(loginUser);
-		    	contact.setUser_update(loginUser);
-		    	contact.setTime_create(DateUtil.getCurrentTime());
-		    	contact.setTime_update(DateUtil.getCurrentTime()); 
-		    	company_contactDAO.save(contact);
-		    	
-		    	List<Company_address>addressList = company_addressDAO.findByCompayny_id(com_id);
-			 	request.setAttribute("addressList", addressList);
-			 	
-			 	List<Company_contact>contactList = company_contactDAO.contactwithFileById(com_id , f_id);
-			 	log.debug(contactList);
-			 	
-		    	Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			    String json = gson.toJson(contactList);
-			    request.setAttribute("json", json); 
-			    log.debug(json);
+				 Company_contact contact = new Company_contact();
+				 
+				 if(fileUpload != null) {
+				    ServletContext context = request.getServletContext();
+					String fileServerPath = context.getRealPath("/");
+					double fileSize = Double.parseDouble(filesize);
+					String FileSize = FileUtil.getFileSize(fileSize);;
+					String filename = fileUploadFileName;
+					int l = filename.length();
+					int split = filename.indexOf(".");
+					String name = filename.substring(0, split);
+					String type = (String) filename.subSequence(split, l);
+					int maxId = fileuploadDAO.getMaxId()+1;
+					FileUtil.upload(fileUpload, fileServerPath + "upload/company/", maxId + "_" + filename);
+					file.setFile_id(maxId);
+					file.setName(name);
+					file.setSize(FileSize);
+					file.setPage("company_contact");
+					file.setPath("/upload/company/" + maxId + "_" + filename);
+					file.setType(type);
+					file.setUser_create(loginUser);
+					file.setUser_update(loginUser);
+					file.setTime_create(DateUtil.getCurrentTime());
+					file.setTime_update(DateUtil.getCurrentTime());
+					fileuploadDAO.save(file);
+					log.debug(file);
+					Integer f_id = file.getFile_id();
+					 
+					String com_id = String.valueOf(company_ID);
+				    int maxid = company_contactDAO.getMaxId()+1;
+				    String phone = con_phone.replace("-", "");
+				    contact.setCompany_contact_id(maxid);
+				    contact.setFile_id(f_id);
+				    contact.setCompany_id(company_ID);
+				    contact.setTitle_name_en(contact_title_name);
+				    contact.setContact_name(contact_name);
+				    contact.setPosition(position);
+				    contact.setPhone(phone);
+				    contact.setEmail(con_email);
+				    contact.setAddress_location(add_location);
+				    contact.setUser_create(loginUser);
+				    contact.setUser_update(loginUser);
+				    contact.setTime_create(DateUtil.getCurrentTime());
+				    contact.setTime_update(DateUtil.getCurrentTime()); 
+				    company_contactDAO.save(contact);
+				    Integer contact_id = contact.getCompany_contact_id();	
+				    List<Company_address>addressList = company_addressDAO.findByCompayny_id(com_id);
+					request.setAttribute("addressList", addressList);
+					 	
+					List<Company_contact>contactList = company_contactDAO.FindByContactIdwithfile(contact_id);
+					 	
+					Gson gson = new GsonBuilder().setPrettyPrinting().create();
+					String json = gson.toJson(contactList);
+					request.setAttribute("json", json); 
+					log.debug(json);
+					    
+				}else if(fileUpload == null) {
+					Integer f_id = null;
+					String com_id = String.valueOf(company_ID);
+			    	int maxid = company_contactDAO.getMaxId()+1;
+			    	String phone = con_phone.replace("-", "");
+			    	contact.setCompany_contact_id(maxid);
+			    	contact.setFile_id(f_id);
+			    	contact.setCompany_id(company_ID);
+			    	contact.setTitle_name_en(contact_title_name);
+			    	contact.setContact_name(contact_name);
+			    	contact.setPosition(position);
+			    	contact.setPhone(phone);
+			    	contact.setEmail(con_email);
+			    	contact.setAddress_location(add_location);
+			    	contact.setUser_create(loginUser);
+			    	contact.setUser_update(loginUser);
+			    	contact.setTime_create(DateUtil.getCurrentTime());
+			    	contact.setTime_update(DateUtil.getCurrentTime()); 
+			    	company_contactDAO.save(contact);
+			    	Integer contact_id = contact.getCompany_contact_id();
+			    	List<Company_address>addressList = company_addressDAO.findByCompayny_id(com_id);
+				 	request.setAttribute("addressList", addressList);
+				 	
+				 	List<Company_contact>contactList = company_contactDAO.FindByContactIdwithfile(contact_id);
+				 	Gson gson = new GsonBuilder().setPrettyPrinting().create();
+				    String json = gson.toJson(contactList);
+				    request.setAttribute("json", json); 
+				    log.debug(json);
+			 }
 			 	return SUCCESS;
-			 	
 		 }catch(Exception e) {
 			 e.printStackTrace();
 			 return ERROR;
@@ -536,13 +562,18 @@ public class CompanyAction extends ActionSupport {
 	 public String Contact_delete() {
 		 try {
 			 String id = request.getParameter("id");
-			 String f_id = request.getParameter("file_id");
-			 Integer file_id = Integer.parseInt(f_id);
 			 Integer con_id = Integer.parseInt(id);
 			 Company_contact contact = company_contactDAO.findById(con_id);
-			 company_contactDAO.delete(contact);
-			 Fileupload file = fileuploadDAO.findById(file_id);
-			 fileuploadDAO.delete(file);
+			 Integer file_id = contact.getFile_id();
+			 
+			 if(file_id != null) {
+				 company_contactDAO.delete(contact);
+				 Fileupload file = fileuploadDAO.findById(file_id);
+				 fileuploadDAO.delete(file);
+			 }else if(file_id == null) {
+				 company_contactDAO.delete(contact);
+			 }
+			 
 			 Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		     String json = gson.toJson("delete success");
 		     request.setAttribute("json", json); 
@@ -595,31 +626,32 @@ public class CompanyAction extends ActionSupport {
 					phoneListarr.add((String) user.get("phone"));
 					emailListarr.add((String) user.get("email"));
 				}
-				log.debug(emp_idListarr);
-				List<String> idList = new ArrayList<String>();
+				List<List> idList = new ArrayList<List>();
 				for(int i=0; i < emp_idListarr.size(); i++) {
 					Company_sales sales = new Company_sales();
 					int maxId = company_salesDAO.getMaxId()+1;
+					String phone = phoneListarr.get(i).replace("-", "");
 					sales.setCompany_sales_id(maxId);
 					sales.setEmployee_id(emp_idListarr.get(i));
 					sales.setCompany_id(com_idListarr.get(i));
 					sales.setName_en(name_enListarr.get(i));
 					sales.setTitle_name_en(title_nameListarr.get(i));
 					sales.setEmail(emailListarr.get(i));
-					sales.setPhone(phoneListarr.get(i));
+					sales.setPhone(phone);
 					sales.setUser_create(loginUser);
 					sales.setUser_update(loginUser);
 					sales.setTime_create(DateUtil.getCurrentTime());
 					sales.setTime_update(DateUtil.getCurrentTime());
 					company_salesDAO.save(sales);
-					log.debug(sales.getCompany_sales_id());
 					String sales_id = String.valueOf(sales.getCompany_sales_id());
-					idList.add(sales_id);
+					log.debug(sales_id);
+					List<Company_sales>salesList = company_salesDAO.findByCompany_sales_id(sales_id);
+					idList.add(salesList);
 				}
 				log.debug(idList);
 				Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			     String json = gson.toJson(idList);
-			     request.setAttribute("json", json); 
+			    String json = gson.toJson(idList);
+			    request.setAttribute("json", json); 
 				
 			 return SUCCESS;
 		 }catch(Exception e) {

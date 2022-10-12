@@ -13,15 +13,16 @@
 <script src="/assets/plugins/fileuploads/js/fileupload.js"></script>
 <script src="/assets/plugins/fileuploads/js/file-upload.js"></script>
 <div class="page-header">
-    <h1 class="page-title">Company Management</h1>
+    <h1 class="page-title">Add Company</h1>
     <div>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0)">Company</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Company Management</li>
+            <li class="breadcrumb-item"><a href="dashboard">Home</a></li>
+            <li class="breadcrumb-item"><a href="company_list">Company</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Add Company</li>
         </ol>
     </div>
 </div>
-<form action="add" method="POST" enctype="multipart/form-data">
+<form action="add" class="needs-validation" method="POST" enctype="multipart/form-data" novalidate>
 <div class="card">
 	<div class="card-header">
 		<div class="card-title">Company Information</div>
@@ -33,37 +34,33 @@
            		<input style="text-align:center;"  name="fileUpload" id="fileUpload" type="file" class="dropify" accept="image/x-png,image/gif,image/jpeg" data-max-width="1000"/>
            		<input style="display:none;" id="filesize" name="filesize" type="text" value="">
     		</div>
-
     	<div class="col-sm-6 " style="margin-top:30px">
 			<div class="form-group">
-					<label class="form-label">Company Code<span style="color:red;"> *</span></label> 
-					<div class="input-group mb-3">
-							<input type="text" id="code" class="form-control" name="code" required>  
-                    </div>  
+					<label  class="form-label">Company Code<span style="color:red;"> *</span></label> 
+					<input type="text" id="code" class="form-control" name="code" required>  
+					<div class="invalid-feedback">Don't leave this blank.</div>
               </div>
          </div>
          <div class="col-sm-6 " style="margin-top:30px">
 			<div class="form-group">
 					<label class="form-label">Tax ID<span style="color:red;"> *</span></label> 
-					<div class="input-group mb-3">
-							<input type="text" class="form-control" name="tax" id="tax" required>  
-                    </div>  
+					<input type="text" class="form-control" name="tax" id="tax" pattern="^[0-9\s]{13}" 
+					oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="13" required>  
+					<div class="invalid-feedback">Only 13 numbers can be entered , Don't leave this blank.</div>
               </div>
          </div>
          <div class="col-sm-12">
 			<div class="form-group">
 					<label class="form-label">Company Name EN<span style="color:red;"> *</span></label> 
-					<div class="input-group mb-3">
-							<input type="text" class="form-control" name="name_en" id="name_en" required>  
-                    </div>  
+					<input type="text" class="form-control" name="name_en" id="name_en" pattern="^[a-zA-Z0-9.,\s]+$" required> 
+					<div class="invalid-feedback">Can't fill in Thai , Don't leave this blank.</div> 
               </div>
          </div>
          <div class="col-sm-12">
 			<div class="form-group">
 					<label class="form-label">Company Name TH<span style="color:red;"> *</span></label> 
-					<div class="input-group mb-3">
-							<input type="text" class="form-control" name="name_th" id="name_th" required>  
-                    </div>  
+					<input type="text" class="form-control" name="name_th" id="name_th" pattern="^[ก-๏\s]+$" required>
+					<div class="invalid-feedback">Can only fill in Thai , Don't leave this blank.</div>  
               </div>
          </div>
          <div class="col-sm-6 ">
@@ -80,6 +77,7 @@
 						<option value="6">Services</option>
 						<option value="7">Technology</option>
 					</select> 
+				<div class="invalid-feedback">Don't leave this blank.</div>
               </div>
          </div>
          <div class="col-sm-6 ">
@@ -94,14 +92,13 @@
 						<option value="4">Leadership and Peer Mentors</option>
 						<option value="5">Employees</option>
 					</select> 
+					<div class="invalid-feedback">Don't leave this blank.</div>
               </div>
          </div>
          <div class="col-sm-12 ">
 			<div class="form-group">
 					<label class="form-label">Website</label> 
-					<div class="input-group mb-3">
-							<input type="text" class="form-control" name="website" id="website">  
-                    </div>  
+					<input type="text" class="form-control" name="website" id="website">  
               </div>
          </div>
          <div class="col-sm-2">
@@ -115,15 +112,9 @@
 </div>
 <div  style="text-align: right; margin-top: 1rem; margin-bottom: 1.5rem;">
 	<a href="company_list" type="button" class="btn btn-default" style="min-width: 5%;">Cancel</a>
-	<button type="submit" id="submit" class="btn btn-success" onclick="redirect()" style="min-width: 5%;">Save</button>
+	<button type="submit" id="submit" class="btn btn-success" style="min-width: 5%;">Save</button>
 </div>
 </form>
-<script>
-function redirect(){
-    window.location.href = "company_edit.jsp";
-    return false;
-}
-</script>
 <script>
 $('#fileUpload').bind('change', function() {
 	 var fs;
@@ -133,5 +124,5 @@ $('#fileUpload').bind('change', function() {
 })
 </script>
 <script>
- $('.dropify').dropify();
+ 	$('.dropify').dropify();
 </script>

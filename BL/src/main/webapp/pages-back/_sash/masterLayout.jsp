@@ -786,7 +786,8 @@
     <script src="../assets/js/formelementadvnced.js"></script>
     <script src="../assets/js/form-elements.js"></script>
     
-
+    <!-- FORMVALIDATION JS -->
+	<script src="/assets/js/form-validation.js"></script>
 </body>
 
 </html>
