@@ -50,7 +50,7 @@ tr {
 			<div class="card-body">
 				<div class="table-responsive">
 					<table
-						class="table table-bordered text-nowrap mb-0"
+						class="table table-hover table-bordered text-nowrap mb-0"
 						id="myTable">
 						<thead>
 							<tr>

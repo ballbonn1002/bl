@@ -7,7 +7,9 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="/WEB-INF/tlds/permission.tld" prefix="perm"%>
-<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="/assets/js/jquery.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 <c:set var="now" value="<%=new java.util.Date()%>" />
 <style type="text/css">
 /* class สำหรับแถวแรกของรายละเอียด */
@@ -53,11 +55,11 @@ input[type="checkbox"] {
 
 <!-- PAGE-HEADER -->
 <div class="page-header">
-    <h1 class="page-title">User Management</h1>
+    <h1 class="page-title">System User</h1>
     <div>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0)">Authority</a></li>
-            <li class="breadcrumb-item active" aria-current="page">System User Management</li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">System User</li>
         </ol>
     </div>
 </div>
@@ -70,45 +72,54 @@ input[type="checkbox"] {
             <div class="card-header">    
 				<div class="card-title">System User</div>
 				<perm:permission object="authority.system_user.create_update">
-				     <div class="card-options"><a href="SystemUser_add" class="btn btn-success">Add System User</a></div>
+				     
+				     <div class="card-options"><a href="SystemUser_add" class="btn btn-primary"><i class="ion-plus-round">&nbsp;</i>Create System User</a></div>
 				</perm:permission>
 			</div>
 			<div class="card-body">
 						<div class="table-responsive">
-							<table  class="table table-sm table-hover border-top table-bordered mb-0 " id = "myTable">
+							<table  class="table table-hover table-bordered mb-0" id = "myTable">
 								<thead>
 									<tr>
-										<th style="text-align: left; width: 10%">#</th>
-										<th style="text-align: left; width: 20%">User ID</th>
-										<th style="text-align: left; width: 20%">Role</th>
-										<th style="text-align: left; width: 20%">Name</th>
-										<th style="text-align: center; width: 20% ">Is Active</th>
-										<th style="text-align: left; width: 10%"> </th>
+										<th class="text-center w-8"> <!-- style="text-align: left; width: 10%" --> #</th>
+										<th class="w-30">System User ID</th>
+										<th class="w-24">Role</th>
+										<th class="w-24">Name</th>
+										<th class="text-center w-14 ">Is Active</th>
+										<th class="w-10">Action</th>
 									</tr>
 								</thead>
 								<tbody>
 									<c:forEach var="sysuser" items="${sysuserList}">
 										<tr>
-											<td style="text-align: left; padding-left: 20px "> </td>
-											<td style="text-align: left; padding-top: 10px;">${sysuser.sys_user_id}</td>
-											<td style="text-align: left; padding-top: 10px;">${sysuser.sys_role_id}</td>
-											<td style="text-align: left; padding-top: 10px;">${sysuser.name_th}</td>
-											<td style="align-item: center;" data-order="${sysuser.is_active}">
-													<div class="md-checkbox" style="margin-left: 45%;">
+											<td class="text-center"> </td>
+											<td><div class="d-flex"><span><img <c:if test="${sysuser.path != null}"> src="${sysuser.path}"</c:if>  class="avatar brround" style="min-width:32px; min-height:32px"></span>
+											<div class="ms-3 mt-0 mt-sm-2 d-block">${sysuser.sys_user_id}
+											</div>
+											</div></td>
+											<td>${sysuser.sys_role_id}</td>
+											<td>${sysuser.title} ${sysuser.name}</td>
+											<td data-order="${sysuser.is_active}">
+													<div class="md-checkbox text-center" >
 														<input id="${sysuser.sys_user_id}" type="checkbox" class="md-check status" onchange = "Change('${sysuser.sys_user_id}')"
 														<c:if test ="${fn:contains(sysuser.is_active, '1')}">checked</c:if>>
 													</div>
 											</td>
-											<td style="text-align:right;">       
-											<perm:permission object="authority.system_user.create_update">                                     
-                                        		<a id="edit" class="btn btn-outline-success" title="Edit" href="sysuser_edit?sysuser_id=${sysuser.sys_user_id}">
-                                        		<i class="fa fa-pencil"></i></a>
-                                        	</perm:permission>
-                                        	<perm:permission object="authority.system_user.delete">
-                                        		<a class="btn btn-outline-danger sred-intense" title="Delete"
-                                        			onclick="del('${sysuser.sys_user_id}')">
-                                        		<i class="fa fa-trash-o"></i></a>
-                                        	</perm:permission>
+											<td>      
+											<perm:permission object="authority.system_user.create_update">	
+											<a href="sysuser_edit?sysuser_id=${sysuser.sys_user_id}"
+												class="btn text-primary btn-sm" data-bs-toggle="tooltip"
+												data-bs-original-title="Edit"> <i
+												class="fe fe-edit fs-18"></i>
+											</a> 
+											</perm:permission>
+											<perm:permission object="authority.system_user.delete">
+											<a class="btn text-danger btn-sm" data-bs-toggle="tooltip"
+												onclick="deleteSysUser('${sysuser.sys_user_id}')"
+												data-bs-original-title="Delete"> <i
+												class="fe fe-trash-2 fs-18"></i>
+											</a>
+											</perm:permission>
                                        		</td>
 										</tr>
 								</c:forEach>
@@ -121,22 +132,36 @@ input[type="checkbox"] {
 		</div>
 </div>
 <script>
-function del(id){
-	swal({
-	      title: "Are you sure!",
-	      text: "You will be deleting this id!",
-	      type: "info",
-	      showCancelButton: true,
-	      confirmButtonClass: 'btn-primary',
-	      confirmButtonText: 'OK'
-    }, function (inputValue) {
-        if (inputValue === false) return false;
-        if (inputValue === "") {
-          return false
-        }
-        document.location = "sysuser_delete?sys_user_id="+id   //?id คือ parameter
-      });
+function deleteSysUser(id){
+	Swal.fire({
+        title: 'Are you sure?',
+        text: "You will deleting this id!",
+        icon: 'info',
+        showDenyButton: true,
+        denyButtonText: `Cancel`,
+        confirmButtonText: 'Confirm',
+        confirmButtonColor: "#007bff",
+        denyButtonColor: "#6c757d",
+        reverseButtons: true,
+      }).then((result) => {
+        
+            if (result.isConfirmed) {
+            
+            	$.ajax({
+            		url: "sysuser_delete",
+            		method: "POST",
+					data: {"sys_user_id" : id },
+					success:function(){
+						window.location = "SystemUser_list";
+				}	
+            	})
+            }
+            else if (result.isDenied) {
+                return false;
+            }
+      })
 };
+
 </script>
 <script>
 function Change(userId){
