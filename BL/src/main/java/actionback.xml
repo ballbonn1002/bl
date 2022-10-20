@@ -360,6 +360,11 @@
 			<result name="success" type="tiles">edit_quotation</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<action name="updateQuotation"
+			class="com.cubesofttech.action.QuotationAction" method="updateQuotation">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
 		<action name="checkDuplicateId"
 			class="com.cubesofttech.action.QuotationAction" method="checkId">
 			<result name="success" >/pages-back/common/json.jsp</result>
@@ -380,8 +385,23 @@
 			<result name="success" >/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
+		<action name="listcompanySales"
+			class="com.cubesofttech.action.QuotationAction" method="listCompanySales">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="listcheckQuotationAddress"
+			class="com.cubesofttech.action.QuotationAction" method="listcheckQuotationAddress">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
 		<action name="deleteQuoteAddress"
 			class="com.cubesofttech.action.QuotationAction" method="deleteQuoteAddress">
+			<result name="success" >/pages-back/common/json.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="deleteOrderQuote"
+			class="com.cubesofttech.action.QuotationAction" method="deleteQuoteOrder">
 			<result name="success" >/pages-back/common/json.jsp</result>
 			<result name="error">/index.jsp</result>
 		</action>
