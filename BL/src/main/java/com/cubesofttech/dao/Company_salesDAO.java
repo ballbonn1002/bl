@@ -16,6 +16,8 @@ public interface Company_salesDAO {
     
     public List<Company_sales> findByCompany_id(String id) throws Exception;
     
+    public List<Company_sales> findByCompany_sales_id(String id) throws Exception;
+    
     public Company_sales findById(Integer company_sales_id) throws Exception;
     
     

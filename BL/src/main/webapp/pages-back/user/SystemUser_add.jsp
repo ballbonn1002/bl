@@ -5,170 +5,199 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="/WEB-INF/tlds/permission.tld" prefix="perm"%>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" type="text/css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
-<!-- VENDOR CSS -->
-<link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="/assets/vendor/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="/assets/vendor/table-dragger/table-dragger.min.css">
-<!-- MAIN CSS -->
-<link rel="stylesheet" href="/assets/css/main.css">
-<link rel="stylesheet" href="/assets/css/color_skins.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css">
-<style>
-input[type="checkbox"] {
-	accent-color: #0275d8;
-}
+<script src="/assets/js/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
 
-.select2-container .select2-selection--single {
-        height: 36px;
-        border-color: #C2CAD8 !important;
-    }
-    
-::-ms-reveal {
-  display: none;
-}
 
-.t_icon {
-    cursor: pointer;
-    margin-left: -30px;
-}
-.head-ml{
-		margin-left: -10px;
-	}
 
-</style>
+
 
 
 <!-- PAGE-HEADER -->
-<div class="container-fluid">
+
 <div class="page-header">
-    <h1 class="page-title">Add System User</h1>
+	<c:choose>
+            <c:when test="${sysuserList[0].sys_role_id != null && sysuserList[0].sys_user_id != null}"> <h1 class="page-title">Edit System User</h1> </c:when>
+            <c:otherwise><h1 class="page-title">Create System User</h1></c:otherwise>
+            </c:choose>
+    
     <div>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="javascript:void(0)">Authority</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Add System User</li>
+            <li class="breadcrumb-item" ><a href="javascript:void(0)" >Home</a></li>
+            <li class="breadcrumb-item" ><a href="SystemUser_list">System User</a></li>
+            <c:choose>
+            <c:when test="${sysuserList[0].sys_role_id != null && sysuserList[0].sys_user_id != null}"> <li class="breadcrumb-item active">Edit System User</li> </c:when>
+            <c:otherwise><li class="breadcrumb-item active">Create System User</li></c:otherwise>
+            </c:choose>
         </ol>
     </div>
 </div>
 <!-- PAGE-HEADER END -->
-<div class="row row-cards">
-    <div class="col-lg-12 col-xl-12">
-    
-        <div class="card">
 
-		<div class="card-body">
-		<form action="save_sysuser" method="POST" autocomplete="off"> 
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-6 ">
+
+
+<form id="form"  action="save_sysuser" method="POST" autocomplete="off" class="needs-validation"  enctype="multipart/form-data" novalidate> 
+							<div class="row clearfix">
+  								<div class="col-sm-8">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title">System User Profile</div>
+                                    </div>
+                                    <div class="card-body">
+                                    
+                                        <div class="text-center mb-4">
+                                        
+                                            <a href="javascript:void(0)" class="avatar avatar-xxl brround cover-image" >
+                                            <img alt="" class="avatar avatar-xxl brround cover-image"  id="avatar" <c:if test="${sysuserList[0].path != null}"> src="${sysuserList[0].path}"</c:if> "> 
+                                                       <span class="badge rounded-pill avatar-icons bg-primary"><i class="fe fe-edit fs-12"></i></span> 
+                                                        </a>
+                                           				
+                                           				</div>
+                                           				<input id="fileUpload" type="file" name="fileUpload" accept="image/x-png,image/gif,image/jpeg" data-max-width="1000">
+                                           				<input style="display:none;" id="filesize" name="filesize" type="text" value=""> 
+                                           				<input style="display:none;" type="text" class="form-control" name="file_ID" id="file_ID" value="${sysuserList[0].file_id}">
+		
+			
+					<div class="form-row">
+							<div class="col-sm-6">
 						<div class="form-group">
-								<label for="recipient-name" class="control-label">User ID<span style="color:red;"> *</span></label> 
+								<label class="form-label">User ID<span style="color:red;"> *</span></label> 
 								<div class="input-group mb-3">
-									<input type="text" id="sysuserID" name="IDuser" class="form-control" pattern="[A-Za-z0-9.]{1,}" value="${sysuserList.sys_user_id}" required>  
+									<input type="text" id="sysuserID" name="userid" class="form-control" pattern="[A-Za-z0-9.]{1,}" value="${sysuserList[0].sys_user_id}" placeholder="Enter User ID"  required>  
+                               			<div class="invalid-feedback">
+                               			Can only fill in English numbers . (dot) Don't duplicate the original Id and Don't leave this blank.
+										</div>
                                 </div>  
                               </div>
-                        <div class="col-sm-12" style="padding: 0px;">  
-								<div id="canuse" style="color: #28A745; text-color:#28A745; display:none; width:100%;">
-									<i class="icon-check"></i>&nbsp;&nbsp;You can use this id
-								</div>
-								<div id="cannotuse" style="color: #FAAD14; text-color:#FAAD14; display:none;">
-									<i class="icon-check"></i>&nbsp;&nbsp;You can not use this id
-								</div>
-								<div id="nofill" style="color: #FAAD14; text-color:#FAAD14; display:none;">
-									<i class="icon-check"></i>&nbsp;&nbsp;Please, Enter userID
-								</div>
-						</div> 
-                    </div>
-                       <div class="col-sm-6">
+                       </div>
+								
+							
+								
+								
+						
+                    
+                      <div class="col-sm-6">
 						<div class="form-group">
-								<label for="recipient-name" class="control-label">Role<span style="color:red;"> *</span></label> 
-								<select id="userRole" class="js-example-basic-multiple-limit" style="width: 100%;" name="user_role" required>
-												<option disabled selected hidden selected = "selected"> </option>
+								<label class="form-label">Role<span style="color:red;"> *</span></label> 
+								<select id="userRole" class="form-control select2" name="role" data-placeholder="Select Role" required>
+												 <option value="" disabled selected hidden >Select Role</option> 
 												<c:forEach var="sysrole" items="${sysroleList}">	
 													<option value="${sysrole.name}"
-														<c:if test="${sysuserList.sys_role_id eq sysrole.name }"> selected </c:if>>${sysrole.name}</option>
+														<c:if test="${sysuserList[0].sys_role_id eq sysrole.name }"> selected </c:if>>${sysrole.name}</option>
 												</c:forEach>
 									</select>
+									<div class="valid-feedback"></div>
+									<div class="invalid-feedback">required this field</div>
 						</div>
 						</div>    
+						</div>  
 						
-							<div class="col-sm-6">
-							<div class="form-group">		
-								<label for="recipient-name" class="control-label" style="margin-top: 5px;">Employee</label>
-								<div class="input-group mb-3">	
-									<select id="username"  name="user_name" class="js-example-basic-multiple-limit1" style="width: 100%;">
-											 	<option disabled hidden selected = "selected" > </option>  
+								<div class="form-row">
+								<div class="col-sm-6">
+									<div class="form-group">
+							
+									<label class="form-label">Employee ID</label> 	
+									<select id="username"  name="name" class="form-control select2" data-placeholder="Select Employee ID">
+											 	<option value="" disabled hidden selected>Select Employee ID </option>  
 												 <c:forEach var="user" items="${userList}">	
-													<option value="${user.id}"
-														<c:if test="${sysuserList.user_id eq user.id }"> selected </c:if>>${user.id}</option>
+													<option value="${user.employee_id}"
+														<c:if test="${sysuserList[0].user_id eq user.employee_id }"> selected </c:if>>${user.employee_id}</option>
 												</c:forEach>
 									</select>
-									</div>
+									
+							
 							</div>
 							</div>
+      <div class="col-sm-2">
+   		
+												
+    										<label for="title" class="form-label">Name</label>
+    						
+      <select id="title" name="title" class="form-control select2" data-placeholder="Select" >
+      			<option value="" disabled hidden selected>Select</option>
+      			 <option <c:if test="${sysuserList[0].title eq  'Mr.'}"> selected </c:if>>Mr.</option>
+                  <option <c:if test="${sysuserList[0].title eq 'Mrs.' }"> selected </c:if>>Mrs.</option>
+                   <option <c:if test="${sysuserList[0].title eq 'Miss' }"> selected </c:if>>Miss</option>
+          </select>
+           </div>
+            <div class="col-sm-4">
+         <label for='name' class='form-label invisible'>Range end</label>
+        <input id="name" type="text" name="nameth" class="form-control"  value="${sysuserList[0].name}" placeholder="Enter Your Name" >
+         		 </div>
+         		 
+      </div>
+					
+					
+					
+					
+					<div class="form-row">
 					<div class="col-sm-6">
 							<div class="form-group">
-								<label for="recipient-name" class="control-label" style="margin-top: 5px;">ชื่อ ภาษาไทย</label> 
-								<input id="name" type="text" name="user_nameth" class="form-control" value="${sysuserList.name_th}">
+								<label class="form-label">Email</label> 
+								 <input id="email" type="email" name="email"  class="form-control email" placeholder="Enter Your Email"  
+								 pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$" value="${sysuserList[0].email}">
+								 <div class="invalid-feedback">Invalid email address</div>
 							</div>
-					</div>
-					<div class="col-sm-6">
-							<div class="form-group" >
-								<label for="recipient-name" class="control-label" style="margin-top: 5px;">Email</label> 
-								 <input id="email" type="email" name="user_email"  class="form-control email" placeholder="example@example.com"  
-								 pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$" value="${sysuserList.email}">
-					</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="form-group">
-								<label for="recipient-name" class="control-label" style="margin-top: 5px;">Phone</label> 
-								<input id="tel" type="text" name="user_tel" class="form-control mobile-phone-number" onkeypress="return numberPressed(event)"
-								 value="${sysuserList.phone}">
+								<label class="form-label">Phone</label> 
+								<input id="tel" type="text" name="tel" class="form-control mobile-phone-number" pattern=".{12,12}" onkeypress="return numberPressed(event)"
+								 value="${sysuserList[0].phone}" placeholder="Enter Your Phone Number">
+								 	 
+								<div class="invalid-feedback">Not a valid Phone Number</div>
 						</div>
 					</div>
+					</div>
+					<div class="form-row">
 					<div class="col-sm-6">
-							  <input type="checkbox"  id="userIsactive" name="user_isactive"  value="${sysuserList.is_active}" 
-							  style="margin-top: 15px; margin-left: 5px; "
-							  	<c:if test="${fn:contains(sysuserList.is_active, '1')}">checked</c:if>>
-							  <input id='checkboxHidden'  type='hidden' value='0' name='user_isactive'>
-  							 <label for="vehicle1" style="margin-left: 10px; margin-top: 12px;"> Is Active </label>
+					<div class="form-group">
+					<label class="custom-control custom-checkbox">
+						<input type="checkbox"  id="userIsactive" name="isactive"  value="${sysuserList[0].is_active}" 
+							  class="custom-control-input"<c:if test="${fn:contains(sysuserList[0].is_active, '1')}">checked</c:if>>
+							  <input id='checkboxHidden'  type='hidden' value='0' name='isactive'>
+					
+  							 <span class="custom-control-label">Is Active </span>
+					
+					</label>
+							 </div> 
   						</div>
-				</div>
-				<div id="bt" style="text-align: right; margin-top: 1.5rem; margin-bottom: 1.5rem; display:none;">
-						<a id="edit1" type="reset" class="btn btn-secondary" href="SystemUser_list" style="min-width: 8%;">ยกเลิก</a>
-						<button id="submit1" type="submit" class="btn btn-success" style="min-width: 8%;" value="update_sysuser">บันทึก</button>
-				</div> 
+  						</div>
+				 </div>
+                                        </div>
+                               
+                                        
 			</div>
-			<hr>
-		
-		<div class="header">
-			<h5>ตั้งรหัสผ่าน</h5>
-		</div>
-		<div class="body">
-		<div class="row">
+			
+			<div class="col-sm-4">
+			  <div class="card">
+                                    <div class="card-header">
+                                            <h3 class="card-title">Set Up Password</h3>
+                                       
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
 			<div id="resetpass" style="display:none; padding-left: 13px;">
-				<button type="button" class="btn btn-info">Reset password</button>
+				<button type="button" class="btn btn-success">Reset password</button>
 			</div>
-			<div class="col-sm-6">
+			
 			<div id="pass">
 				   	<div class="form-group">
-                        	<label class="control-label">Password</label>
-                        <div  class="search-form">
-                            <input type="password" class="form-control input-field"  id="password" name="password" placeholder="Password" value="${sysuserList.password}">	
-                      		<button type="button" class="btn btn-default"> <i class="bi bi-eye-slash" id="togglePassword" ></i></button>
+                        	<label class="form-label">New Password<span style="color:red;"> *</span></label>
+                        <div class="input-group" id="togglePassword">
+                            <input type="password" class="form-control"  id="password" name="password" placeholder="Enter Your Password" >	
+                      		<button type="button" class="btn btn-outline-default"> <i class="bi bi-eye-slash"  ></i></button>
 						</div>
  					</div>
 				   <div class="form-group">
-                        <label for="" class="control-label">Confirm Password</label>
-                        <div  class="search-form">
-                             <input type="password" class="form-control" id="password_c" name="password_confirm" placeholder="Password" value="${sysuserList.password}">
-                   			 <button type="button" class="btn btn-default"> <i class="bi bi-eye-slash" id="togglePassword_c"></i></button>
+                        <label class="form-label">Confirm Password<span style="color:red;"> *</span></label>
+                        <div class="input-group" id="togglePassword_c">
+                             <input type="password" class="form-control" id="password_c" name="password_confirm" placeholder="Enter Your Password">
+                   			 <button type="button" class="btn btn-outline-default"> <i class="bi bi-eye-slash" ></i></button>
 						</div>
                    </div>
+                   
+                    
                    
                    <div id="notsame" style="color:#E7505A; text-color:#E7505A; display:none;">
                    		<i class="fa fa-exclamation-circle" ></i>&nbsp;&nbsp;Not Matching
@@ -177,81 +206,157 @@ input[type="checkbox"] {
                    		<i class="fa fa-exclamation-circle" ></i>&nbsp;&nbsp;Matching
                    </div>
                </div>
-           </div> 
-                <div class="col-sm-6">
+          
+                
+				</div>
+					<div class="form-row mt-4">
                 <div id="chkpass">
-                		<div style="padding : 25px; border: 1px solid #CED4DA; border-radius: 4px;">
-                      			<i id="aaa" class="icon-check" style="opacity:0.3; font-size: 16px; font-weight: bold;"></i>&nbsp;&nbsp;&nbsp;&nbsp;รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร <br><br>
-                      			<i id="up" class="icon-check" style="opacity:0.3; font-size: 16px; font-weight: bold;"></i>&nbsp;&nbsp;&nbsp;&nbsp;ตัวอักษรพิมพ์ใหญ่ (A-Z) อย่างน้อย 1 ตัวอักษร <br><br>
-                      			<i id="low" class="icon-check" style="opacity:0.3; font-size: 16px; font-weight: bold;"></i>&nbsp;&nbsp;&nbsp;&nbsp;ตัวอักษรพิมพ์เล็ก (a-z) อย่างน้อย 1 ตัวอักษร <br><br>
-                      			<i id="num" class="icon-check" style="opacity:0.3; font-size: 16px; font-weight: bold;"></i>&nbsp;&nbsp;&nbsp;&nbsp;ตัวเลข (0-9) อย่างน้อย 1 ตัวอักษร 
-                      	</div>
+                		
+                      			<i id="aaa" class="icon-check" style="opacity:0.3; font-size: 16px; font-weight: bold;"></i>&nbsp;&nbsp;&nbsp;&nbsp;Password must be a minimum of 8 characters <br><br>
+                      			<i id="up" class="icon-check" style="opacity:0.3; font-size: 16px; font-weight: bold;"></i>&nbsp;&nbsp;&nbsp;&nbsp;Password must include at least one uppercase letter (A-Z) <br><br>
+                      			<i id="low" class="icon-check" style="opacity:0.3; font-size: 16px; font-weight: bold;"></i>&nbsp;&nbsp;&nbsp;&nbsp;Password must include at least one lowercase letter (a-z) <br><br>
+                      			<i id="num" class="icon-check" style="opacity:0.3; font-size: 16px; font-weight: bold;"></i>&nbsp;&nbsp;&nbsp;&nbsp;Password must include at least one number (0-9)
+                      
+                
                 </div>
-				</div>
-				</div>
-				<div  style="text-align: right; margin-top: 3rem; margin-bottom: 1.5rem;">
-						<a id="edit" type="reset" class="btn btn-secondary" href="SystemUser_list" style="min-width: 8%;">ยกเลิก</a>
-						<button id="sub" type="submit" class="btn btn-success" style="min-width: 8%;" disabled>บันทึก</button>
-				</div>
-				</div>
-				</form>
-							</div>
+				 </div>
+				 </div>
+                                    </div>
+                                </div>
+                            
 					</div>
-			</div>
-    </div>
-</div>	
-	
+					<div class="row">
+                                <div class="text-end">
+						<a id="edit" type="reset" class="btn btn-default" href="SystemUser_list" >Cancel</a>
+						<button id="sub" type="submit" class="btn btn-success" onclick="redirect()" <c:if test="${sysuserList[0].sys_role_id == null && sysuserList[0].sys_user_id == null}">disabled</c:if>>Save</button>
+				</div>
+					         </div>   
+						
+      </form>  
+    
+      
+<script>
+ function readURL(input) {
+	  if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	    reader.onload = function(e) {
+	      $('#avatar').attr('src', e.target.result);
+	    }
+	    reader.readAsDataURL(input.files[0]);
+	  } else {
+	   
+	  }
+	} 
+
+
+$('#fileUpload').on('change', function() {
+	 var fs;
+	 var size = this.files[0].size;
+	 fs = $("#filesize").val(size);
+	 console.log(fs);
+	 readURL(this);
+})
+
+		 $('#fileUpload').hide(); 
+		 $("#avatar").click(function(e){
+			 e.preventDefault();
+			 console.log('clicked')
+		   $('#fileUpload').trigger('click');
+		 });
+		 
+		
+
+		
+ 
+</script>      
+  
 <script>
 $(document).ready(function() {
-	const togglePassword = document.querySelector("#togglePassword");
+	const togglePassword = document.querySelector("#togglePassword button");
 	const password = document.querySelector("#password");
     togglePassword.addEventListener('click', function (e) {
         const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
         password.setAttribute('type', type);
-        this.classList.toggle('bi-eye');
+        $('#togglePassword i').toggleClass('bi-eye');
     });
     });
 </script>
 <script>
 $(document).ready(function() {
-	const togglePassword = document.querySelector("#togglePassword_c");
+	const togglePassword = document.querySelector("#togglePassword_c button");
 	const password = document.querySelector("#password_c");
     togglePassword.addEventListener('click', function (e) {
         const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
         password.setAttribute('type', type);
-        this.classList.toggle('bi-eye');
+        $('#togglePassword_c i').toggleClass('bi-eye');
     });
     });
 </script>
 <script>
-	var x = document.getElementById("tel");
-	var y = document.getElementById("sysuserID");
-	var z = document.getElementById("email");
-	x.oninvalid = function(event) {
-    	event.target.setCustomValidity('เบอร์โทรศัพท์ไม่ถูกต้อง');
-	}
-	y.oninvalid = function(event) {
-    	event.target.setCustomValidity('กรอกได้เฉพาะ ภาษาอังกฤษ ตัวเลข และ จุด(.) เท่านั้น');
-	}
-	z.oninvalid = function(event) {
-    	event.target.setCustomValidity('อีเมลไม่ถูกต้อง');
-	}
-</script>
-<script>
-$(document).ready(function() {
-	$(".js-example-basic-multiple-limit1").select2({
-		dropdownAutoWidth : true,
-	    placeholder: "เลือก",
-	    allowClear: true
-	});
+function checkUserRole() {
+	var userRole = document.getElementById("userRole");
+	console.log("select");
+	userRole.classList.remove('is-invalid')
+    userRole.classList.remove('is-valid')
+    if (userRole.checkValidity() === false) {
+    	userRole.classList.add('is-invalid')
+    	
+    }
+    else {
+    	userRole.classList.add('is-valid')
+   
+    
+    }
 	
-	$(".js-example-basic-multiple-limit").select2({
-		dropdownAutoWidth : true,
-	    placeholder: "เลือก",
-	    allowClear: false
-	});
+}
+document.getElementById('email').addEventListener('blur',function(evt){
+	checkEmail()
+});
+function checkEmail() {
+	var input = document.getElementById("email");
+	input.classList.remove('is-invalid')
+	if (input.checkValidity() === false && input.value.trim != "") {
+		input.classList.add('is-invalid')
+	}
+	else{
+		input.classList.remove('is-invalid')
+	}	
+	
+}
+
+
+
+
+$(document).ready(function() {
+	var tel = document.getElementById("tel");
+	var sysUserId = document.getElementById("sysuserID");
+	var email = document.getElementById("email");
+	var forms = document.getElementsByClassName('needs-validation');
+	   Array.prototype.filter.call(forms, function(form) {
+		    
+		    
+		      form.addEventListener('submit', function(event) { 
+		    	  checkTel()
+		    	  checkSysUserId()
+		    	  checkUserRole()
+		    	  checkEmail()
+		    	//form.classList.add('was-validated');
+		        if (form.checkValidity() === false && !$('input').is('[readonly]') ) { 
+		          event.preventDefault();
+		          event.stopPropagation();
+		        }		        
+		        
+		      }, false);
+		      
+		    });
+	        
+	
+	   $("#userRole").on("select2:close", function (e) {  
+		   checkUserRole()
+	    });
 });
 </script>
+
 <script>
  $(document).ready(function(){
 	 var sysuserID = $('#sysuserID').val();
@@ -262,9 +367,10 @@ $(document).ready(function() {
 	 var tel = $('#tel').val();
 	 var isactive = $('#userIsactive').val();
 	 
-	 if(sysuserID != null && userRole != null){
-		 $('#addhead').hide();
-		 $('#edithead').show();
+		/*  $("#userRole").find("option").eq(0).remove(); */
+		
+	 if(sysuserID != null && userRole != null && sysuserID.trim() !=""){
+		 console.log(sysuserID+" "+userRole)
 		 $('#sysuserID').prop('readonly', true);
 		 $('#checkID').hide();
 		 $('#save2').show();
@@ -273,13 +379,13 @@ $(document).ready(function() {
 		 $('#resetpass').show();
 		 $('#sub').hide();
 		 $('#edit').hide();
-		 $('#userRole , #username , #name , #email , #tel , #userIsactive').on('change', function() {
+		 $('#userRole , #username , #title, #name , #email , #tel , #userIsactive, #fileUpload').on('change', function() {
 			 $('#bt').fadeIn();
 			 $('#resetpass').show();
 			 $('#pass').hide();
 			 $('#chkpass').hide();
-			 $('#sub').hide();
-			 $('#edit').hide();
+			 $('#sub').show();
+			 $('#edit').show();
 		 }); 
 	 }	
 	 $('#resetpass').on('click', function() {
@@ -350,40 +456,85 @@ $("#submit").click(function () {
 
 </script>
 <script>
-$(document).ready(function () {
-	$('#sysuserID').on('keyup', function() {
-		var id = $('#sysuserID').val();
-		if(id != ""){
-			$.ajax({
-				url: "CheckUserID",
-				method: "POST" ,
-				type: "JSON" ,
-				data: {
-					"sysuserCheckID" : id
-				},
-				success:function(data){
-					console.log(data);
-					if (data.toString().indexOf("1") != -1) {
-						$("#canuse").hide();
-						$("#cannotuse").show();
-						$("#nofill").hide();
-					} else {
-						$("#canuse").show();
-						$("#cannotuse").hide();
-						$("#nofill").hide();					
-				} 
-				}
-			})
-			}else{
-				$("#canuse").hide();
-				$("#cannotuse").hide();
-				$("#nofill").show();
+
+function checkPattern() {
+	var id = $('#sysuserID').val();
+	let pattern = /^[a-zA-Z\s\d.]+$/;
+	var sysuserID = document.getElementById('sysuserID');
+	//console.log(pattern.test(text));
+	if (pattern.test(id) == true && sysuserID.checkValidity() === true) {
+		
+		return true;
+	} else {
+		/* $("#canuse").hide();
+		$("#cannotuse").show();
+		$("#nofill").hide() */
+	
+		return false;
 	}
+
+}
+
+function checkSysUserId() {
+	var input = document.getElementById('sysuserID');
+	input.classList.remove('is-invalid')
+	var id = $('#sysuserID').val();
+	
+	if(id.trim() != "" &&  !$('input').is('[readonly]') ){
+		console.log(id)
+	 	$.ajax({
+			url: "CheckUserID",
+			method: "POST" ,
+			type: "JSON" ,
+			data: {
+				"sysuserCheckID" : id
+			},
+			success:function(data){
+			
+				
+				console.log(data);
+				if (data.toString().indexOf("1") != -1) {
+					input.classList.add('is-invalid')
+				}
+				
+				else if(checkPattern()!=true){
+					input.classList.add('is-invalid')
+					
+					
+				}
+				
+				else {
+					input.classList.remove('is-invalid')					
+			} 
+			}
+		}) 
+		}else if (id.trim() == "")  {
+			input.classList.add('is-invalid')
+}
+	
+	
+	
+	
+}
+
+
+
+
+$(document).ready(function () {
+	$('#sysuserID').keyup(function() {
+		checkSysUserId()
+
 		})
 	});
 </script>
 <script>
-	$(document).ready(function(){
+	 $(document).ready(function(){
+		 
+		    $('#password , #password_c').on('keypress', function(e) {
+	            if (e.which == 32){
+	                return false;
+	            }
+	        });
 		$('#password , #password_c').keyup(function(){
 			var pw = $('#password').val();
 			var pwc = $('#password_c').val();
@@ -410,27 +561,21 @@ $(document).ready(function () {
 					$("#num").css({"color":"#none","opacity":"0.3"});
 				}
 				if(pw == pwc){
-					$("#same").show();
+					/* $("#same").show(); */
 					$("#notsame").hide();
 				
 				}else{
 					$("#same").hide();
 					$("#notsame").show();
 			}
-			$.ajax({
-				url : "password" ,
-				method: "POST" ,
-				type: "JSON" ,
-				data: { "password" : pwc 
-				},
-				success:function(data){
-				//console.log(data);
-				}
-			})
+		
 		})	
-	});
+	}); 
 </script>
 <script>
+document.getElementById('tel').addEventListener('blur',function(evt){
+	checkTel()
+});
 document.getElementById('tel').addEventListener('keyup',function(evt){
     var phoneNumber = document.getElementById('tel');
     var charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -445,10 +590,25 @@ function numberPressed(evt){
     if(charCode > 31 && (charCode < 48  && charCode > 57) && (charCode < 36  && charCode > 40)){
             return false;
     }
-    return true;
+    
+}
+
+function checkTel() {
+	var telInput = document.getElementById('tel');
+	telInput.classList.remove('is-invalid')
+  
+
+	if (telInput.checkValidity() === false && telInput.value.trim != "") {
+    	
+		telInput.classList.add('is-invalid')
+	}
+	else{
+		telInput.classList.remove('is-invalid')
+	}		
 }
 
 function phoneFormat(input){
+	
     input = input.replace(/\D/g,'');
     input = input.substring(0,10);
     var size = input.length;
@@ -461,6 +621,10 @@ function phoneFormat(input){
     }else{
             input = ''+input.substring(0,3)+'-'+input.substring(3,6)+'-'+input.substring(6,10);
     }
+    
+    
+    
     return input; 
+   
 }
 </script>

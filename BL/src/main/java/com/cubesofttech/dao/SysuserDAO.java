@@ -32,4 +32,6 @@ public interface SysuserDAO {
 
 	public List<Map<String, Object>> CheckCurrent(String current_m, String loginUser);
 
+	public List<Sysuser> findByIdWithImg(String sys_user_id) throws Exception;
+
 }

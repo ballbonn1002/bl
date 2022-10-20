@@ -46,7 +46,7 @@ public class SysuserDAOImpl implements SysuserDAO{
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Sysuser> sysuserList = null;
 		try {
-			String sql = "SELECT * FROM sys_user" ;  
+			String sql = "SELECT sys_user.*, file.path FROM sys_user LEFT JOIN file on sys_user.file_id = file.file_id" ;  
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			sysuserList = query.list();
@@ -55,6 +55,23 @@ public class SysuserDAOImpl implements SysuserDAO{
 		}
 		return sysuserList;
 	}
+	
+	@Override
+	public List<Sysuser> findByIdWithImg(String sys_user_id) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Sysuser> sysuser = null;
+		try {
+			String sql = "SELECT sys_user.*, file.path FROM sys_user LEFT JOIN file on sys_user.file_id = file.file_id WHERE sys_user_id = :sys_user_id" ;  
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setParameter("sys_user_id", sys_user_id);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			sysuser =  query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return sysuser;
+	}
+	
 	
 	@Override
 	public List<Map<String, Object>> findAllList() throws Exception {

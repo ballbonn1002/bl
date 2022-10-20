@@ -232,8 +232,8 @@ CREATE TABLE `file` (
   `user_create` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
   `user_update` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
   `time_create` timestamp NULL DEFAULT NULL,
-  `time_update` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `time_update` timestamp NULL DEFAULT NULL,
+PRIMARY KEY (`file_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --04/10/2022 BEST change name
 ALTER TABLE `employee` CHANGE `image` `file_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
