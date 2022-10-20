@@ -21,5 +21,7 @@ public interface Quotation_addressDAO {
     public List<Quotation_address> deleteByQuotationId(String quotation_id) throws Exception;
     
     public Quotation_address findById(Integer id) throws Exception;
+    
+    public List<Quotation_address> deleteByListQuote_addressId(List<Integer> id,String quote_id) throws Exception;
 
 }

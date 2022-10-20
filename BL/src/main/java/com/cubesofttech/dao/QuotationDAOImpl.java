@@ -64,8 +64,10 @@ public class QuotationDAOImpl implements QuotationDAO{
 		Session session = this.sessionFactory.getCurrentSession();
 		List<Quotation> quotationList = null;
 		try {
-			String sql = "SELECT quotation_id, company_name, DATE(time_create) AS create_date, end_date, quotation_status, saleperson \r\n"
-						 + "FROM `quotation`;";
+			String sql = "SELECT quotation_id, company_name, DATE(quotation.time_create) AS create_date, end_date, quotation_status, saleperson, file.path \r\n"
+						+ "FROM `quotation`\r\n"
+						+ "JOIN company ON quotation.company_id = company.company_id\r\n"
+						+ "JOIN file ON file.file_id = company.file_id;";
 			SQLQuery query = session.createSQLQuery(sql);
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			quotationList = query.list();

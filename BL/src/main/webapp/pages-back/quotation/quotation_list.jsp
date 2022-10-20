@@ -79,18 +79,20 @@ tr{
                         <c:forEach var="quotation" items="${quotationList}">
                         <tr>
                         	<td>${quotation.quotation_id}</td>
-                        	<td>${quotation.company_name}</td>
-                        	<td><fmt:formatDate value="${quotation.create_date}" pattern="dd MMM yyyy"></fmt:formatDate></td>
-                        	<td><fmt:formatDate value="${quotation.end_date}" pattern="dd MMM yyyy"></fmt:formatDate></td>
                         	<td>
+                        		<span><img src="${quotation.path}" class="avatar bradius" style="min-width:32px; min-height:32px"></span><span class="ms-3" style="vertical-align:super;">${quotation.company_name}</span>
+                        	</td>
+                        	<td style="vertical-align: middle;"><fmt:formatDate value="${quotation.create_date}" pattern="dd MMM yyyy"></fmt:formatDate></td>
+                        	<td style="vertical-align: middle;"><fmt:formatDate value="${quotation.end_date}" pattern="dd MMM yyyy"></fmt:formatDate></td>
+                        	<td style="vertical-align: middle;">
                         		<c:if test ="${quotation.quotation_status == 0}"><span class="badge bg-danger-transparent rounded-pill text-danger p-2 px-3">Reject</span></c:if>
                         		<c:if test ="${quotation.quotation_status == 1}"><span class="badge bg-primary-transparent rounded-pill text-info p-2 px-3">In Progress</span></c:if>
                         		<c:if test ="${quotation.quotation_status == 2}"><span class="badge bg-warning-transparent rounded-pill text-warning p-2 px-3">Waiting Approvaled</span></c:if>
                         		<c:if test ="${quotation.quotation_status == 3}"><span class="badge bg-success-transparent rounded-pill text-success p-2 px-3">Approvaled</span></c:if>
                         		<c:if test ="${quotation.quotation_status == 4}"><span class="badge bg-default rounded-pill text-text p-2 px-3">Return</span></c:if>
                         	</td>
-                        	<td>${quotation.saleperson}</td>
-                        	<td>
+                        	<td style="vertical-align: middle;">${quotation.saleperson}</td>
+                        	<td style="vertical-align: middle;">
                         		<div style="text-align: center;">
 	                         		<div class="g-2">
 	                           			 <a href="edit_quotation?id=${quotation.quotation_id}" class="btn text-primary btn-sm" data-bs-toggle="tooltip" data-bs-original-title="Edit">

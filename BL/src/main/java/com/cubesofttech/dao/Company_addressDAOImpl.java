@@ -96,4 +96,23 @@ public class Company_addressDAOImpl implements Company_addressDAO{
 			return new Integer(0);
 		}
 	}
+
+	@Override
+	public List<Company_address> listCheckwithQuotationAddress(String company_id,String quote_id) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Company_address> company_addressList = null;
+		try {
+			String sql = "SELECT company_address.*, (CASE WHEN company_address.company_address_id IN (SELECT company_address_id FROM quotation_address WHERE quotation_id = '"+quote_id+"') THEN '1' ELSE '0' END) AS checkk, aa.quotation_address_id\r\n"
+					+ "FROM company_address\r\n"
+					+ "LEFT JOIN (SELECT * FROM quotation_address WHERE quotation_id = '"+quote_id+"') AS aa ON company_address.company_address_id = aa.company_address_id\r\n"
+					+ "WHERE company_address.company_id = '"+company_id+"'";
+					
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			company_addressList = query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return company_addressList;
+	}
 }

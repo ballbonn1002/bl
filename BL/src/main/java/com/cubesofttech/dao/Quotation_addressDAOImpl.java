@@ -132,4 +132,22 @@ public class Quotation_addressDAOImpl implements Quotation_addressDAO{
         return quotation_address;
 	}
 
+	@Override
+	public List<Quotation_address> deleteByListQuote_addressId(List<Integer> id,String quote_id) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Quotation_address> quotation_addressList = null;
+		try {
+			String sql = "DELETE FROM quotation_address WHERE quotation_id='"+quote_id+"'";
+			for(int i = 0; i < id.size(); i++) {
+				sql += " AND quotation_address_id != '"+id.get(i)+"'";
+			}
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			query.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return quotation_addressList;
+	}
+
 }

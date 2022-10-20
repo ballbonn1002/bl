@@ -16,4 +16,6 @@ public interface Company_addressDAO {
     public  List<Company_address> findByCompayny_id(String id) throws Exception;
     
     public Company_address findById(Integer company_address_id) throws Exception;
+    
+    public List<Company_address> listCheckwithQuotationAddress(String company_id,String quote_id) throws Exception;
 }

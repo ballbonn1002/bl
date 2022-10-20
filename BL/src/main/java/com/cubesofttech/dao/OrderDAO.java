@@ -18,5 +18,9 @@ public interface OrderDAO {
 	public List<Order> deleteByQuotationId(String quotation_id) throws Exception;
 	
 	public List<Order> findByQuotationId(String quotation_id) throws Exception;
+	
+	public Order findById(Integer id) throws Exception;
+	
+	public List<Order> deleteById(List<Integer> orderId,String quoteId) throws Exception;
 
 }

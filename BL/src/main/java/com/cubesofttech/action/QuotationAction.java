@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.cubesofttech.dao.CompanyDAO;
 import com.cubesofttech.dao.Company_addressDAO;
 import com.cubesofttech.dao.Company_contactDAO;
+import com.cubesofttech.dao.Company_salesDAO;
 import com.cubesofttech.dao.EmployeeDAO;
 import com.cubesofttech.dao.OrderDAO;
 import com.cubesofttech.dao.QuotationDAO;
@@ -29,6 +30,7 @@ import com.cubesofttech.dao.Quotation_addressDAO;
 import com.cubesofttech.model.Company;
 import com.cubesofttech.model.Company_address;
 import com.cubesofttech.model.Company_contact;
+import com.cubesofttech.model.Company_sales;
 import com.cubesofttech.model.Employee;
 import com.cubesofttech.model.Order;
 import com.cubesofttech.model.Quotation;
@@ -64,6 +66,9 @@ public class QuotationAction extends ActionSupport{
 	
 	@Autowired
 	public Quotation_addressDAO quotation_addressDAO;
+	
+	@Autowired
+	public Company_salesDAO company_salesDAO;
 	
 	HttpServletRequest request = ServletActionContext.getRequest();
 	HttpServletResponse response = ServletActionContext.getResponse();
@@ -116,14 +121,16 @@ public class QuotationAction extends ActionSupport{
 			String id = request.getParameter("id");
 			
 			String start = request.getParameter("start");
-			//log.debug(start);
-			SimpleDateFormat sdf1 = new SimpleDateFormat("dd/MM/yyyy");
+			log.debug(start);
+			SimpleDateFormat sdf1 = new SimpleDateFormat("MM/dd/yyyy");
 			java.util.Date date = sdf1.parse(start);
-			java.sql.Date sqlStartDate = new java.sql.Date(date.getTime()); 
+			java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+		
 			log.debug(sqlStartDate);
 			 
 			String end = request.getParameter("end");
-			SimpleDateFormat sdf2 = new SimpleDateFormat("dd/MM/yyyy");
+			log.debug(end);
+			SimpleDateFormat sdf2 = new SimpleDateFormat("MM/dd/yyyy");
 			java.util.Date date2 = sdf2.parse(end);
 			java.sql.Date sqlEndDate = new java.sql.Date(date2.getTime()); 
 			log.debug(sqlEndDate);
@@ -140,6 +147,7 @@ public class QuotationAction extends ActionSupport{
 			//String saleList = request.getParameter("saleList");
 			String addressList = request.getParameter("addressList");
 			String description = request.getParameter("description");
+			String cutoffspace_description = description.replaceAll("\\s+$", "");
 			String tax_type = request.getParameter("tax_type");
 			
 			String sub = request.getParameter("sub_total");
@@ -199,6 +207,7 @@ public class QuotationAction extends ActionSupport{
 			log.debug(customer);
 			log.debug(salesperson);
 			log.debug(description);
+			log.debug(cutoffspace_description);
 			log.debug(sub_total);
 			log.debug(dc_percent);
 			log.debug(discount);
@@ -210,8 +219,8 @@ public class QuotationAction extends ActionSupport{
 			//log.debug(addressList);
 			
 			
-			if(status.equals("1")) {
-				log.debug("status = 1");
+			//if(status.equals("1")) {
+				//log.debug("status = 1");
 				JSONParser parserAddress = new JSONParser();
 				JSONArray listOfAddress = (JSONArray) parserAddress.parse(addressList);
 				log.debug(listOfAddress);
@@ -221,6 +230,7 @@ public class QuotationAction extends ActionSupport{
 					Integer pMaxId = quotation_addressDAO.getMaxId() + 1;
 					
 					address.setQuotation_address_id(pMaxId);
+					address.setCompany_address_id(map_address.get("address_id").toString());
 					address.setQuotation_id(id);
 					address.setAddress_name(map_address.get("address_name").toString());
 					address.setAddress(map_address.get("address_detail").toString());
@@ -252,15 +262,15 @@ public class QuotationAction extends ActionSupport{
 				quotation.setContact_name(contact_name);
 				quotation.setTax_number(tax);
 				quotation.setEmail(email);
-				quotation.setPhone(phone1);
+				quotation.setPhone(phone1.replace("-", ""));
 				if(!phone2.equals("")) {
-					quotation.setPhone_2(phone2);
+					quotation.setPhone_2(phone2.replace("-", ""));
 				}
 				quotation.setStart_date(sqlStartDate);
 				quotation.setEnd_date(sqlEndDate);
 				quotation.setSaleperson(sale);
 				if(!description.equals("")) {
-					quotation.setDescription(description);
+					quotation.setDescription(cutoffspace_description);
 				}
 				quotation.setSub_total(sub_total);
 				if(!dc.equals("")) {
@@ -302,8 +312,11 @@ public class QuotationAction extends ActionSupport{
 					quotationOrder.setName(map_order.get("product_name").toString());
 					log.debug(map_order.get("product_name").toString());
 					
-					quotationOrder.setDescription(map_order.get("description").toString());
-					log.debug(map_order.get("description").toString());
+					if(!map_order.get("description").toString().equals("")) {
+						quotationOrder.setDescription(map_order.get("description").toString().replaceAll("\\s+$", ""));
+						log.debug(map_order.get("description").toString());
+					}
+					
 					
 					String quantity = map_order.get("quantity").toString().replace(",","");
 					Integer many = new Integer(quantity);
@@ -329,8 +342,8 @@ public class QuotationAction extends ActionSupport{
 					log.debug(quotationOrder.toString());
 					orderDAO.save(quotationOrder);
 				}
-			}
-				if(status.equals("2")) {
+			//}
+				/*if(status.equals("2")) {
 					Quotation quote = new Quotation();
 					List<Quotation> quoteList = quotationDAO.findByQuotationId(id);
 					log.debug("status = 2");
@@ -459,7 +472,7 @@ public class QuotationAction extends ActionSupport{
 					log.debug(quote.toString());
 					quotationDAO.update(quote);
 				}
-			}
+			}*/
 			
 				
 			
@@ -473,17 +486,11 @@ public class QuotationAction extends ActionSupport{
 			return ERROR;
 		}
 	}
-	public String listForQuotation_add() {
+	public String listForQuotation_add() {   //  list all company
 		try {
-			List<Company> companyList = companyDAO.findAllCompany();
+			List<Company> companyList = companyDAO.findAll();
 			log.debug(companyList);
 			request.setAttribute("companyList", companyList);
-			
-			List<Employee> employeeList = employeeDAO.findAll();
-			log.debug(employeeList);
-			request.setAttribute("employeeList", employeeList);
-			
-			
 			return SUCCESS;
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -495,7 +502,7 @@ public class QuotationAction extends ActionSupport{
 			String id = request.getParameter("id");
 			log.debug(id);
 			
-			List<Company> companyList = companyDAO.findAllCompany();
+			List<Company> companyList = companyDAO.findAll();
 			log.debug(companyList);
 			request.setAttribute("companyList", companyList);
 			
@@ -508,11 +515,14 @@ public class QuotationAction extends ActionSupport{
 			log.debug(contactList);
 			request.setAttribute("contactList", contactList);
 			
-			List<Employee> employeeList = employeeDAO.findAll();
+			List<Company_sales> saleList = company_salesDAO.findByCompany_id(map.get("company_id").toString());
+			log.debug(saleList);
+			request.setAttribute("saleList", saleList);
+			/*List<Employee> employeeList = employeeDAO.findAll();
 			log.debug(employeeList);
-			request.setAttribute("employeeList", employeeList);
+			request.setAttribute("employeeList", employeeList);*/
 			
-			List<Company_address> addressList = company_addressDAO.findByCompayny_id(map.get("company_id").toString());
+			List<Company_address> addressList = company_addressDAO.listCheckwithQuotationAddress(map.get("company_id").toString(),id);
 			request.setAttribute("addressList", addressList);
 			log.debug(addressList);
 			
@@ -581,6 +591,24 @@ public class QuotationAction extends ActionSupport{
 			return ERROR;
 		}
 	}
+	public String listcheckQuotationAddress() {
+		try {
+			String company_id = request.getParameter("company_id");
+			log.debug(company_id);
+			String quotation_id = request.getParameter("quotation_id");
+			log.debug(quotation_id);
+			List<Company_address> addressList = company_addressDAO.listCheckwithQuotationAddress(company_id, quotation_id);
+			log.debug(addressList);
+			
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			 String json = gson.toJson(addressList);
+			 request.setAttribute("json", json);
+			return SUCCESS;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
 	public String checkId() {
 		try {
 			String id = request.getParameter("id");
@@ -619,6 +647,350 @@ public class QuotationAction extends ActionSupport{
 			 Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			 String json = gson.toJson("delete success");
 			 request.setAttribute("json", json);
+			return SUCCESS;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
+	
+	public String deleteQuoteOrder() {
+		try {
+			String id = request.getParameter("id");
+			log.debug(id);
+			Order order = new Order();
+			Integer order_id = Integer.valueOf(id);
+			order = orderDAO.findById(order_id);
+			log.debug(order);
+			orderDAO.delete(order);
+			
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			String json = gson.toJson("delete success");
+			request.setAttribute("json", json);
+			
+			return SUCCESS;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
+	public String updateQuotation() {
+		try {
+			Sysuser ur = (Sysuser) request.getSession().getAttribute("onlineUser"); // Username login log.debug(ur);
+			String loginUser = ur.getSys_user_id(); // Username login
+			
+			String status = request.getParameter("status");
+			
+			String id = request.getParameter("id");
+			
+			String start = request.getParameter("start");
+			log.debug(start);
+			SimpleDateFormat sdf1 = new SimpleDateFormat("MM/dd/yyyy");
+			java.util.Date date = sdf1.parse(start);
+			java.sql.Date sqlStartDate = new java.sql.Date(date.getTime());
+		
+			log.debug(sqlStartDate);
+			 
+			String end = request.getParameter("end");
+			log.debug(end);
+			SimpleDateFormat sdf2 = new SimpleDateFormat("MM/dd/yyyy");
+			java.util.Date date2 = sdf2.parse(end);
+			java.sql.Date sqlEndDate = new java.sql.Date(date2.getTime()); 
+			log.debug(sqlEndDate);
+			
+			String company_id = request.getParameter("company_id");
+			String tax = request.getParameter("tax");
+			String contact = request.getParameter("contact");
+			String email = request.getParameter("email");
+			String phone1 = request.getParameter("phone1");
+			String phone2 = request.getParameter("phone2");
+			String customer = request.getParameter("customer");
+			String salesperson = request.getParameter("salesperson");
+			String orderList = request.getParameter("orderList");
+			//String saleList = request.getParameter("saleList");
+			String addressList = request.getParameter("addressList");
+			String description = request.getParameter("description");
+			String cutoffspace_description = description.replaceAll("\\s+$", "");
+			String tax_type = request.getParameter("tax_type");
+			
+			String sub = request.getParameter("sub_total");
+			BigDecimal sub_total = new BigDecimal(sub.replace(",",""));
+			
+			BigDecimal discount_percent;
+			String dc_percent = request.getParameter("dc_percent");
+			if(dc_percent.equals("")) {
+				discount_percent = new BigDecimal(0.00);
+			}else {
+				discount_percent = new BigDecimal(dc_percent.replace(",",""));
+			}
+			String dc = request.getParameter("discount");
+			BigDecimal discount;
+			if(dc.equals("")) {
+				discount = new BigDecimal(0.00);
+			}else{
+				discount = new BigDecimal(dc.replace(",",""));
+			}
+			
+			String more_dc = request.getParameter("additional_discount");
+			BigDecimal more_discount;
+			if(more_dc.equals("")) {
+				more_discount = new BigDecimal(0.00);
+			}else {
+				more_discount = new BigDecimal(more_dc.replace(",",""));
+			}
+			
+			
+			
+			String vat = request.getParameter("vat");
+			BigDecimal percent_tax;
+			if(vat.equals("")) {
+				percent_tax = new BigDecimal(0.00);
+			}else {
+				percent_tax = new BigDecimal(vat.replace(",",""));
+			}
+			
+			String total_vat = request.getParameter("total_vat");
+			BigDecimal total_tax;
+			if(total_vat.equals("")) {
+				total_tax = new BigDecimal(0.00);
+			}else {
+				total_tax = new BigDecimal(total_vat.replace(",",""));
+			}
+			
+			String grand = request.getParameter("grand_total");
+			BigDecimal grand_total = new BigDecimal(grand.replace(",",""));
+			
+			log.debug(id);
+			log.debug(company_id);
+			log.debug(tax);
+			log.debug(contact);  //ไอดีของ contact นั้น
+			log.debug(email);
+			log.debug(phone1);
+			log.debug(phone2);
+			log.debug(customer);
+			log.debug(salesperson);
+			log.debug(description);
+			log.debug(sub_total);
+			log.debug(dc_percent);
+			log.debug(discount);
+			log.debug(more_dc);
+			log.debug(tax_type);
+			log.debug(vat);
+			log.debug(total_vat);
+			log.debug(grand);
+			
+			
+			Integer ct = Integer.valueOf(contact);
+			Company_contact contactInfo = company_contactDAO.findById(ct);
+			String contact_name = contactInfo.getContact_name();
+			
+			
+			List<Map<String, Object>> employee = employeeDAO.findByEmployee_id(salesperson);
+			log.debug(employee.get(0));
+			Map<String, Object> map_employee  = (Map<String, Object>) employee.get(0);
+			String sale = map_employee.get("name_en").toString();
+			log.debug(sale);
+			
+			
+				Quotation quotation = new Quotation();
+				quotation = quotationDAO.findById(id);
+				quotation.setQuotation_id(id);
+				quotation.setCompany_id(company_id);
+				quotation.setCompany_name(customer);
+				quotation.setContact_name(contact_name);
+				quotation.setTax_number(tax);
+				quotation.setEmail(email);
+				quotation.setPhone(phone1.replace("-", ""));
+				if(!phone2.equals("")) {
+					quotation.setPhone_2(phone2.replace("-", ""));
+				}
+				quotation.setStart_date(sqlStartDate);
+				quotation.setEnd_date(sqlEndDate);
+				quotation.setSaleperson(sale);
+				if(!description.equals("")) {
+					quotation.setDescription(cutoffspace_description);
+				}
+				quotation.setSub_total(sub_total);
+				if(!dc.equals("")) {
+					quotation.setDiscount(discount);
+				}
+				if(!dc_percent.equals("")) {
+					quotation.setPercent_discount(discount_percent);
+				}
+				if(!more_dc.equals("")) {
+					quotation.setAdditional_discounts(more_discount);
+				}
+				quotation.setTax_type(tax_type);
+				if(!vat.equals("")) {
+					quotation.setPercent_tax(percent_tax);
+				}
+				if(!total_vat.equals("")) {
+					quotation.setTax(total_tax);
+				}
+				quotation.setGrand_total(grand_total);
+				quotation.setQuotation_status(status);
+				quotation.setUser_update(loginUser);
+				quotation.setTime_update(DateUtil.getCurrentTime());
+				quotationDAO.update(quotation);
+				
+				//                 Customer Address Part
+				JSONParser parserAddress = new JSONParser();
+				JSONArray listOfAddress = (JSONArray) parserAddress.parse(addressList);
+				log.debug(listOfAddress);
+				List<Integer> quote_addressIdList = new ArrayList<Integer>();
+				for(int i = 0; i < listOfAddress.size();i++) {
+					
+					Map<String, Object> map_address  = (Map<String, Object>) listOfAddress.get(i);
+					String str_id = map_address.get("quotation_address_id").toString();
+					if(str_id.equals("") || str_id.isEmpty() || str_id == null) {
+						
+						Quotation_address address = new Quotation_address();
+						Integer pMaxId = quotation_addressDAO.getMaxId() + 1;
+						address.setQuotation_address_id(pMaxId);
+						address.setCompany_address_id(map_address.get("company_address_id").toString());
+						address.setQuotation_id(id);
+						address.setAddress_name(map_address.get("address_name").toString());
+						address.setAddress(map_address.get("address_detail").toString());
+						address.setDelivery_check(map_address.get("delivery_address").toString());
+						address.setUser_create(loginUser);
+						address.setUser_update(loginUser);
+						address.setTime_create(DateUtil.getCurrentTime());
+						address.setTime_update(DateUtil.getCurrentTime());
+						
+						quotation_addressDAO.save(address);
+						Integer quo_address_id = address.getQuotation_address_id();
+						quote_addressIdList.add(quo_address_id);
+					}else {
+						
+						Quotation_address address = new Quotation_address();
+						Integer address_id = Integer.valueOf(str_id);
+						quote_addressIdList.add(address_id);
+						
+						address = quotation_addressDAO.findById(address_id);
+						address.setQuotation_id(id);
+						address.setAddress_name(map_address.get("address_name").toString());
+						address.setAddress(map_address.get("address_detail").toString());
+						address.setDelivery_check(map_address.get("delivery_address").toString());
+						address.setUser_update(loginUser);
+						address.setTime_update(DateUtil.getCurrentTime());
+						quotation_addressDAO.update(address);
+					}
+				}   //END for loop Address
+				log.debug(quote_addressIdList);
+				//log.debug(quote_addressIdList.get(1));
+				quotation_addressDAO.deleteByListQuote_addressId(quote_addressIdList, id);
+				
+				
+				
+				JSONParser parser = new JSONParser();
+				JSONArray listOfOrder = (JSONArray) parser.parse(orderList);
+				log.debug(listOfOrder);
+				List<Integer> order_idList = new ArrayList<Integer>();
+				for(int i = 0; i < listOfOrder.size();i++) {
+					
+					Map<String, Object> map_order  = (Map<String, Object>) listOfOrder.get(i);
+					String str_id = map_order.get("order_id").toString();
+					
+					if(str_id.equals("") || str_id.isEmpty() || str_id == null) {
+						Order quotationOrder = new Order();
+						Integer pMaxId = orderDAO.getMaxId() + 1;
+						//log.debug(pMaxId);
+						
+						quotationOrder.setOrder_id(pMaxId);
+						quotationOrder.setQuotation_id(id);
+						
+						quotationOrder.setName(map_order.get("product_name").toString());
+						log.debug(map_order.get("product_name").toString());
+						
+						quotationOrder.setDescription(map_order.get("description").toString().replaceAll("\\s+$", ""));
+						log.debug(map_order.get("description").toString());
+						
+						String quantity = map_order.get("quantity").toString().replace(",","");
+						Integer many = new Integer(quantity);
+						log.debug(quantity);
+						log.debug(many.getClass());
+						quotationOrder.setQuantity(many);
+						
+						BigDecimal price = new BigDecimal(map_order.get("unit_price").toString().replace(",",""));
+						log.debug(price);
+						log.debug(price.getClass());
+						quotationOrder.setUnit_price(price);
+						
+						BigDecimal total = new BigDecimal(map_order.get("total").toString().replace(",",""));
+						log.debug(total);
+						log.debug(total.getClass());
+						quotationOrder.setTotal(total);
+						
+						
+						quotationOrder.setUser_create(loginUser);
+						quotationOrder.setUser_update(loginUser);
+						quotationOrder.setTime_create(DateUtil.getCurrentTime());
+						quotationOrder.setTime_update(DateUtil.getCurrentTime());
+						log.debug(quotationOrder.toString());
+						orderDAO.save(quotationOrder);
+						order_idList.add(pMaxId);
+					}else {
+						Order quotationOrder = new Order();
+						Integer order_id = Integer.valueOf(str_id);
+						quotationOrder = orderDAO.findById(order_id);
+						
+						quotationOrder.setQuotation_id(id);
+						
+						quotationOrder.setName(map_order.get("product_name").toString());
+						log.debug(map_order.get("product_name").toString());
+						
+						quotationOrder.setDescription(map_order.get("description").toString().replaceAll("\\s+$", ""));
+						log.debug(map_order.get("description").toString());
+						
+						String quantity = map_order.get("quantity").toString().replace(",","");
+						Integer many = new Integer(quantity);
+						log.debug(quantity);
+						log.debug(many.getClass());
+						quotationOrder.setQuantity(many);
+						
+						BigDecimal price = new BigDecimal(map_order.get("unit_price").toString().replace(",",""));
+						log.debug(price);
+						log.debug(price.getClass());
+						quotationOrder.setUnit_price(price);
+						
+						BigDecimal total = new BigDecimal(map_order.get("total").toString().replace(",",""));
+						log.debug(total);
+						log.debug(total.getClass());
+						quotationOrder.setTotal(total);
+						
+						
+						quotationOrder.setUser_update(loginUser);
+						quotationOrder.setTime_update(DateUtil.getCurrentTime());
+						log.debug(quotationOrder.toString());
+						orderDAO.update(quotationOrder);
+						order_idList.add(order_id);
+					}
+				}    // END for loop Order
+				log.debug(order_idList);
+				orderDAO.deleteById(order_idList, id);
+			
+			
+			
+			
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			String json = gson.toJson("update success");
+			request.setAttribute("json", json);
+			return SUCCESS;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return ERROR;
+		}
+	}
+	public String listCompanySales() {
+		try {
+			String id = request.getParameter("id");
+			log.debug(id);
+			List<Company_sales> saleList = company_salesDAO.findByCompany_id(id);
+			log.debug(saleList);
+			
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			String json = gson.toJson(saleList);
+			request.setAttribute("json", json);
 			return SUCCESS;
 		}catch(Exception e) {
 			e.printStackTrace();

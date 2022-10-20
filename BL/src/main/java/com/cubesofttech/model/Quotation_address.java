@@ -15,6 +15,9 @@ public class Quotation_address implements Serializable{
 	@Column(name="quotation_address_id")
 	public Integer quotation_address_id;
 	
+	@Column(name="company_address_id")
+	public String company_address_id;
+	
 	@Column(name="quotation_id")
 	public String quotation_id;
 	
@@ -224,9 +227,21 @@ public class Quotation_address implements Serializable{
 
 
 
+	public String getCompany_address_id() {
+		return company_address_id;
+	}
+
+
+
+	public void setCompany_address_id(String company_address_id) {
+		this.company_address_id = company_address_id;
+	}
+
+
+
 	@Override
 	public String toString() {
-		return "Quotation_address [quotation_address_id=" + quotation_address_id + ", quotation_id=" + quotation_id + ", address_name=" + address_name + ", address="+ address
+		return "Quotation_address [quotation_address_id=" + quotation_address_id + ", company_address_id=" + company_address_id + ", quotation_id=" + quotation_id + ", address_name=" + address_name + ", address="+ address
 				+ ", province=" + province + ", district=" + district + ", sub_district=" + sub_district + ", zip_code=" + zip_code + ", delivery_check=" + delivery_check + "]";
 	}
 	

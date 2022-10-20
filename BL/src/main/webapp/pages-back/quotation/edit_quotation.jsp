@@ -8,6 +8,8 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="/assets/js/autosize.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
    
 
     
@@ -99,95 +101,112 @@ li.animate{
 				<div class="row">
 					<div class="col-sm-6 col-md-6">
                    		<div class="form-group">
-	                    	<div class="mb-2">Quotation ID<span class="text-red"> *</span></div>
-	                   		<input type="text" class="form-control " id="quID" placeholder="" value="${quotationList[0].quotation_id}">
+	                    	<label>Quotation ID<span class="text-red"> *</span></label>
+	                   		<input type="text" class="form-control " id="quID" placeholder="" value="${quotationList[0].quotation_id}" onkeyup="checkDuplicateId()">
+	                   		<div class="">
+	                   		<div  style="display:none;" id="error" class=" invalid-feedback">
+								You can not use this Quotation ID
+							</div>
+							<div  style="display:none;" id="pass" class=" valid-feedback">
+								You can  use this Quotation ID
+							</div>
+							<div  style="display:none;" id="empty" class=" invalid-feedback">
+								Don't leave this blank.
+							</div>
+							</div>
                     	</div>
                 	</div>
                 	<div class="col-sm-6 col-md-3">
                    		<div class="form-group">
-	                   		<div class="mb-2">Create date<span class="text-red"> *</span></div>
+	                   		<label>Create date<span class="text-red"> *</span></label>
 	                           <div class="input-group">
-	                              <input class="form-control fc-datepicker" id="start" placeholder="Select date" type="text" value="<fmt:formatDate value="${quotationList[0].create_date}" pattern="dd/MM/yyyy"></fmt:formatDate>">
+	                              <input class="form-control fc-datepicker" id="start" placeholder="Select date" type="text" value="<fmt:formatDate value="${quotationList[0].create_date}" pattern="MM/dd/yyyy"></fmt:formatDate>">
 	                               <div class="input-group-text">
 	                                    <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
 	                               </div>
 	                           </div>
+	                           <small class="invalid-feedback" style="display:none" id="invalid-create-date">Please select a valid create date</small>
                         </div>
                 	</div>
                 	<div class="col-sm-6 col-md-3">
                    		<div class="form-group">
-	                   		<div class="mb-2">Due date<span class="text-red"> *</span></div>
+	                   		<label>Due date<span class="text-red"> *</span></label>
 	                           <div class="input-group">
-	                               <input class="form-control fc-datepicker" id="end" placeholder="Select date" type="text" value="<fmt:formatDate value="${quotationList[0].end_date}" pattern="dd/MM/yyyy"></fmt:formatDate>">
+	                               <input class="form-control fc-datepicker" id="end" placeholder="Select date" type="text" value="<fmt:formatDate value="${quotationList[0].end_date}" pattern="MM/dd/yyyy"></fmt:formatDate>">
 	                               <div class="input-group-text">
 	                                    <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
 	                               </div>
 	                           </div>
+	                           <small class="invalid-feedback" style="display:none" id="invalid-due-date">Please select a valid due date</small>
                         </div>
                 	</div>
                 	<div class="col-sm-6 col-md-6">
                    		<div class="form-group">
-	                    	<div class="mb-2">Customer Name<span class="text-red"> *</span></div>
+	                    	<label>Customer Name<span class="text-red"> *</span></label>
 	                    	<div class="input-group">
 		                   		<input type="text" class="form-control" id="customer" data-bs-toggle="modal" data-bs-target="#CustomerNameModal" placeholder="Select Company" value="${quotationList[0].company_name}">
 		                   		<div class="input-group-text" style="cursor: pointer;" data-bs-toggle="modal"  data-bs-target="#CustomerNameModal">
 		                   			<i class="bi bi-search tx-16 lh-0 op-6"></i>
 		                   		</div>
-	                   	</div>	
+	                   	</div>
+	                   	<small class="invalid-feedback" style="display:none" id="invalid-customer-name">Please select a valid customer name</small>	
                     	</div>
                 	</div>
                 	<div class="col-sm-6 col-md-6">
                    		<div class="form-group">
-	                    	<div class="mb-2">Tax ID<span class="text-red"> *</span></div>
+	                    	<label>Tax ID<span class="text-red"> *</span></label>
 	                   		<input type="text" class="form-control" id="taxID" placeholder="" value="${quotationList[0].tax_number}">
+	                   		<small class="invalid-feedback" style="display:none" id="invalid-taxID">Please select a valid tax ID</small>
                     	</div>
                 	</div>
                 	<div class="col-sm-6 col-md-6" style="display:none">
                    		<div class="form-group">
-	                    	<div class="mb-2">company ID<span class="text-red"> *</span></div>
+	                    	<label>company ID<span class="text-red"> *</span></label>
 	                   		<input type="text" class="form-control" id="companyID" placeholder="" value="${quotationList[0].company_id}">
                     	</div>
                 	</div>
                 	<div class="col-sm-6 col-md-6">
                    		<div class="form-group">
-	                    	<div class="mb-2">Contact Name<span class="text-red"> *</span></div>
-	                   		<select  class="form-control form-select select2" id="contact" data-bs-placeholder="Select Customer" onchange="change()" >
+	                    	<label>Contact Name<span class="text-red"> *</span></label>
+	                   		<select  class="form-control form-select select2" id="contact" data-bs-placeholder="Select Customer" onchange="change();contactChange()" >
 	                   			<option value="" >Select Contact</option>
 	                   			<c:forEach var="contact" items="${contactList}">
 	                   			<option value="${contact.company_contact_id}" <c:if test="${quotationList[0].company_contact_id eq contact.company_contact_id}">selected</c:if>>${contact.title_name_en}&nbsp;${contact.contact_name}</option>
 	                   			</c:forEach>
                             </select>
-                            <small class="text-danger small" style="display:none" id="invalid-contact-name">Please select a valid contact name</small>
+                            <small class="invalid-feedback" style="display:none" id="invalid-contact-name">Please select a valid contact name</small>
                     	</div>
                 	</div>
                 	<div class="col-sm-6 col-md-6">
                    		<div class="form-group">
-	                    	<div class="mb-2">email<span class="text-red"> *</span></div>
+	                    	<label>Email<span class="text-red"> *</span></label>
 	                   		<input type="email" class="form-control" id="email" placeholder="" value="${quotationList[0].email}">
+	                   		<small class="invalid-feedback" style="display:none" id="invalid-email">Required this field</small>
                     	</div>
                 	</div>
                 	<div class="col-sm-6 col-md-6">
                    		<div class="form-group">
-	                    	<div class="mb-2">phone number 1<span class="text-red"> *</span></div>
-	                   		<input type="text" class="form-control" id="phone1" placeholder="" value="${quotationList[0].phone}">
+	                    	<label>Customer number 1<span class="text-red"> *</span></label>
+	                   		<input type="tel" class="form-control" id="phone1" placeholder="" value="${quotationList[0].phone}">
+	                   		<small class="invalid-feedback" style="display:none" id="invalid-phone">Required this field</small>
                     	</div>
                 	</div>
                 	<div class="col-sm-6 col-md-6">
                    		<div class="form-group">
-	                    	<div class="mb-2">phone number 2</div>
-	                   		<input type="text" class="form-control" id="phone2" placeholder="" value="${quotationList[0].phone_2}">
+	                    	<label>Customer number 2</label>
+	                   		<input type="tel" class="form-control" id="phone2" placeholder="" value="${quotationList[0].phone_2}">
                     	</div>
                 	</div>
                 	<div class="col-sm-6 col-md-6">
                    		<div class="form-group">
-	                    	<div class="mb-2">Salesperson<span class="text-red"> *</span></div>
+	                    	<label>Salesperson<span class="text-red"> *</span></label>
 	                   		<select  class="form-control form-select select2" id="salesperson" data-bs-placeholder="Select Sale" onchange="changeSale()">
 	                   		    <option value="" selected>Select Sale</option>
-	                   			<c:forEach var="employee" items="${employeeList}">
-	                   			<option value="${employee.employee_id}" <c:if test="${quotationList[0].saleperson eq employee.name_en}">selected</c:if>>${employee.employee_id}&nbsp;-&nbsp;${employee.title_name_en}&nbsp;${employee.name_en}</option>
+	                   			<c:forEach var="saleList" items="${saleList}">
+	                   			<option value="${saleList.employee_id}" <c:if test="${quotationList[0].saleperson eq saleList.name_en}">selected</c:if>>${saleList.employee_id}&nbsp;-&nbsp;${saleList.title_name_en}&nbsp;${saleList.name_en}</option>
 	                   			</c:forEach>
                             </select>
-                            <small class="text-danger small" style="display:none" id="invalid-salesperson">Please select a valid Salesperson</small>
+                            <small class="invalid-feedback" style="display:none" id="invalid-salesperson">Please select a valid Salesperson</small>
                     	</div>
                 	</div>
                 </div>
@@ -217,11 +236,13 @@ li.animate{
 	                    	</thead>
 	                    	<tbody>
 	                    	<c:forEach var="company" items="${companyList}">	                    		
-	                    	<tr data-bs-dismiss="modal" class="content" value="${company.company_en}" data-id="${company.company_id}" data-tax="${company.tax_number}" >
+	                    	<tr data-bs-dismiss="modal" class="content" value="${company.company_en}" data-id="${company.company_id}" data-tax="${company.tax_number}" data-quote-id="${quotationList[0].quotation_id}" >
 	                    			<td></td>
-	                    			<td>${company.company_en}</td>
-	                    			<td>${company.company_code}</td>
 	                    			<td>
+	                    				<span><img src="${company.path}" class="avatar bradius" style="min-width:32px; min-height:32px"></span><span class="ms-3" style="vertical-align:super;">${company.company_en}</span>
+	                    			</td>
+	                    			<td style="vertical-align: middle;">${company.company_code}</td>
+	                    			<td style="vertical-align: middle;">
 	                    				<c:if test="${company.status == 0}">Customers</c:if>
 	                    				<c:if test="${company.status == 1}">Partners</c:if>
 	                    				<c:if test="${company.status == 2}">Financial</c:if>
@@ -229,7 +250,7 @@ li.animate{
 	                    				<c:if test="${company.status == 4}">Leadership and Peer Mentors</c:if>
 	                    				<c:if test="${company.status == 5}">Employees</c:if>
 	                    			</td>
-	                    			<td>
+	                    			<td style="vertical-align: middle;">
 	                    				<label class="custom-control custom-checkbox">
 		                                        <input type="checkbox" class="custom-control-input" name="example-checkbox1" value="option1" onclick="return false;"
 		                                        <c:if test="${fn:contains(company.is_active, '1')}">checked</c:if>>
@@ -273,16 +294,19 @@ li.animate{
 			               			<div class="col-sm-6 col-md-3 data_address_name"> ${quoteAddress.address_name}</div>
 			                		<div class="col-sm-6 col-md-8 data_address_detail" >${quoteAddress.address}</div>
 			              			<div class="col-sm-6 col-md-1" style="text-align:right;">
-			                			<button class="btn text-danger btn-sm" onclick="deleteAddressData('${quoteAddress.quotation_address_id}',this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">
-			                			<span class="fe fe-trash-2 fs-14"></span></button>
+			                			<button class="btn text-danger btn-sm" onclick="DeleteAddress(this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">
+			                			<span class="fe fe-trash-2 fs-18"></span></button>
 			                		</div>
 			                		<div class="col-sm-6 col-md-3 mt-4">
 						                <label class="custom-control custom-checkbox">
-						                <input type="checkbox" class="custom-control-input check_address" name="example-checkbox5" value="" onchange="check_address(this)"
+						                <input type="checkbox" class="custom-control-input check_address" name="example-checkbox5" value="" onchange="check_address(this);removeInvalidCheckBox()"
 						                 <c:if test="${quoteAddress.delivery_check == 1}">checked</c:if>>
 						                <span class="custom-control-label">Delivery Address</span>
+						                <small class="invalid-feedback invalid-check-address" style="display:none" id="">Please select a valid delivery address</small>
 						                </label>
 			                		</div>
+			                		<input type="hidden" value="${quoteAddress.quotation_address_id}" class="data_quotation_address_id">
+			                		<input type="hidden" class="data_company_address_id" value="${quoteAddress.company_address_id}">
 			                    </div>
 			                </li>
 		               	 </c:forEach>
@@ -317,12 +341,15 @@ li.animate{
 	                    		 <tr>
 									<td>
 										<label class="custom-control custom-checkbox">
-										<input type="checkbox" class="custom-control-input checkbox-tick chk" name="example-checkbox5" value="option5" >
+										<input type="checkbox" class="custom-control-input checkbox-tick chk" name="example-checkbox5" value="option5" 
+										<c:if test="${address.checkk == 1}">checked</c:if>>
 										<span class="custom-control-label"></span>
 										</label>
 									</td>
 									<td class="name">${address.address_name}</td>
 									<td class="address">${address.address}</td>
+									<input type="hidden" class="quotation_address_id" value="${address.quotation_address_id}">
+									<input type="hidden" class="company_address_id" value="${address.company_address_id}">
 								</tr>
 	                    	</c:forEach>
 	                    	</tbody>
@@ -338,72 +365,10 @@ li.animate{
     </div>
     <!-- END MODAL ADDRESS -->
 		
-		<!-- Sale -->
-<!-- 		<div class="card">
-			<div class="card-header">
-				<div class="card-title">Sales Person<span class="text-red"> *</span></div>
-			</div>
-			<div class="card-body">
-				 <ul class="list-group" id="sale-ul">
-           		
-            	</ul>
-				
-				<button type="button" class="btn btn-primary mt-4" data-bs-toggle="modal" data-bs-target="#salesModal">Select Sale Person</button>
-			</div>
-		</div> -->
-		<!-- MODAL SALES -->
-<!--  		<div class="modal fade" id="salesModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered modal-xl " role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Select Sales</h5>
-                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">×</span>
-						</button>
-                </div>
-                <div class="modal-body">
-                    <div class="table-responsive">
-                    	<table class="table table-bordered text-nowrap border-bottom dataTable no-footer myTable" id="">
-	                    	<thead>
-	                    		<tr>
-	                    			<th>#</th>
-	                    			<th>Employee Name</th>
-	                    			<th>Employee ID</th>
-	                    			<th>Phone Number</th>
-	                    			<th>E-mail</th>
-	                    		</tr>
-	                    	</thead>
-	                    	<tbody id="getSale">
-	                    	<c:forEach var="emplist" items="${employeeList}">
-	                    		<tr>
-	                    			<td >
-	                    				<label class="custom-control custom-checkbox">
-	                                        <input type="checkbox" class="custom-control-input checkbox-tick" name="example-checkbox1" value="option1" >
-	                                        <span class="custom-control-label"></span>
-                                        </label>
-	                    			</td>
-	                    			<td><span class="title_name_en">${emplist.title_name_en}</span>&nbsp;<span class="sale_name">${emplist.name_en}</span></td>
-	                    			<td class="emp_id">${emplist.employee_id}</td>
-	                    			<td class="sale_phone">${emplist.phone}</td>
-	                    			<td class="sale_email">${emplist.email}</td>
-	                    		</tr>
-	                    	</c:forEach>
-	                    	</tbody>
-                    	</table>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-default" data-bs-dismiss="modal">Close</button>
-                    <button class="btn btn-success" data-bs-dismiss="modal" onclick="selectSale()">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <!-- END MODAL SALES -->
 		<!-- order -->
 		<div class="card">
 			<div class="card-header">
-				<div class="card-title">Order</div>
+				<div class="card-title">Items</div>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
@@ -427,17 +392,18 @@ li.animate{
 								<td class="num">${counter}</td>
 								<td><input type="text" class="form-control product_name "  name="product_name"  value="${order.name}"></td>
 								<td><textarea rows="2" cols="" class="form-control mb-4 description" name="description" >${order.description}</textarea></td>
-								<td><input type="number" class="form-control many quantity-${counter}"   onkeyup="calculatePrice('${counter}')" onchange="calculatePrice('${counter}')" name="quantity" style="text-align:right"value="${order.quantity}"></td>
-								<td><input type="text" class="form-control price unit_price-${counter}"  onkeyup="myFunction(this);calculatePrice('${counter}')" onchange="onchangeValueWithDigits(this)" name="unit_price" style="text-align:right" 
+								<td><input type="number" class="form-control many quantity-${counter}"   onkeyup="calculatePrice('${counter}')" onchange="calculatePrice('${counter}')" onclick="this.select()" name="quantity" style="text-align:right"value="${order.quantity}"></td>
+								<td><input type="text" class="form-control price unit_price-${counter}"  onkeyup="myFunction(this);calculatePrice('${counter}')" onchange="onchangeValueWithDigits(this)" onclick="this.select()" name="unit_price" style="text-align:right" 
 									 	   value="<fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${order.unit_price}" />">
 								</td>
 								<td><input type="text" class="form-control sum total-${counter} sub-total"  name="total" style="text-align:right; background-color:transparent;"  readonly 
 										   value="<fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value ="${order.total}" />">
 								</td>
 								<td>
-									<button class="btn text-danger btn-sm" data-bs-toggle="tooltip" onclick="deleteOrder('${order.order_id}',this)" data-bs-original-title="Delete">
-                         			<span class="fe fe-trash-2 fs-14"></span></button>
+									<button class="btn text-danger btn-sm" data-bs-toggle="tooltip" onclick="deleteRow(this)" data-bs-original-title="Delete">
+                         			<span class="fe fe-trash-2 fs-18"></span></button>
                          	    </td>
+                         	    <input type="hidden" value="${order.order_id}" class="order_id">
 							</tr>
 						</c:forEach>
 						</tbody>
@@ -447,43 +413,43 @@ li.animate{
 				<div class="row">
 					<div class="col-sm-6 col-md-6 mt-5">
 						<div class="form-group">
-	                    	<div class="mb-2">Description</div>
+	                    	<label>Description</label>
 	                   		<textarea rows="4" cols="" class="form-control mb-4" id="description" >${quotationList[0].description}</textarea>
                     	</div>
 					</div>
 					<div class="col-sm-6 col-md-6 mt-5">
 						<div class="row">
-			                <div class="col-sm-6 col-md-6" style="text-align:right;align-self: center;">sub total</div>
+			                <label class="col-sm-6 col-md-6" style="text-align:right;align-self: center;">sub total</label>
 			                <div class=" col-sm-6 col-md-6 mb-2">
 			                <input type="text" class="form-control" id="sub-total" placeholder=""  style="text-align:right; background-color:transparent;"  readonly
 			               		   value="<fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${quotationList[0].sub_total}" />">
 			                </div>
 			                
 			                
-			                <div class="col-sm-6 col-md-3" style="text-align:right;align-self: center;">ส่วนลด</div>
+			                <label class="col-sm-6 col-md-3" style="text-align:right;align-self: center;">ส่วนลด</label>
 				            <div class=" col-sm-6 col-md-3">
                                    <div class="input-group">
                                          <input type="text" id="dc-percent" class="form-control" style="text-align:right" 
                                          		value="<fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value ="${quotationList[0].percent_discount}" />"
-                                                onkeyup="enterDiscountPercent()" onchange="onchangeValueWithDigits(this)">
+                                                onkeyup="enterDiscountPercent()" onchange="onchangeValueWithDigits(this)" onclick="this.select()">
                                          <span class="input-group-text" id="basic-addon2">%</span>
                                    </div>
                             </div>
                             <div class=" col-sm-6 col-md-6 mb-2">            
 			                <input type="text" class="form-control" id="discount" placeholder="" style="text-align:right" 
 			                	   value="<fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${quotationList[0].discount}" />"
-			                       onkeyup="myFunction(this);enterDiscountValue()" onchange="onchangeValueWithDigits(this)">
+			                       onkeyup="myFunction(this);enterDiscountValue()" onchange="onchangeValueWithDigits(this)" onclick="this.select()">
 			                </div>
 			                
-			                <div class="col-sm-6 col-md-6" style="text-align:right;align-self: center;">ส่วนลดเพิ่มเติม</div>
+			                <label class="col-sm-6 col-md-6" style="text-align:right;align-self: center;">ส่วนลดเพิ่มเติม</label>
 			                <div class=" col-sm-6 col-md-6 mb-2">
 			                <input type="text" class="form-control" id="additional_discount" placeholder="" style="text-align:right" 
 			                	   value="<fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${quotationList[0].additional_discounts}" />"
-			                	   onkeyup="myFunction(this);enterAdditionalDiscount()" onchange="onchangeValueWithDigits(this)">
+			                	   onkeyup="myFunction(this);enterAdditionalDiscount()" onchange="onchangeValueWithDigits(this)" onclick="this.select()">
 			                </div>
 			                
 			                
-			                <div class="col-sm-6 col-md-6" style="text-align:right;align-self: center;">การคำนวนภาษี</div>
+			                <label class="col-sm-6 col-md-6" style="text-align:right;align-self: center;">การคำนวนภาษี</label>
 			                <div class="col-sm-6 col-md-6 mb-2 ">
                                   <select class="form-control form-select form-select select2" id="inputGroupSelect01" onchange="sum_grandTotal()">
                                        <option value="1" id="sum-vat" <c:if test="${quotationList[0].tax_type == 1}">selected</c:if>>ราคารวมภาษี</option>
@@ -492,22 +458,22 @@ li.animate{
                                   </select>   
                             </div>
                             
-                            <div class="col-sm-6 col-md-3" style="text-align:right;align-self: center;">อัตราภาษี</div>
+                            <label class="col-sm-6 col-md-3" style="text-align:right;align-self: center;">อัตราภาษี</label>
 				            <div class=" col-sm-6 col-md-3">
                                    <div class="input-group">
                                           <input type="text" class="form-control" id="VAT" style="text-align:right" 
                                                  value="<fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${quotationList[0].percent_tax}" />"
-                                                 onkeyup="enterTaxPercent()" onchange="onchangeValueWithDigits(this)">
+                                                 onkeyup="enterTaxPercent()" onchange="onchangeValueWithDigits(this)" onclick="this.select()">
                                          <span class="input-group-text" id="basic-addon2">%</span>
                                   </div>
                             </div>
                             <div class=" col-sm-6 col-md-6 mb-2">            
 			                <input type="text" class="form-control " placeholder="" id="totalVAT" style="text-align:right" 
 			                	   value="<fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${quotationList[0].tax}" />"
-			                	   onkeyup="myFunction(this);enterTaxValue()" onchange="onchangeValueWithDigits(this)">
+			                	   onkeyup="myFunction(this);enterTaxValue()" onchange="onchangeValueWithDigits(this)" onclick="this.select()">
 			                </div>
 			                
-			                 <div class="col-sm-6 col-md-6" style="text-align:right;align-self: center;">grand total</div>
+			                 <label class="col-sm-6 col-md-6" style="text-align:right;align-self: center;">grand total</label>
 			                <div class=" col-sm-6 col-md-6 mb-2">
 			                <input type="text" class="form-control " placeholder="" id="grand_total"  style="text-align:right; background-color:transparent;"  readonly 
 			                       value="<fmt:formatNumber type = "number" maxFractionDigits = "2" pattern="#,##0.00" value = "${quotationList[0].grand_total}" />">
@@ -519,9 +485,9 @@ li.animate{
 		</div>
 		<!-- BUTTON -->
 			<div  style="text-align: right; margin-top: 0.5rem; margin-bottom: 1.5rem;">
-				<a href="#" type="button" class="btn btn-default" style="min-width: 5%;">Cancel</a>
-				<button  type="button" class="btn btn-success" onclick="send_data()" style="min-width: 5%;">Save</button>
-				<button  type="button" class="btn btn-primary" style="min-width: 5%;" onclick="send_approve()">Send Approve</button>
+				<a href="#" type="button" class="btn btn-default" style="min-width: 5%;" onclick="cancelSwal()">Cancel</a>
+				<button  type="button" class="btn btn-success" onclick="send_data('1')" style="min-width: 5%;">Save</button>
+				<button  type="button" class="btn btn-primary" style="min-width: 5%;" onclick="send_data('2')">Send Approve</button>
 			</div>
 	</div>
 </div>
@@ -561,12 +527,12 @@ $(document).ready(function(){
      console.log("tbodyRowCount: "+(tbodyRowCount+1));
      counter++;
      console.log("counter: "+counter);
-     var newRow = jQuery('<tr class="row_product"><td class="num">'+counter+'</td><td><input type="text" class="form-control product_name" name="product_name" placeholder=""' +
-          '/></td><td><textarea rows="2" cols="" class="form-control mb-4 description" name="description" ></textarea>' +
-          '</td><td><input type="number" class="form-control many quantity-'+counter+'" name="quantity" onkeyup="calculatePrice('+counter+')" onchange="calculatePrice('+counter+')" style="text-align:right"></td>'+
-          '<td><input type="text" class="form-control price unit_price-'+counter+'"  name="unit_price" onkeyup="myFunction(this);calculatePrice('+counter+');" onchange="onchangeValueWithDigits(this)" style="text-align:right"></td>'+
-          '<td><input type="text" class="form-control sum total-'+counter+' sub-total" name="total" placeholder="" style="text-align:right; background-color:transparent;"  readonly></td>'+
-          '<td><button class="btn text-danger btn-sm" data-bs-toggle="tooltip" onclick="deleteRow(this)" data-bs-original-title="Delete"><span class="fe fe-trash-2 fs-14"></span></button></td>');
+     var newRow = jQuery('<tr class="row_product new_row_product"><td class="num">'+counter+'</td><td><input type="text" class="form-control product_name new_product_name" name="product_name" placeholder=""' +
+          '/></td><td><textarea rows="2" cols="" class="form-control mb-4 description new_description" name="description" ></textarea>' +
+          '</td><td><input type="number" class="form-control many quantity-'+counter+' new_quantity" name="quantity" onkeyup="calculatePrice('+counter+')" onchange="calculatePrice('+counter+')" onclick="this.select()" style="text-align:right"></td>'+
+          '<td><input type="text" class="form-control price unit_price-'+counter+' new_unit_price"  name="unit_price" onkeyup="myFunction(this);calculatePrice('+counter+');" onchange="onchangeValueWithDigits(this)" onclick="this.select()" style="text-align:right"></td>'+
+          '<td><input type="text" class="form-control sum total-'+counter+' sub-total new_sub_total" name="total" placeholder="" style="text-align:right; background-color:transparent;"  readonly></td>'+
+          '<td><button class="btn text-danger btn-sm" data-bs-toggle="tooltip" onclick="deleteRow(this)" data-bs-original-title="Delete"><span class="fe fe-trash-2 fs-18"></span></button></td>');
 			
      jQuery('table.order-list').append(newRow);
      autosize(document.getElementsByClassName('description'));
@@ -578,10 +544,7 @@ $(document).ready(function(){
  });
  
  
-function auto_grow(element) {                    //Auto height textarea
-	    element.style.height = "5px";
-	    element.style.height = (element.scrollHeight)+"px";
-}
+
 
 function deleteRow(r) {
 	//console.log(r);
@@ -590,15 +553,49 @@ function deleteRow(r) {
     document.getElementById("table1").deleteRow(i);
     var renum = 1;
     $("tr td.num").each(function() {
-        $(this).text(renum);
-        renum++;
-    });
-    sum_subTotal();
-    enterDiscountPercent();
+	    $(this).text(renum);
+	     renum++;
+     });
+     sum_subTotal();
+     enterDiscountPercent();
 }
 function deleteOrder(id,r){
 	console.log(id);
-	console.log(r);
+	console.log(r.parentNode.parentNode.rowIndex);
+	Swal.fire({
+        title: 'Are you sure?',
+        text: "You will be deleting this Address!",
+        icon: 'error',
+        showDenyButton: true,
+        denyButtonText: 'Cancel',
+        confirmButtonText: 'Confirm',
+        reverseButtons: true,
+    }).then((result) => {
+            if (result.isConfirmed) { 
+            	$.ajax({
+            		url:"deleteOrderQuote",
+            		method:"POST",
+            		type:"JSON",
+            		data:{
+            			"id":id
+            		},
+            		success:function(data){
+            			console.log(data);
+            			document.getElementById("table1").deleteRow(r.parentNode.parentNode.rowIndex);
+            			var renum = 1;
+            			 $("tr td.num").each(function() {
+            			        $(this).text(renum);
+            			        renum++;
+            			    });
+            			    sum_subTotal();
+            			    enterDiscountPercent();
+            		}
+            	})
+            }
+            else if (result.isDenied) {
+                return false;
+            } 
+  });
 }
 </script>
 <!--  <script>
@@ -747,6 +744,46 @@ function grand_total_sumVAT(){
 
 </script>-->
 <script>
+document.getElementById('phone1').addEventListener('keyup',function(evt){
+    var phoneNumber = document.getElementById('phone1');
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    phoneNumber.value = phoneFormat(phoneNumber.value);
+    console.log((phoneNumber.value).length);
+});
+document.getElementById('phone1').value = phoneFormat(document.getElementById('phone1').value);
+
+document.getElementById('phone2').addEventListener('keyup',function(evt){
+    var phoneNumber = document.getElementById('phone2');
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    phoneNumber.value = phoneFormat(phoneNumber.value);
+    console.log((phoneNumber.value).length);
+});
+document.getElementById('phone2').value = phoneFormat(document.getElementById('phone2').value);
+
+function numberPressed(evt){
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if(charCode > 31 && (charCode < 48  && charCode > 57) && (charCode < 36  && charCode > 40)){
+            return false;
+    }
+    return true;
+}
+
+function phoneFormat(input){
+    input = input.replace(/\D/g,'');
+    input = input.substring(0,10);
+    var size = input.length;
+    if(size == 0){
+            input = input;
+    }else if(size < 4){
+            input = ''+input;
+    }else if(size < 7){
+            input = ''+input.substring(0,3)+'-'+input.substring(3,6);
+    }else{
+            input = ''+input.substring(0,3)+'-'+input.substring(3,6)+'-'+input.substring(6,10);
+    }
+    return input; 
+}
+
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -942,7 +979,7 @@ function sum_grandTotal(){
 	}
 	var topup = additional_discount();
 	
-	grand_total = ((sub_total - discount) - topup) + total_tax;
+	//grand_total = ((sub_total - discount) - topup) + total_tax;
 	if(isNaN(grand_total)){
 		$("#grand_total").val('');
 	}else{
@@ -953,7 +990,7 @@ function sum_grandTotal(){
 		document.getElementById("VAT").disabled = false;
 		document.getElementById("totalVAT").disabled = false;
 		
-		grand_total = ((sub_total - discount) - topup) + total_tax;
+		grand_total = (sub_total - discount) - topup ;
 		if(isNaN(grand_total)){
 			$("#grand_total").val('');
 		}else{
@@ -965,7 +1002,7 @@ function sum_grandTotal(){
 		document.getElementById("VAT").disabled = false;
 		document.getElementById("totalVAT").disabled = false;
 		
-		grand_total = (sub_total - discount) - topup ;
+		grand_total = ((sub_total - discount) - topup) + total_tax ;
 		if(isNaN(grand_total)){
 			$("#grand_total").val('');
 		}else{
@@ -1049,40 +1086,55 @@ var t = $('.companyTable').DataTable({
 function DeleteAddress(currentEl){
 	  //console.log(currentEl.parentNode.parentNode.parentNode);
 	  //currentEl.parentNode.parentNode.removeChild(currentEl.parentNode);
-	  currentEl.parentNode.parentNode.parentNode.remove();
-	  const tag = document.getElementById("list-ul");
-	  if(document.getElementById("address-ul").getElementsByTagName("li").length == 0){
-		  //console.log(document.getElementById("address-ul").getElementsByTagName("li").length);
-		 /*let text = '<div class="no-data">'+
-					'<div style="text-align:center">'+
-					'<i class="fe fe-inbox fs-24 text-gray"></i>'+
-					'</div>'+
-					'<div style="text-align:center" class="text-gray mt-2">'+
-					'No data yet, please select address.'+
-					'</div>'+
-					'</div>';
-		tag.innerHTML = text;*/
-		$("#address-list .no-data").show();
-		 }
+            	 currentEl.parentNode.parentNode.parentNode.remove();
+           	  const tag = document.getElementById("list-ul");
+           	  if(document.getElementById("address-ul").getElementsByTagName("li").length == 0){
+           		  //console.log(document.getElementById("address-ul").getElementsByTagName("li").length);
+           		 /*let text = '<div class="no-data">'+
+           					'<div style="text-align:center">'+
+           					'<i class="fe fe-inbox fs-24 text-gray"></i>'+
+           					'</div>'+
+           					'<div style="text-align:center" class="text-gray mt-2">'+
+           					'No data yet, please select address.'+
+           					'</div>'+
+           					'</div>';
+           		tag.innerHTML = text;*/
+           		$("#address-list .no-data").show();
+           		 } 
 }	
 function deleteAddressData(id,currentEl){
 	console.log(id);
 	console.log(currentEl.parentNode.parentNode.parentNode);
-	$.ajax({
-		url:"deleteQuoteAddress",
-		method:"POST",
-		type:"JSON",
-		data:{
-			"id":id
-		},
-		success:function(data){
-			console.log(data);
-			currentEl.parentNode.parentNode.parentNode.remove();
-			if(document.getElementById("address-ul").getElementsByTagName("li").length == 0){
-				$("#address-list .no-data").show();
-			}
-		}
-	})
+	Swal.fire({
+        title: 'Are you sure?',
+        text: "You will be deleting this Address!",
+        icon: 'error',
+        showDenyButton: true,
+        denyButtonText: 'Cancel',
+        confirmButtonText: 'Confirm',
+        reverseButtons: true,
+    }).then((result) => {
+            if (result.isConfirmed) { 
+            	/*$.ajax({
+            		url:"deleteQuoteAddress",
+            		method:"POST",
+            		type:"JSON",
+            		data:{
+            			"id":id
+            		},
+            		success:function(data){
+            			console.log(data);
+            			currentEl.parentNode.parentNode.parentNode.remove();
+            			if(document.getElementById("address-ul").getElementsByTagName("li").length == 0){
+            				$("#address-list .no-data").show();
+            			}
+            		}
+            	})*/
+            }
+            else if (result.isDenied) {
+                return false;
+            } 
+  }); 
 }
 
 
@@ -1095,7 +1147,9 @@ function selectAddress(){
 	//console.log(ul);
 	$('#getAddress tr').each(function() {
 		$(this).find(".checkbox-tick:checked").each(function() {
-			let values = { 'address_name' :  $(this).closest("tr").find('td.name').text(),'address_detail' :  $(this).closest("tr").find('td.address').text() }
+			let values = { 'address_name' :  $(this).closest("tr").find('td.name').text(),'address_detail' :  $(this).closest("tr").find('td.address').text(),
+					       'quotation_address_id':$(this).closest("tr").find('input.quotation_address_id').val() == undefined?"":$(this).closest("tr").find('input.quotation_address_id').val(),
+					       'company_address_id':$(this).closest("tr").find('input.company_address_id').val()}
 			getAddressList.push(values);
 		});
 	});
@@ -1111,36 +1165,48 @@ function selectAddress(){
 		  
 	  }else{
 		  for(let i = 0; i < getAddressList.length; i++){
-				text +=  '<li class="list-group-item animate ">'+
+				text +=  '<li class="list-group-item animate new_li">'+
 		               '<div class="row">'+
-		               '<div class="col-sm-6 col-md-3 data_address_name">'+
+		               '<div class="col-sm-6 col-md-3 data_address_name new_address_name">'+
 		                getAddressList[i].address_name + 
 		                '</div>'+
-		                '<div class="col-sm-6 col-md-8 data_address_detail" >'+
+		                '<div class="col-sm-6 col-md-8 data_address_detail new_address_detail" >'+
 		                   getAddressList[i].address_detail +
 		                '</div>'+
 		                '<div class="col-sm-6 col-md-1" style="text-align:right;">'+
 		                '<button class="btn text-danger btn-sm" onclick="DeleteAddress(this)" data-bs-toggle="tooltip" data-bs-original-title="Delete">'+
-		                '<span class="fe fe-trash-2 fs-14"></span></button>'+
+		                '<span class="fe fe-trash-2 fs-18"></span></button>'+
 		                '</div>'+
 		                '<div class="col-sm-6 col-md-3 mt-4">'+
 		                '<label class="custom-control custom-checkbox">'+
-		                '<input type="checkbox" class="custom-control-input check_address" name="example-checkbox5" value="'+i+'" onchange="check_address(this)">'+
+		                '<input type="checkbox" class="custom-control-input check_address new_check_address" name="example-checkbox5" value="'+i+'" onchange="check_address(this);removeInvalidCheckBox()">'+
 		                '<span class="custom-control-label">Delivery Address</span>'+
+		                '<small class="invalid-feedback invalid-check-address" style="display:none" id="">Please select a valid delivery address</small>'+
 		                '</label>'+
 		                '</div>'+
 		                '</div>'+
+		                '<input type="hidden" class="data_quotation_address_id" value="'+getAddressList[i].quotation_address_id+'">'+
+		                '<input type="hidden" class="data_company_address_id" value="'+getAddressList[i].company_address_id+'">'+
 		                '</li>';
 			}
 			//ul = ul + ul_end;
 			//console.log(ul);
 			$("#address-list .no-data").hide();
+			//$("#address-ul").append(text);
 			body.innerHTML = text;
 			$("#test-ul").show();
 	  }
-	
-	
 }
+
+function removeInvalidCheckBox(){
+	//const checkbox = document.querySelector(".check_address");
+	if($(".check_address").is(':checked')==true){
+		$(".check_address").removeClass("is-invalid");
+	}else{
+		$(".check_address").addClass("is-invalid");
+	}
+}
+
 function check_address(el){
 	/*console.log("fff");
 	console.log(el)*/;
@@ -1153,16 +1219,17 @@ function check_address(el){
 	});*/
 
 /*-------------------generate table Customer Address in Modal------------------------*/
- function generateCustomerAddressTable(companyId){
+ function generateCustomerAddressTable(companyId,quote_id){
 	console.log("generateCustomerAddressTable: "+companyId);
 	const addressTable = document.getElementById('getAddress');
 	$("#address-ul li").remove();
 	$.ajax({
-		url:"listofAddressCompany",
+		url:"listcheckQuotationAddress",
 		method:"POST",
 		type:"JSON",
 		data:{
-			"company_id":companyId
+			"company_id":companyId,
+			"quotation_id":quote_id
 		},
 		success:function(data){
 			console.log(data);
@@ -1177,11 +1244,33 @@ function check_address(el){
 							'</td>'+
 							'<td class="name">'+data[i].address_name+'</td>'+
 							'<td class="address">'+data[i].address+'</td>'+
+							//'<input type="hidden" value="'+data[i].quotation_address_id+'"class="quotation_address_id">'+
+							'<input type="hidden" class="company_address_id" value="'+data[i].company_address_id+'">'+
 							'</tr>';
 			}
 			addressTable.innerHTML = bodyHtml;
 		}
 	})
+}
+	
+function generateSaleOption(companyId){
+		const select = document.getElementById('salesperson');
+		$.ajax({
+			url:"listcompanySales",
+			method:"POST",
+			type:"JSON",
+			data:{
+				"id":companyId
+			},
+			success:function(data){
+				console.log(data);
+				let option = '<option value="" selected>Select Sale</option>';
+				for(var i = 0;i < data.length;i++){
+					option += '<option value="'+data[i].employee_id+'">'+data[i].employee_id+'&nbsp;-&nbsp;'+data[i].title_name_en+'&nbsp;'+data[i].name_en+'</option>';
+				}
+				select.innerHTML = option;
+			}
+		})
 }
 </script>
 <script>
@@ -1252,10 +1341,14 @@ function getCustomerAddressData(){
 	console.log($('.check_address').is(':checked'));
 	let getDataAddressList = [];
 	if($('.check_address').is(':checked') == false){
-		
+		$(".check_address").addClass("is-invalid");
+		$(".invalid-check-address").show();
 	}else{
+		$(".check_address").removeClass("is-invalid");
 	$('#address-ul li').each(function() {
 			let values = { 'address_name' :$(this).find('div.data_address_name').text(),'address_detail' :$(this).find('div.data_address_detail').text(),
+							'quotation_address_id':$(this).find('input.data_quotation_address_id').val() == undefined? "":$(this).find('input.data_quotation_address_id').val(),
+							'company_address_id':$(this).find('input.data_company_address_id').val(),
 					        'delivery_address':$(this).find('input.check_address:checked').val() == undefined? "0":"1"}
 			getDataAddressList.push(values);
 	});
@@ -1308,7 +1401,7 @@ function getOrderData(){
 		}if($(this).find('input.price input.many input.price').val() != ''){
 			let values = {'product_name':$(this).find('input.product_name').val(),'description':$(this).find('textarea.description').val(),
 				       'quantity':$(this).find('input.many').val(),'unit_price':$(this).find('input.price').val(),
-				       'total':$(this).find('input.sum').val()}
+				       'total':$(this).find('input.sum').val(),'order_id':$(this).find('input.order_id').val() == undefined?"":$(this).find('input.order_id').val()}
 			 getOrderList.push(values);
 		}
 		
@@ -1332,9 +1425,11 @@ function getOrderData(){
 	    customer = $(this).attr('value');
 	    companyId = $(this).attr('data-id');
 	    companyTax = $(this).attr('data-tax');
-	    //console.log(companyId);
+	    quote_id = $(this).attr('data-quote-id');
+	    console.log(quote_id);
 	    //console.log(companyTax);
-	    generateCustomerAddressTable(companyId);
+	    generateSaleOption(companyId);
+	    generateCustomerAddressTable(companyId,quote_id);
 	    $("#customer").val(customer);
 	    $("#taxID").val(companyTax);
 	    $("#taxID").removeClass("invalid");
@@ -1384,7 +1479,7 @@ function onchangeSelect2(){
     				 $("#email").val(data.email);
     				 $("#email").removeClass("invalid");
     				 $("#email").removeClass("valid");
-    				 $("#phone1").val(data.phone);
+    				 $("#phone1").val(phoneFormat(data.phone));
     				 $("#phone1").removeClass("invalid");
     				 $("#phone1").removeClass("valid");
     			 }
@@ -1392,7 +1487,27 @@ function onchangeSelect2(){
     	 });
     });
 }
- 
+function contactChange(){
+	var id = $("#contact").val();
+	console.log("contact change: "+id);
+	$.ajax({
+		 url:"findDataContact",
+		 method:"POST",
+		 type:"JSON",
+		 data:{
+			 "contact_id":id
+		 },
+		 success:function(data){
+			 console.log(data);
+			 $("#email").val(data.email);
+			 $("#email").removeClass("invalid");
+			 $("#email").removeClass("valid");
+			 $("#phone1").val(phoneFormat(data.phone));
+			 $("#phone1").removeClass("invalid");
+			 $("#phone1").removeClass("valid");
+		 }
+	 })
+} 
 
 		
  $("#quID").on("keyup",function(){
@@ -1407,6 +1522,7 @@ function onchangeSelect2(){
 	// console.log("change");
 		$("#start").removeClass("invalid");
 		$("#start").removeClass("valid");
+		$("#invalid-create-date").hide();
 		if($("#start").val()==''){
 			$("#start").removeClass("valid");
 			$("#start").removeClass("invalid");
@@ -1417,6 +1533,7 @@ function onchangeSelect2(){
 	// console.log("change");
 		$("#end").removeClass("invalid");
 		$("#end").removeClass("valid");
+		$("#invalid-due-date").hide();
 		if($("#end").val()==''){
 			$("#end").removeClass("valid");
 			$("#end").removeClass("invalid");
@@ -1434,6 +1551,7 @@ function onchangeSelect2(){
 		//console.log("ww00");
 		$("#customer").removeClass("invalid");
 		$("#customer").removeClass("valid");
+		$("#invalid-customer-name").hide();
 		if($("#customer").val()==''){
 			$("#customer").removeClass("valid");
 			$("#customer").removeClass("invalid");
@@ -1458,6 +1576,7 @@ function onchangeSelect2(){
 	$("#email").on("keyup",function(){
 		$("#email").removeClass("invalid");
 		$("#email").removeClass("valid");
+		$("#invalid-email").hide();
 		if($("#email").val()==''){
 			$("#email").removeClass("valid");
 			$("#email").removeClass("invalid");
@@ -1466,16 +1585,55 @@ function onchangeSelect2(){
 	$("#phone1").on("keyup",function(){
 		$("#phone1").removeClass("invalid");
 		$("#phone1").removeClass("valid");
+		$("#invalid-phone").hide();
 		if($("#phone1").val()==''){
 			$("#phone1").removeClass("valid");
 			$("#phone1").removeClass("invalid");
 		}
 	});
 
+function checkDuplicateId(){
+		var id = $("#quID").val();
+		if(id!=""){
+			$.ajax({
+				url:"checkDuplicateId",
+				method:"POST",
+				type:"JSON",
+				data:{
+					"id":id
+				},
+				success:function(data){
+					console.log(data);
+					if (data.toString().indexOf("1") != -1) {
+						$("#pass").hide();
+						$("#error").show();
+						$("#empty").hide();
+						//$(':input[type="submit"]').prop('disabled', true);
+						$("#quID").addClass("invalid");
+						$("#quID").removeClass("valid");
+					}
+					 else {
+						$("#pass").show();
+						$("#error").hide();
+						$("#empty").hide();
+						//$(':input[type="submit"]').prop('disabled', false);
+						$("#quID").addClass("valid");
+						$("#quID").removeClass("invalid");
+					}
+				}
+			})
+		}else{
+			$("#pass").hide();
+			$("#error").hide();
+			$("#empty").show();
+			//$(':input[type="submit"]').prop('disabled', false);
+			$("#quID").removeClass("invalid");
+			$("#quID").removeClass("valid");
+		}
+}
  
  
- 
- function send_data(){
+ function send_data(value){
 	var id = $("#quID").val();  console.log("quotationID: "+id);
 	if(id ==''){
 		$("#quID").addClass("invalid");
@@ -1487,25 +1645,31 @@ function onchangeSelect2(){
 	var start = $("#start").val();  console.log('start: '+start);
 	if(start ==''){
 		$("#start").addClass("invalid");
+		$("#invalid-create-date").show();
 	}else{
 		$("#start").removeClass("invalid");
 		$("#start").removeClass("valid");
+		$("#invalid-create-date").hide();
 	}
 	
 	var end = $("#end").val();  console.log("end: "+end);
 	if(end ==''){
 		$("#end").addClass("invalid");
+		$("#invalid-due-date").show();
 	}else{
 		$("#end").removeClass("invalid");
 		$("#end").removeClass("valid");
+		$("#invalid-due-date").hide();
 	}
 	
 	var tax = $("#taxID").val();  console.log("tax: "+tax);
 	if(tax ==''){
 		$("#taxID").addClass("invalid");
+		$("#invalid-taxID").show();
 	}else{
 		$("#taxID").removeClass("invalid");
 		$("#taxID").removeClass("valid");
+		$("#invalid-taxID").hide();
 	}
 	
 	var contact = $("#contact").val();  console.log("contact: "+contact);
@@ -1521,17 +1685,21 @@ function onchangeSelect2(){
 	var email = $("#email").val();  console.log("email: "+email);
 	if(email ==''){
 		$("#email").addClass("invalid");
+		$("#invalid-email").show();
 	}else{
 		$("#email").removeClass("invalid");
 		$("#email").removeClass("valid");
+		$("#invalid-email").hide();
 	}
 	
 	var phone1 = $("#phone1").val();  console.log("phone1: "+phone1);
 	if(phone1 ==''){
 		$("#phone1").addClass("invalid");
+		$("#invalid-phone").show();
 	}else{
 		$("#phone1").removeClass("invalid");
 		$("#phone1").removeClass("valid");
+		$("#invalid-phone").hide();
 	}
 	
 	var phone2 = $("#phone2").val();  console.log("phone2: "+phone2);
@@ -1539,9 +1707,11 @@ function onchangeSelect2(){
 	var customer = $("#customer").val();  console.log("customer: "+customer);
 	if(customer ==''){
 		$("#customer").addClass("invalid");
+		$("#invalid-customer-name").show();
 	}else{
 		$("#customer").removeClass("invalid");
 		$("#customer").removeClass("valid");
+		$("#invalid-customer-name").hide();
 	}
 	var salesperson = $("#salesperson").val();  console.log("salesperson: "+salesperson);
 	if(salesperson ==''){
@@ -1574,164 +1744,61 @@ function onchangeSelect2(){
 	var grand_total = $("#grand_total").val();  console.log("grand_total: "+grand_total);
 	var check = findInvalid(); console.log(check);
 	if(check){
-		console.log("pass");
-		$.ajax({
-			url:"saveQuotation",
-			type:"JSON",
-			method:"POST",
-			data:{
-				"id":id,
-				"start":start,
-				"end":end,
-				"tax":tax,
-				"company_id":company_id,
-				"contact":contact,
-				"email":email,
-				"phone1":phone1,
-				"phone2":phone2,
-				"customer":customer,
-				"salesperson":salesperson,
-				"orderList":JSON.stringify(order),
-				//"saleList":JSON.stringify(sale),
-				"addressList":JSON.stringify(address),
-				"description":description,
-				"sub_total":sub_total,
-				"dc_percent":dc_percent,
-				"discount":discount,
-				"additional_discount":additional_discount,
-				"tax_type":tax_type,
-				"vat":vat,
-				"total_vat":total_vat,
-				"grand_total":grand_total,
-				"status":"1"
-			},
-			success:function(data){
-				console.log(data);
-				swal({
-	                title: "SUCCESS",
-	                text: "Your information has been succesfully save",
-	                type: "success",
-	        }, function(inputValue) {
-	            if (inputValue != "") {
-	            }
-	            document.location = "quotation_list";
-	        }
-	        )}
-		})
-	}else{
-		console.log("invalid");
-		swal({
-	          title: "กรอกข้อมูลไม่ครบ!",
-	          text: "กรุณากรอกข้อมูลให้ครบถ้วน",
-	          type: "warning",
-	          confirmButtonClass: 'btn-primary',
-	          confirmButtonText: 'OK'
-	      });
-	}
-	
-}
-function send_approve(){
-		var id = $("#quID").val();  console.log("quotationID: "+id);
-		if(id ==''){
-			$("#quID").addClass("invalid");
+		if(value=='2'){
+			Swal.fire({
+		        title: 'Are you sure?',
+		        text: 'Would you like to send approve?',
+		        icon: 'warning',
+		        showDenyButton: true,
+		        denyButtonText: `Cancel`,
+		        confirmButtonText: 'Confirm',
+		        reverseButtons: true,
+		      }).then((result) => {
+		        /// Read more about isConfirmed, isDenied below
+		            if (result.isConfirmed) {
+		            	$.ajax({
+		        			url:"updateQuotation",
+		        			type:"JSON",
+		        			method:"POST",
+		        			data:{
+		        				"id":id,
+		        				"start":start,
+		        				"end":end,
+		        				"tax":tax,
+		        				"company_id":company_id,
+		        				"contact":contact,
+		        				"email":email,
+		        				"phone1":phone1,
+		        				"phone2":phone2,
+		        				"customer":customer,
+		        				"salesperson":salesperson,
+		        				"orderList":JSON.stringify(order),
+		        				//"saleList":JSON.stringify(sale),
+		        				"addressList":JSON.stringify(address),
+		        				"description":description,
+		        				"sub_total":sub_total,
+		        				"dc_percent":dc_percent,
+		        				"discount":discount,
+		        				"additional_discount":additional_discount,
+		        				"tax_type":tax_type,
+		        				"vat":vat,
+		        				"total_vat":total_vat,
+		        				"grand_total":grand_total,
+		        				"status":value
+		        			},
+		        			success:function(data){
+		        				console.log(data);
+		        	            document.location = "quotation_list";
+		        	        }
+		        		})
+		            } 
+		            else if (result.isDenied) {
+		                
+		            }
+		  })
 		}else{
-			$("#quID").removeClass("invalid");
-			$("#quID").addClass("valid");
-			
-		}
-		var start = $("#start").val();  console.log('start: '+start);
-		if(start ==''){
-			$("#start").addClass("invalid");
-		}else{
-			$("#start").removeClass("invalid");
-			$("#start").removeClass("valid");
-		}
-		
-		var end = $("#end").val();  console.log("end: "+end);
-		if(end ==''){
-			$("#end").addClass("invalid");
-		}else{
-			$("#end").removeClass("invalid");
-			$("#end").removeClass("valid");
-		}
-		
-		var tax = $("#taxID").val();  console.log("tax: "+tax);
-		if(tax ==''){
-			$("#taxID").addClass("invalid");
-		}else{
-			$("#taxID").removeClass("invalid");
-			$("#taxID").removeClass("valid");
-		}
-		
-		var contact = $("#contact").val();  console.log("contact: "+contact);
-		if(contact =='' || contact == null){
-			$("#contact").addClass("invalid");
-			$("#invalid-contact-name").show();
-		}else{
-			$("#contact").removeClass("invalid");
-			$("#contact").removeClass("valid");
-			$("#invalid-contact-name").hide();
-		}
-		
-		var email = $("#email").val();  console.log("email: "+email);
-		if(email ==''){
-			$("#email").addClass("invalid");
-		}else{
-			$("#email").removeClass("invalid");
-			$("#email").removeClass("valid");
-		}
-		
-		var phone1 = $("#phone1").val();  console.log("phone1: "+phone1);
-		if(phone1 ==''){
-			$("#phone1").addClass("invalid");
-		}else{
-			$("#phone1").removeClass("invalid");
-			$("#phone1").removeClass("valid");
-		}
-		
-		var phone2 = $("#phone2").val();  console.log("phone2: "+phone2);
-
-		var customer = $("#customer").val();  console.log("customer: "+customer);
-		if(customer ==''){
-			$("#customer").addClass("invalid");
-		}else{
-			$("#customer").removeClass("invalid");
-			$("#customer").removeClass("valid");
-		}
-		var salesperson = $("#salesperson").val();  console.log("salesperson: "+salesperson);
-		if(salesperson ==''){
-			$("#invalid-salesperson").show();
-			$("#salesperson").addClass("invalid");
-		}else{
-			$("#salesperson").removeClass("invalid");
-			$("#invalid-salesperson").hide();
-		}
-		
-		var company_id = $("#companyID").val();   console.log("company_id: "+company_id);
-		var order = getOrderData();  console.log(order);
-		//var sale = getSaleData();  console.log(sale); 
-		
-		var address = getCustomerAddressData();  console.log(address);
-		if(address.length == 0){
-			//console.log("address is empty");
-			$("#nodata").addClass("req");
-		}else{
-			$("#nodata").removeClass("req");
-		}
-		var description = $("#description").val();  console.log("description: "+description);
-		var sub_total = $("#sub-total").val();  console.log("sub_total: "+sub_total);
-		var dc_percent = $("#dc-percent").val();  console.log("dc_percent: "+dc_percent);
-		var discount = $("#discount").val();  console.log("discount: "+discount);
-		var additional_discount = $("#additional_discount").val();  console.log("additional_discount: "+additional_discount);
-		var tax_type = $("#inputGroupSelect01").val();  console.log("tax_type: "+tax_type);
-		var vat = $("#VAT").val();  console.log("vat: "+vat);
-		var total_vat = $("#totalVAT").val();  console.log("total_vat: "+total_vat);
-		var grand_total = $("#grand_total").val();  console.log("grand_total: "+grand_total);
-		var check = findInvalid(); console.log(check);
-		if(check){
-			console.log("pass");
 			$.ajax({
-				url:"sendApproveQuotation",
+				url:"updateQuotation",
 				type:"JSON",
 				method:"POST",
 				data:{
@@ -1758,33 +1825,27 @@ function send_approve(){
 					"vat":vat,
 					"total_vat":total_vat,
 					"grand_total":grand_total,
-					"status":"2"
+					"status":value
 				},
 				success:function(data){
 					console.log(data);
-					swal({
-		                title: "SUCCESS",
-		                text: "Your information has been succesfully save",
-		                type: "success",
-		        }, function(inputValue) {
-		            if (inputValue != "") {
-		            }
 		            document.location = "quotation_list";
 		        }
-		        )}
 			})
-		}else{
-			console.log("invalid");
-			swal({
-		          title: "กรอกข้อมูลไม่ครบ!",
-		          text: "กรุณากรอกข้อมูลให้ครบถ้วน",
-		          type: "warning",
-		          confirmButtonClass: 'btn-primary',
-		          confirmButtonText: 'OK'
-		      });
 		}
-		
+	}else{
+		console.log("invalid");
+		swal({
+	          title: "กรอกข้อมูลไม่ครบ!",
+	          text: "กรุณากรอกข้อมูลให้ครบถ้วน",
+	          type: "warning",
+	          confirmButtonClass: 'btn-primary',
+	          confirmButtonText: 'OK'
+	      });
 	}
+	
+}
+
  
 </script>
 <script>
@@ -1846,4 +1907,25 @@ $(document).ready(function(){
     }
     })
 })
+</script>
+<script>
+function cancelSwal(){
+	Swal.fire({
+        title: 'Are you sure?',
+        text: 'Would you like to cancel?',
+        icon: 'warning',
+        showDenyButton: true,
+        denyButtonText: `Cancel`,
+        confirmButtonText: 'Confirm',
+        reverseButtons: true,
+      }).then((result) => {
+        /// Read more about isConfirmed, isDenied below
+            if (result.isConfirmed) {
+                      window.location.href = "quotation_list";
+            } 
+            else if (result.isDenied) {
+                
+            }
+  })
+}
 </script>

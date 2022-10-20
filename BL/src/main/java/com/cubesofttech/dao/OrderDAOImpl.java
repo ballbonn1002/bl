@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cubesofttech.model.Order;
 import com.cubesofttech.model.Permission;
+import com.cubesofttech.model.Quotation_address;
 
 
 @Repository
@@ -109,6 +110,39 @@ public class OrderDAOImpl implements OrderDAO{
 			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
 			orderList = query.list();
 		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return orderList;
+	}
+
+	@Override
+	public Order findById(Integer id) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		Order orderList = null;
+        try {
+        	orderList = (Order) session.get(Order.class, id);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            //session.close();
+        }        
+        return orderList;
+	}
+
+	@Override
+	public List<Order> deleteById(List<Integer> orderId, String quoteId) throws Exception {
+		Session session = this.sessionFactory.getCurrentSession();
+		List<Order> orderList = null;
+		try {
+			String sql = "DELETE FROM quotation_order WHERE quotation_id='"+quoteId+"'";
+			for(int i = 0; i < orderId.size(); i++) {
+				sql += " AND order_id != '"+orderId.get(i)+"'";
+			}
+			SQLQuery query = session.createSQLQuery(sql);
+			query.setResultTransformer(AliasToEntityMapResultTransformer.INSTANCE);
+			query.executeUpdate();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return orderList;
