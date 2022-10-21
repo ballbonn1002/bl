@@ -86,15 +86,15 @@ tr{
            		<input style="display:none;" type="text" class="form-control" id="company_ID" name="company_ID" value="${company[0].company_id}">
            		<input style="display:none;" type="text" class="form-control" name="file_ID" id="file_ID" value="${company[0].file_id}">
     		</div>
-
-    	<div class="col-sm-6 " style="margin-top:30px">
+<hr><hr>
+    	<div class="col-sm-6 ">
 			<div class="form-group">
 					<label class="form-label">Company Code<span style="color:red;"> *</span></label> 
 						<input type="text" class="form-control" name="code" value="${company[0].company_code}" required>
 						<div class="invalid-feedback">Don't leave this blank.</div>  
               </div>
          </div>
-         <div class="col-sm-6 " style="margin-top:30px">
+         <div class="col-sm-6 ">
 			<div class="form-group">
 					<label class="form-label">Tax ID<span style="color:red;"> *</span></label> 
 						<input type="text" class="form-control" name="tax" value="${company[0].tax_number}"  
@@ -590,6 +590,7 @@ $('#fileUpload').bind('change', function() {
 		$("#invalid-address").hide();
 	});
 	$("#clear_contact").on('click',function(){
+		document.getElementById("wizard-picture").value = "";
 		$("#contact_name").removeClass("Valid");
 		$("#contact_name").removeClass("inValid");
 		$("#position").removeClass("Valid");

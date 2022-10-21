@@ -34,14 +34,15 @@
            		<input style="text-align:center;"  name="fileUpload" id="fileUpload" type="file" class="dropify" accept="image/x-png,image/gif,image/jpeg" data-max-width="1000"/>
            		<input style="display:none;" id="filesize" name="filesize" type="text" value="">
     		</div>
-    	<div class="col-sm-6 " style="margin-top:30px">
+    		<hr><hr>
+    	<div class="col-sm-6 ">
 			<div class="form-group">
 					<label  class="form-label">Company Code<span style="color:red;"> *</span></label> 
 					<input type="text" id="code" class="form-control" name="code" required>  
 					<div class="invalid-feedback">Don't leave this blank.</div>
               </div>
          </div>
-         <div class="col-sm-6 " style="margin-top:30px">
+         <div class="col-sm-6 ">
 			<div class="form-group">
 					<label class="form-label">Tax ID<span style="color:red;"> *</span></label> 
 					<input type="text" class="form-control" name="tax" id="tax" pattern="^[0-9\s]{13}" 
