@@ -326,13 +326,14 @@ tr{
                 		<div class="form-group" style="display:none">
 							<input type="text" class="form-control" name="company_ID" id="com_id_contact" value="${company[0].company_id}">   
              			</div>
-             			<div class="text-wrap picture" style="text-align:center;">
-             				<span class="avatar avatar-xxl brround cover-image"><img id="wizardPicturePreview" class="avatar avatar-xxl brround">
-                        	<span class="badge rounded-pill avatar-icons bg-primary"><i class="fe fe-edit fs-12"></i></span>
-                        	 <input type="file" id="wizard-picture" name="fileUpload" class="img-fluid" accept="image/x-png,image/gif,image/jpeg">
-                        	</span>
-                        	<input style="display:none;" id="fileSize" name="filesize" type="text" value="">
+             			<div class="text-center mb-4">
+             				<a href="javascript:void(0)" class="avatar avatar-xxl brround cover-image" >
+                                  <img alt="" class="avatar avatar-xxl brround cover-image"  id="avatar"> 
+                                  <span class="badge rounded-pill avatar-icons bg-primary"><i class="fe fe-edit fs-12"></i></span> 
+                             </a>
                         </div>
+                        <input style="display:none;" type="file" id="wizard-picture" name="fileUpload" accept="image/x-png,image/gif,image/jpeg" data-max-width="1000">
+                        <input style="display:none;" id="fileSize" name="filesize" type="text" value="">
                         <div class="col-sm-12">
              			<label class="form-label">Contact Name<span style="color:red;"> *</span></label> 
                              <div class="form-group">
@@ -437,12 +438,12 @@ tr{
         </div>
     </div>
 <script>
-$('#wizard-picture').bind('change', function() {
+/*$('#wizard-picture').bind('change', function() {
 	 var fs;
 	 var size = this.files[0].size;
 	 fs = $("#fileSize").val(size);
 	 console.log(fs);
-})
+})*/
 </script>  
 <script>
 var drEvent = $('.dropify-event').dropify();
@@ -868,7 +869,7 @@ $('#myTable tr').each(function() {
 }
 </script>
 <script>
-	$("#wizard-picture").change(function(){
+/*	$("#wizard-picture").change(function(){
 	   readURL(this);
 	});
 	function readURL(input) {
@@ -880,7 +881,30 @@ $('#myTable tr').each(function() {
 	        }
 	        reader.readAsDataURL(input.files[0]);
 	    }
-	}
+	} */
+	function readURL(input) {
+		  if (input.files && input.files[0]) {
+		    var reader = new FileReader();
+		    reader.onload = function(e) {
+		      $('#avatar').attr('src', e.target.result);
+		    }
+		    reader.readAsDataURL(input.files[0]);
+		  } else {
+		   
+		  }
+		} 
+	$('#wizard-picture').on('change', function() {
+		 var fs;
+		 var size = this.files[0].size;
+		 fs = $("#fileSize").val(size);
+		 console.log(fs);
+		 readURL(this);
+	})
+	$("#avatar").click(function(e){
+		 e.preventDefault();
+		 console.log('clicked')
+	   $('#wizard-picture').trigger('click');
+	 });
 </script>
 <script>
 document.getElementById('con_phone').addEventListener('keyup',function(evt){
