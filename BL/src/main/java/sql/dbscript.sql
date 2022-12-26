@@ -250,3 +250,49 @@ ALTER TABLE status RENAME TO doc_status;
 ALTER TABLE `doc_status` 
 CHANGE COLUMN `status_id` `doc_status_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci  NOT NULL ;
 
+-- 26/12/2022 Frame Create Table invoice
+CREATE TABLE `Invoice` (
+  `invoice_id` varchar(32) NOT NULL,
+  `quotation_id` varchar(32) NOT NULL,
+  `file_id` bigint(32) NOT NULL,
+  `doc_status_id` varchar(8) NOT NULL,
+  `invoice__doc_id` varchar(32) NOT NULL,
+  `invoice_name` varchar(64) NOT NULL,
+  `revision` varchar(8) NOT NULL,
+  `create_date` datetime NOT NULL,
+  `credit_term_day` datetime DEFAULT NULL,
+  `due_date` datetime NOT NULL,
+  `description` varchar(1024) DEFAULT NULL,
+  `payment` varchar(32) DEFAULT NULL,
+  `user_approved` varchar(32) NOT NULL,
+  `approved_date` date NOT NULL,
+  `reason` varchar(1024) NOT NULL,
+  `user_create` varchar(32) DEFAULT NULL,
+  `user_update` varchar(32) DEFAULT NULL,
+  `time_create` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `time_update` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`invoice_id`),
+  KEY `fk_file_id_id` (`file_id`),
+  KEY `fk_doc_status_id` (`doc_status_id`),
+  KEY `fk_quotation_id` (`quotation_id`),
+  CONSTRAINT `fk_doc_status_id` FOREIGN KEY (`doc_status_id`) REFERENCES `doc_status` (`doc_status_id`),
+  CONSTRAINT `fk_file_id` FOREIGN KEY (`file_id`) REFERENCES `file` (`file_id`),
+  CONSTRAINT `fk_quotation_id` FOREIGN KEY (`quotation_id`) REFERENCES `quotation` (`quotation_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- 26/12/2022 Frame Create Table invoice_status
+CREATE TABLE `Invoice_status` (
+  `invoice_status_id` varchar(32) NOT NULL,
+  `invoice_id` varchar(32) NOT NULL,
+  `invoice__doc_id` varchar(32) NOT NULL,
+  `status` varchar(8) NOT NULL,
+  `description` varchar(1024) DEFAULT NULL,
+  `user_create` varchar(32) DEFAULT NULL,
+  `user_update` varchar(32) DEFAULT NULL,
+  `time_create` timestamp NULL DEFAULT NULL,
+  `time_update` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`invoice_status_id`),
+  KEY `fk_invoice_id_id` (`invoice_id`),
+  CONSTRAINT `fk_invoice_id` FOREIGN KEY (`invoice_id`) REFERENCES `Invoice` (`invoice_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
