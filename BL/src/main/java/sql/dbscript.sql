@@ -240,9 +240,13 @@ ALTER TABLE `employee` CHANGE `image` `file_id` VARCHAR(32) CHARACTER SET utf8 C
 ALTER TABLE `sys_user` CHANGE `image` `file_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
 
 --26/12/2565 Frame add columns
-ALTER TABLE `quotation` ADD `quotation_sale_id` VARCHAR(32) NOT NULL AFTER `company_id`, 
-ADD `doc_status_id` VARCHAR(32) NOT NULL AFTER `quotation_sale_id`, 
-ADD `quotation_doc_id` VARCHAR(1024) NOT NULL AFTER `doc_status_id`, 
-ADD `revision` VARCHAR(8) NOT NULL AFTER `quotation_doc_id`;
--- 26/12/2022 Frame change Table name
-ALTER TABLE status RENAME TO doc_status
+ALTER TABLE `quotation` ADD `quotation_sale_id` VARCHAR(32)  CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `company_id`, 
+ADD `doc_status_id` VARCHAR(32)  CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `quotation_sale_id`, 
+ADD `quotation_doc_id` VARCHAR(1024)  CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `doc_status_id`, 
+ADD `revision` VARCHAR(8)  CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `quotation_doc_id`;
+
+-- 26/12/2022 Frame change Table name and field status_id to doc_status_id 
+ALTER TABLE status RENAME TO doc_status;
+ALTER TABLE `doc_status` 
+CHANGE COLUMN `status_id` `doc_status_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci  NOT NULL ;
+
