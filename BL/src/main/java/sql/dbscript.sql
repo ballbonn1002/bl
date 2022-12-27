@@ -296,3 +296,43 @@ CREATE TABLE `Invoice_status` (
   KEY `fk_invoice_id_id` (`invoice_id`),
   CONSTRAINT `fk_invoice_id` FOREIGN KEY (`invoice_id`) REFERENCES `Invoice` (`invoice_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- 27/12/2022 Not Create Table Receipt
+CREATE TABLE `receipt` (
+  `receipt_id` varchar(32) NOT NULL,
+  `invoice_id` varchar(32) NOT NULL,
+  `doc_status_id` varchar(8) NOT NULL,
+  `receipt_name` varchar(1024) NOT NULL,
+  `receipt_date` datetime DEFAULT NULL,
+  `description` varchar(1024) DEFAULT NULL,
+  `user_create` varchar(32) DEFAULT NULL,
+  `user_update` varchar(32) DEFAULT NULL,
+  `time_create` timestamp NULL DEFAULT NULL,
+  `time_update` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`receipt_id`),
+  CONSTRAINT `fk_doc_status_id_id` FOREIGN KEY (`doc_status_id`) REFERENCES `doc_status` (`doc_status_id`),
+  CONSTRAINT `fk_invoice_id_id` FOREIGN KEY (`invoice_id`) REFERENCES `invoice` (`invoice_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- 27/12/2022 Not Create Table Payment
+CREATE TABLE `payment` (
+  `payment_id` varchar(32) NOT NULL,
+  `receipt_id` varchar(32) NOT NULL,
+  `file_id` bigint(32) DEFAULT NULL,
+  `bank_name` varchar(1024) NOT NULL,
+  `bank_number` varchar(12) NOT NULL,
+  `payment_date` date NOT NULL,
+  `payment_time` char(5) NOT NULL,
+  `payment_amount` decimal(10,2) NOT NULL,
+  `payment_ref` varchar(32) DEFAULT NULL,
+  `description` varchar(1024) DEFAULT NULL,
+  `user_create` varchar(32) DEFAULT NULL,
+  `user_update` varchar(32) DEFAULT NULL,
+  `time_create` timestamp NULL DEFAULT NULL,
+  `time_update` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`payment_id`),
+  CONSTRAINT `fk_file_id_id` FOREIGN KEY (`file_id`) REFERENCES `file` (`file_id`),
+  CONSTRAINT `fk_receipt_id` FOREIGN KEY (`receipt_id`) REFERENCES `receipt` (`receipt_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
