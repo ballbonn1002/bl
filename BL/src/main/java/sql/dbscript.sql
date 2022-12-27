@@ -336,3 +336,41 @@ CREATE TABLE `payment` (
   CONSTRAINT `fk_file_id_id` FOREIGN KEY (`file_id`) REFERENCES `file` (`file_id`),
   CONSTRAINT `fk_receipt_id` FOREIGN KEY (`receipt_id`) REFERENCES `receipt` (`receipt_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- 27/12/2022 Nan Create Table Billing
+CREATE TABLE `billing` (
+  `billing_id` VARCHAR(32) NOT NULL,
+  `invoice_id` VARCHAR(32) NOT NULL,
+  `receipt_id` VARCHAR(32) NOT NULL,
+  `Doc_status_id` VARCHAR(8) NOT NULL,
+  `billing_name` VARCHAR(1024) NOT NULL,
+  `billing_date` DATETIME NULL DEFAULT NULL,
+  `description` VARCHAR(1024) NULL DEFAULT NULL,
+  `user_create` VARCHAR(32) NULL DEFAULT NULL,
+  `user_update` VARCHAR(32) NULL DEFAULT NULL,
+  `time_create` TIMESTAMP NULL DEFAULT NULL,
+  `time_update` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`billing_id`),
+  INDEX `invoice_id` (`invoice_id`),
+  INDEX `receipt_id` (`receipt_id`),
+  CONSTRAINT `invoice_id_fk` FOREIGN KEY (`invoice_id`) REFERENCES `invoice` (`invoice_id`),
+  CONSTRAINT `receipt_id_fk` FOREIGN KEY (`receipt_id`) REFERENCES `receipt` (`receipt_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- 27/12/2022 Nan Create Table Quotation Status
+CREATE TABLE `quotation_status` (
+  `quotation_status_id` VARCHAR(32) NOT NULL,
+  `quotation_id` VARCHAR(32) NOT NULL,
+  `quotation__doc_id` VARCHAR(32) NOT NULL,
+  `status` VARCHAR(8) NOT NULL,
+  `description` VARCHAR(1024) NULL DEFAULT NULL,
+  `user_create` VARCHAR(32) NULL DEFAULT NULL,
+  `user_update` VARCHAR(32) NULL DEFAULT NULL,
+  `time_create` TIMESTAMP NULL DEFAULT NULL,
+  `time_update` TIMESTAMP NULL DEFAULT NULL,
+  PRIMARY KEY (`quotation_status_id`),
+  INDEX `quotation_id` (`quotation_id`),
+  CONSTRAINT `quotation_id_fk` FOREIGN KEY (`quotation_id`) REFERENCES `quotation` (`quotation_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
