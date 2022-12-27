@@ -252,103 +252,109 @@ CHANGE COLUMN `status_id` `doc_status_id` VARCHAR(32) CHARACTER SET utf8 COLLATE
 
 -- 26/12/2022 Frame Create Table invoice
 CREATE TABLE `Invoice` (
-  `invoice_id` varchar(32) NOT NULL,
-  `quotation_id` varchar(32) NOT NULL,
+  `invoice_id` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `quotation_id` varchar(32) CHARACTER SET utf8 NOT NULL,
   `file_id` bigint(32) NOT NULL,
-  `doc_status_id` varchar(8) NOT NULL,
-  `invoice__doc_id` varchar(32) NOT NULL,
-  `invoice_name` varchar(64) NOT NULL,
-  `revision` varchar(8) NOT NULL,
+  `doc_status_id` varchar(8) CHARACTER SET utf8 NOT NULL,
+  `invoice__doc_id` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `invoice_name` varchar(64) CHARACTER SET utf8 NOT NULL,
+  `revision` varchar(8) CHARACTER SET utf8 NOT NULL,
   `create_date` datetime NOT NULL,
   `credit_term_day` datetime DEFAULT NULL,
   `due_date` datetime NOT NULL,
-  `description` varchar(1024) DEFAULT NULL,
-  `payment` varchar(32) DEFAULT NULL,
-  `user_approved` varchar(32) NOT NULL,
+  `description` varchar(1024) CHARACTER SET utf8 DEFAULT NULL,
+  `payment` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
+  `user_approved` varchar(32) CHARACTER SET utf8 NOT NULL,
   `approved_date` date NOT NULL,
-  `reason` varchar(1024) NOT NULL,
-  `user_create` varchar(32) DEFAULT NULL,
-  `user_update` varchar(32) DEFAULT NULL,
-  `time_create` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `time_update` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `reason` varchar(1024) CHARACTER SET utf8 NOT NULL,
+  `user_create` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
+  `user_update` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
+  `time_create` timestamp NULL DEFAULT NULL,
+  `time_update` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`invoice_id`),
-  KEY `fk_file_id_id` (`file_id`),
-  KEY `fk_doc_status_id` (`doc_status_id`),
-  KEY `fk_quotation_id` (`quotation_id`),
+  KEY `fk_quotation_id_idx` (`quotation_id`),
+  KEY `fk_file_id_idx` (`file_id`),
+  KEY `fk_doc_status_id_idx` (`doc_status_id`),
   CONSTRAINT `fk_doc_status_id` FOREIGN KEY (`doc_status_id`) REFERENCES `doc_status` (`doc_status_id`),
   CONSTRAINT `fk_file_id` FOREIGN KEY (`file_id`) REFERENCES `file` (`file_id`),
   CONSTRAINT `fk_quotation_id` FOREIGN KEY (`quotation_id`) REFERENCES `quotation` (`quotation_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- 26/12/2022 Frame Create Table invoice_status
 CREATE TABLE `Invoice_status` (
-  `invoice_status_id` varchar(32) NOT NULL,
-  `invoice_id` varchar(32) NOT NULL,
-  `invoice__doc_id` varchar(32) NOT NULL,
-  `status` varchar(8) NOT NULL,
-  `description` varchar(1024) DEFAULT NULL,
-  `user_create` varchar(32) DEFAULT NULL,
-  `user_update` varchar(32) DEFAULT NULL,
+  `invoice_status_id` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `invoice_id` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `invoice__doc_id` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `status` varchar(8) CHARACTER SET utf8 NOT NULL,
+  `description` varchar(1024) CHARACTER SET utf8 DEFAULT NULL,
+  `user_create` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
+  `user_update` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
   `time_create` timestamp NULL DEFAULT NULL,
   `time_update` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`invoice_status_id`),
-  KEY `fk_invoice_id_id` (`invoice_id`),
+  KEY `fk_invoice_id_idx` (`invoice_id`),
   CONSTRAINT `fk_invoice_id` FOREIGN KEY (`invoice_id`) REFERENCES `Invoice` (`invoice_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 
 -- 27/12/2022 Not Create Table Receipt
 CREATE TABLE `receipt` (
-  `receipt_id` varchar(32) NOT NULL,
-  `invoice_id` varchar(32) NOT NULL,
-  `doc_status_id` varchar(8) NOT NULL,
-  `receipt_name` varchar(1024) NOT NULL,
+  `receipt_id` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `invoice_id` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `doc_status_id` varchar(8) CHARACTER SET utf8 NOT NULL,
+  `receipt_name` varchar(1024) CHARACTER SET utf8 NOT NULL,
   `receipt_date` datetime DEFAULT NULL,
-  `description` varchar(1024) DEFAULT NULL,
-  `user_create` varchar(32) DEFAULT NULL,
-  `user_update` varchar(32) DEFAULT NULL,
+  `description` varchar(1024) CHARACTER SET utf8 DEFAULT NULL,
+  `user_create` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
+  `user_update` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
   `time_create` timestamp NULL DEFAULT NULL,
   `time_update` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`receipt_id`),
+  KEY `fk_invoice_id_id_idx` (`invoice_id`),
+  KEY `fk_doc_status_id_id_idx` (`doc_status_id`),
   CONSTRAINT `fk_doc_status_id_id` FOREIGN KEY (`doc_status_id`) REFERENCES `doc_status` (`doc_status_id`),
-  CONSTRAINT `fk_invoice_id_id` FOREIGN KEY (`invoice_id`) REFERENCES `invoice` (`invoice_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `fk_invoice_id_id` FOREIGN KEY (`invoice_id`) REFERENCES `Invoice` (`invoice_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- 27/12/2022 Not Create Table Payment
 CREATE TABLE `payment` (
-  `payment_id` varchar(32) NOT NULL,
-  `receipt_id` varchar(32) NOT NULL,
+  `payment_id` varchar(32) CHARACTER SET utf8 NOT NULL,
+  `receipt_id` varchar(32) CHARACTER SET utf8 NOT NULL,
   `file_id` bigint(32) DEFAULT NULL,
-  `bank_name` varchar(1024) NOT NULL,
-  `bank_number` varchar(12) NOT NULL,
+  `bank_name` varchar(1024) CHARACTER SET utf8 NOT NULL,
+  `bank_number` varchar(12) CHARACTER SET utf8 NOT NULL,
   `payment_date` date NOT NULL,
-  `payment_time` char(5) NOT NULL,
+  `payment_time` char(5) CHARACTER SET utf8 NOT NULL,
   `payment_amount` decimal(10,2) NOT NULL,
-  `payment_ref` varchar(32) DEFAULT NULL,
-  `description` varchar(1024) DEFAULT NULL,
-  `user_create` varchar(32) DEFAULT NULL,
-  `user_update` varchar(32) DEFAULT NULL,
+  `payment_ref` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
+  `description` varchar(1024) CHARACTER SET utf8 DEFAULT NULL,
+  `user_create` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
+  `user_update` varchar(32) CHARACTER SET utf8 DEFAULT NULL,
   `time_create` timestamp NULL DEFAULT NULL,
   `time_update` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`payment_id`),
+  KEY `fk_file_id_id_idx` (`file_id`),
+  KEY `fk_receipt_id_idx` (`receipt_id`),
   CONSTRAINT `fk_file_id_id` FOREIGN KEY (`file_id`) REFERENCES `file` (`file_id`),
   CONSTRAINT `fk_receipt_id` FOREIGN KEY (`receipt_id`) REFERENCES `receipt` (`receipt_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 
 -- 27/12/2022 Nan Create Table Billing
 CREATE TABLE `billing` (
-  `billing_id` VARCHAR(32) NOT NULL,
-  `invoice_id` VARCHAR(32) NOT NULL,
-  `receipt_id` VARCHAR(32) NOT NULL,
-  `Doc_status_id` VARCHAR(8) NOT NULL,
-  `billing_name` VARCHAR(1024) NOT NULL,
+  `billing_id` VARCHAR(32) CHARACTER SET utf8 NOT NULL,
+  `invoice_id` VARCHAR(32) CHARACTER SET utf8 NOT NULL,
+  `receipt_id` VARCHAR(32) CHARACTER SET utf8 NOT NULL,
+  `Doc_status_id` VARCHAR(8) CHARACTER SET utf8 NOT NULL,
+  `billing_name` VARCHAR(1024) CHARACTER SET utf8 NOT NULL,
   `billing_date` DATETIME NULL DEFAULT NULL,
-  `description` VARCHAR(1024) NULL DEFAULT NULL,
-  `user_create` VARCHAR(32) NULL DEFAULT NULL,
-  `user_update` VARCHAR(32) NULL DEFAULT NULL,
+  `description` VARCHAR(1024)CHARACTER SET utf8 NULL DEFAULT NULL,
+  `user_create` VARCHAR(32)CHARACTER SET utf8 NULL DEFAULT NULL,
+  `user_update` VARCHAR(32) CHARACTER SET utf8 NULL DEFAULT NULL,
   `time_create` TIMESTAMP NULL DEFAULT NULL,
   `time_update` TIMESTAMP NULL DEFAULT NULL,
   PRIMARY KEY (`billing_id`),
@@ -356,21 +362,21 @@ CREATE TABLE `billing` (
   INDEX `receipt_id` (`receipt_id`),
   CONSTRAINT `invoice_id_fk` FOREIGN KEY (`invoice_id`) REFERENCES `invoice` (`invoice_id`),
   CONSTRAINT `receipt_id_fk` FOREIGN KEY (`receipt_id`) REFERENCES `receipt` (`receipt_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- 27/12/2022 Nan Create Table Quotation Status
 CREATE TABLE `quotation_status` (
-  `quotation_status_id` VARCHAR(32) NOT NULL,
-  `quotation_id` VARCHAR(32) NOT NULL,
-  `quotation__doc_id` VARCHAR(32) NOT NULL,
-  `status` VARCHAR(8) NOT NULL,
-  `description` VARCHAR(1024) NULL DEFAULT NULL,
-  `user_create` VARCHAR(32) NULL DEFAULT NULL,
-  `user_update` VARCHAR(32) NULL DEFAULT NULL,
+  `quotation_status_id` VARCHAR(32) CHARACTER SET utf8 NOT NULL,
+  `quotation_id` VARCHAR(32) CHARACTER SET utf8 NOT NULL,
+  `quotation__doc_id` VARCHAR(32) CHARACTER SET utf8 NOT NULL,
+  `status` VARCHAR(8) CHARACTER SET utf8 NOT NULL,
+  `description` VARCHAR(1024) CHARACTER SET utf8 NULL DEFAULT NULL,
+  `user_create` VARCHAR(32) CHARACTER SET utf8 NULL DEFAULT NULL,
+  `user_update` VARCHAR(32) CHARACTER SET utf8 NULL DEFAULT NULL,
   `time_create` TIMESTAMP NULL DEFAULT NULL,
   `time_update` TIMESTAMP NULL DEFAULT NULL,
   PRIMARY KEY (`quotation_status_id`),
   INDEX `quotation_id` (`quotation_id`),
   CONSTRAINT `quotation_id_fk` FOREIGN KEY (`quotation_id`) REFERENCES `quotation` (`quotation_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
