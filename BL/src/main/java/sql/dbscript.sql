@@ -251,7 +251,7 @@ ALTER TABLE `doc_status`
 CHANGE COLUMN `status_id` `doc_status_id` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci  NOT NULL ;
 
 -- 26/12/2022 Frame Create Table invoice
-CREATE TABLE `Invoice` (
+CREATE TABLE `invoice` (
   `invoice_id` varchar(32) CHARACTER SET utf8 NOT NULL,
   `quotation_id` varchar(32) CHARACTER SET utf8 NOT NULL,
   `file_id` bigint(32) NOT NULL,
@@ -282,7 +282,7 @@ CREATE TABLE `Invoice` (
 
 
 -- 26/12/2022 Frame Create Table invoice_status
-CREATE TABLE `Invoice_status` (
+CREATE TABLE `invoice_status` (
   `invoice_status_id` varchar(32) CHARACTER SET utf8 NOT NULL,
   `invoice_id` varchar(32) CHARACTER SET utf8 NOT NULL,
   `invoice__doc_id` varchar(32) CHARACTER SET utf8 NOT NULL,
@@ -294,7 +294,7 @@ CREATE TABLE `Invoice_status` (
   `time_update` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`invoice_status_id`),
   KEY `fk_invoice_id_idx` (`invoice_id`),
-  CONSTRAINT `fk_invoice_id` FOREIGN KEY (`invoice_id`) REFERENCES `Invoice` (`invoice_id`)
+  CONSTRAINT `fk_invoice_id` FOREIGN KEY (`invoice_id`) REFERENCES `invoice` (`invoice_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
