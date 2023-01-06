@@ -380,3 +380,6 @@ CREATE TABLE `quotation_status` (
   INDEX `quotation_id` (`quotation_id`),
   CONSTRAINT `quotation_id_fk` FOREIGN KEY (`quotation_id`) REFERENCES `quotation` (`quotation_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 6/1/2023 Frame Add Column company_address_id in Table quotation_address
+ALTER TABLE `quotation_address` ADD `company_address_id` VARCHAR(32)  CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL AFTER `quotation_address_id`;
