@@ -728,6 +728,7 @@
 	<script src="/assets/plugins/datatable/js/buttons.colVis.min.js"></script>
 	<script src="/assets/plugins/datatable/dataTables.responsive.min.js"></script>
 	<script src="/assets/plugins/datatable/responsive.bootstrap5.min.js"></script>
+	<script src="/assets/plugins/datatable/dataTables.fixedColumns.js"></script>
 	<script src="/assets/js/table-data.js"></script>
 
     <!-- Select2 JS-->
